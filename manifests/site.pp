@@ -1,5 +1,19 @@
 
 node 'puppetmaster.dasz.at' {
+  class { 'sudo': }
+
+  group { 'david': ensure => present; }
+
+  user { 'david':
+    ensure => present,
+    gid    => 'david';
+  }
+
+  sudo::conf { "admin-users":
+    ensure  => present,
+    content => "david ALL=(ALL) NOPASSWD: ALL\n"
+  }
+
   file { "/etc/apt/sources.list": ensure => absent; } ~> apt::source {
     "wheezy-hetzner":
       location          => "http://mirror.hetzner.de/debian/packages",
