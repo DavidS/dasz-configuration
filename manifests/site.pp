@@ -1,6 +1,6 @@
 
 node 'puppetmaster.dasz.at' {
-  apt::source {
+  file { "/etc/apt/sources.list": ensure => absent; } ~> apt::source {
     "wheezy-hetzner":
       location          => "http://mirror.hetzner.de/debian/packages",
       release           => "wheezy",
