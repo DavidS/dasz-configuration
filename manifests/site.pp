@@ -4,7 +4,15 @@ node 'puppetmaster.dasz.at' {
 
   class {
     "foreman":
-    ;
+      url           => "http://${::fqdn}",
+      puppet_server => $::fqdn,
+      enc           => false, # TODO: enable this
+      reports       => true,
+      facts         => true,
+      storeconfigs  => false,
+      db            => postgresql,
+      db_user       => 'foreman',
+      db_password   => file("/srv/puppet/secrets/puppetmaster/foreman.password");
 
     "ntp":
     ;
@@ -22,8 +30,8 @@ node 'puppetmaster.dasz.at' {
     ;
 
     "puppetdb":
-      db_type => 'postgresql',
-      db_user => 'puppetdb',
+      db_type     => 'postgresql',
+      db_user     => 'puppetdb',
       db_password => file("/srv/puppet/secrets/puppetmaster/puppetdb.password");
 
     "puppetdb::postgresql":
