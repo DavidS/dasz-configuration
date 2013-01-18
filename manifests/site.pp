@@ -24,11 +24,12 @@ node 'puppetmaster.dasz.at' {
     ;
 
     "puppet":
-      template => 'site/puppetmaster/puppet.conf.erb',
-      mode     => 'server',
-      server   => 'puppetmaster.dasz.at', # can be configured more globally
-      runmode  => 'manual', # change this later (to cron), see also croninterval, croncommand
-      db       => 'puppetdb';
+      template      => 'site/puppetmaster/puppet.conf.erb',
+      mode          => 'server',
+      server        => 'puppetmaster.dasz.at', # can be configured more globally
+      runmode       => 'manual', # change this later (to cron), see also croninterval, croncommand
+      db            => 'puppetdb',
+      dns_alt_names => '';
 
     "puppetdb":
       db_type     => 'postgresql',
