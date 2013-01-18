@@ -27,7 +27,7 @@ node 'puppetmaster.dasz.at' {
       mode    => 'server',
       server  => 'puppetmaster.dasz.at', # can be configured more globally
       runmode => 'manual', # change this later (to cron), see also croninterval, croncommand
-    ;
+      db      => 'puppetdb';
 
     "puppetdb":
       db_type     => 'postgresql',
