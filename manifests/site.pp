@@ -33,6 +33,7 @@ node 'puppetmaster.dasz.at' {
 
     "puppetdb":
       db_type     => 'postgresql',
+      db_host     => 'localhost',
       db_user     => 'puppetdb',
       db_password => file("/srv/puppet/secrets/puppetmaster/puppetdb.password");
 
