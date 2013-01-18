@@ -7,3 +7,6 @@
 [submodule "modules/sudo"]
 	path = modules/sudo
 	url = ../puppet-sudo.git
+[submodule "modules/vcsrepo"]
+	path = modules/vcsrepo
+	url = ../puppetlabs-vcsrepo.git
