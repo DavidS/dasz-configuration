@@ -45,8 +45,8 @@ node 'puppetmaster.dasz.at' {
     group    => root;
   } -> file {
     # vcsrepo does not manage the rights on the directory, so we have to.
-    # this leaves a little window of opportunity where the secrets are accessible, after 
-    # cloning the repository. Since this should only happen when the puppetmaster is 
+    # this leaves a little window of opportunity where the secrets are accessible, after
+    # cloning the repository. Since this should only happen when the puppetmaster is
     # re-imaged, I do not believe this to be a problem.
     "/srv/puppet/secrets":
       ensure => directory,
@@ -66,5 +66,14 @@ node 'puppetmaster.dasz.at' {
       owner  => root,
       group  => root;
   }
-}
 
+  # for documentation purposes only.
+  # in production, this will be replaced by a git-hook-pushed mirror
+  vcsrepo { "/srv/puppet/configuration":
+    ensure   => latest,
+    provider => git,
+    source   => "git://github.com/DavidS/dasz-configuration.git",
+    owner    => root,
+    group    => root;
+  }
+}
