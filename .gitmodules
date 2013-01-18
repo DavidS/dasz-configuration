@@ -7,3 +7,6 @@
 [submodule "override/vcsrepo"]
 	path = override/vcsrepo
 	url = ../puppetlabs-vcsrepo.git
+[submodule "override/postgresql"]
+	path = override/postgresql
+	url = ../puppet-postgresql.git
