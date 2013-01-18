@@ -1,12 +1,6 @@
-[submodule "modules/stdlib"]
-	path = modules/stdlib
-	url = ../puppetlabs-stdlib.git
-[submodule "modules/apt"]
-	path = modules/apt
-	url = ../puppetlabs-apt.git
-[submodule "modules/sudo"]
-	path = modules/sudo
-	url = ../puppet-sudo.git
-[submodule "modules/vcsrepo"]
-	path = modules/vcsrepo
-	url = ../puppetlabs-vcsrepo.git
+[submodule "example42"]
+	path = example42
+	url = ../puppet-modules-nextgen.git
+[submodule "override/ntp"]
+	path = override/ntp
+	url = git@github.com:DavidS/puppet-ntp-1.git
