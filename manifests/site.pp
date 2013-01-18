@@ -1,37 +1,62 @@
 
 node 'puppetmaster.dasz.at' {
-  class { 'sudo': }
+  include "apt"
+
+  class {
+    "foreman":
+    ;
+
+    "ntp":
+    ;
+
+    "openssh":
+    ;
+
+    "postgresql":
+    ;
+
+    "puppet":
+      mode    => 'server',
+      server  => 'puppetmaster.dasz.at', # can be configured more globally
+      runmode => 'manual', # change this later (to cron), see also croninterval, croncommand
+    ;
+
+    "puppetdb":
+    ;
+
+    "rsyslog":
+    ;
+
+    "sudo":
+    ;
+  }
+
+  apt::repository {
+    "wheezy-hetzner":
+      url        => "http://mirror.hetzner.de/debian/packages",
+      distro     => "wheezy",
+      repository => "main",
+      src_repo   => false,
+      key        => "55BE302B";
+
+    "wheezy-security":
+      url        => "http://security.debian.org/",
+      distro     => "wheezy/updates",
+      repository => "main",
+      src_repo   => false,
+      key        => "55BE302B";
+  }
+
+  sudo::directive { "admin-users":
+    ensure  => present,
+    content => "david ALL=(ALL) NOPASSWD: ALL\n"
+  }
 
   group { 'david': ensure => present; }
 
   user { 'david':
     ensure => present,
     gid    => 'david';
-  }
-
-  sudo::conf { "admin-users":
-    ensure  => present,
-    content => "david ALL=(ALL) NOPASSWD: ALL\n"
-  }
-
-  file { "/etc/apt/sources.list": ensure => absent; } ~> apt::source {
-    "wheezy-hetzner":
-      location          => "http://mirror.hetzner.de/debian/packages",
-      release           => "wheezy",
-      repos             => "main",
-      include_src       => false,
-      required_packages => "debian-archive-keyring",
-      key               => "55BE302B",
-      key_server        => "subkeys.pgp.net";
-
-    "wheezy-security":
-      location          => "http://security.debian.org/",
-      release           => "wheezy/updates",
-      repos             => "main",
-      include_src       => false,
-      required_packages => "debian-archive-keyring",
-      key               => "55BE302B",
-      key_server        => "subkeys.pgp.net";
   }
 
   # of course, the following is not botstrappable, but after a manual intervention, it should lead to a stable, and migratable
@@ -77,3 +102,4 @@ node 'puppetmaster.dasz.at' {
     group    => root;
   }
 }
+
