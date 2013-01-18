@@ -9,7 +9,7 @@ node 'puppetmaster.dasz.at' {
     "ntp":
     ;
 
-    "openssh":
+    "openssh": # TODO: add host key management
     ;
 
     "postgresql":
@@ -22,6 +22,11 @@ node 'puppetmaster.dasz.at' {
     ;
 
     "puppetdb":
+      db_type => 'postgresql',
+      db_user => 'puppetdb',
+      db_password => file("/srv/puppet/secrets/puppetmaster/puppetdb.password");
+
+    "puppetdb::postgresql":
     ;
 
     "rsyslog":
@@ -43,8 +48,7 @@ node 'puppetmaster.dasz.at' {
       url        => "http://security.debian.org/",
       distro     => "wheezy/updates",
       repository => "main",
-      src_repo   => false,
-      key        => "55BE302B";
+      src_repo   => false;
   }
 
   sudo::directive { "admin-users":
