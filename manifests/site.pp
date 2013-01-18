@@ -70,8 +70,8 @@ node 'puppetmaster.dasz.at' {
     ensure   => latest,
     provider => git,
     source   => "ssh://ccnet@dasz.at/srv/dasz/git/puppet-secrets.git",
-    owner    => root,
-    group    => root;
+    owner    => puppet,
+    group    => puppet;
   } -> file {
     # vcsrepo does not manage the rights on the directory, so we have to.
     # this leaves a little window of opportunity where the secrets are accessible, after
@@ -80,8 +80,8 @@ node 'puppetmaster.dasz.at' {
     "/srv/puppet/secrets":
       ensure => directory,
       mode   => 0700,
-      owner  => root,
-      group  => root;
+      owner  => puppet,
+      group  => puppet;
 
     "/root/.ssh":
       ensure => directory,
