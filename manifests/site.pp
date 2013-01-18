@@ -29,6 +29,8 @@ node 'puppetmaster.dasz.at' {
       server        => 'puppetmaster.dasz.at', # can be configured more globally
       runmode       => 'manual', # change this later (to cron), see also croninterval, croncommand
       db            => 'puppetdb',
+      db_server     => $fqdn, # TODO: should be default?
+      db_port       => 8081, # TODO: should be default for puppetdb?
       dns_alt_names => '';
 
     "puppetdb":
