@@ -10,3 +10,6 @@
 [submodule "override/postgresql"]
 	path = override/postgresql
 	url = ../puppet-postgresql.git
+[submodule "vagrant/wheezy"]
+	path = vagrant/wheezy
+	url = ../minimal-debian-vagrant.git
