@@ -3,7 +3,7 @@
 	url = ../puppet-modules-nextgen.git
 [submodule "override/ntp"]
 	path = override/ntp
-	url = ../puppet-ntp-1.git
+	url = ../puppet-ntp.git
 [submodule "override/vcsrepo"]
 	path = override/vcsrepo
 	url = ../puppetlabs-vcsrepo.git
