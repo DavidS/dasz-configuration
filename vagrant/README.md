@@ -23,23 +23,27 @@ Follow instructions until veewee is actually installed and working.
 
 ## building your baseboxes
 
-    vagrant basebox define 'Debian-7.0-b4-amd64-netboot' 'Debian-7.0-b4-amd64-netboot'
-    vagrant basebox build 'Debian-7.0-b4-amd64-netboot'
+    vagrant basebox define 'Debian-7.0.0-amd64' 'Debian-7.0-b4-amd64-netboot'
+    vagrant basebox build 'Debian-7.0.0-amd64'
     
 Now you have a virtual box with wheezy running. You can login either with
 vagrant:vagrant or using vagrant's low-security ssh key to connect as root.
 Let's check whether everything installed fine.
 
-    vagrant basebox validate 'Debian-7.0-b4-amd64-netboot'
+    vagrant basebox validate 'Debian-7.0.0-amd64'
 
 Now package up the box as basebox, which we can use for our work.
 
-    vagrant basebox export 'Debian-7.0-b4-amd64-netboot'
+    vagrant basebox export 'Debian-7.0.0-amd64'
 
-Copy the 'Debian-7.0-b4-amd64-netboot.box' file to some permanent storage.
+Copy the 'Debian-7.0.0-amd64.box' file to some permanent storage.
 Then, import it from there into vagrant proper.
 
-    vagrant box add 'wheezy64' 'Debian-7.0-b4-amd64-netboot.box'
+Note: seemingly, the vagrant bundle only wants to tun from within the vagrant/
+directory, so as soon as you're done building boxes with veewee, you'll want to
+undo rvm's changes to your PATH and unalias vagrant.
+
+    vagrant box add 'Debian-7.0.0-amd64' 'Debian-7.0.0-amd64.box'
 
 
 
