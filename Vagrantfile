@@ -8,7 +8,7 @@ Vagrant::Config.run do |config|
     pm_config.vm.network :hostonly, "192.168.50.4"
 
     pm_config.vm.provision :puppet do |puppet|
-      puppet.manifests_path = "vagrant/manifests"
+      puppet.manifests_path = "manifests"
       puppet.manifest_file  = "puppetmaster.pp"
       puppet.module_path    = [ "override/", "example42" ]
     end
