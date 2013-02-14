@@ -1,13 +1,21 @@
 # Installing the requirements
 
-## RVM, because ruby coders are cowboys
+## rbenv, to make the ruby experience bearable
 
-https://rvm.io/rvm/install/
+https://github.com/sstephenson/rbenv/
+https://github.com/sstephenson/ruby-build
 
-    curl -L https://get.rvm.io | bash -s stable --ruby
-    source ~/.rvm/scripts/rvm
+    git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+    git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
 
-Please be aware that rvm will append itself to your PATH.
+Note: sstephenson recommends putting init commands into .bash_profile, which
+will disable your normal .profile processing in Debian.
+
+## create a local ruby install to disconnect us from any system installation
+
+    rbenv install 1.9.2-p320
 
 ## veewee, to build local test boxes for vagrant
 
@@ -17,33 +25,30 @@ I've added the snapshot of veewee I've used as submodule at vagrant/veewee.
 
     sudo aptitude install libxslt-dev libxml2-dev
     cd vagrant/veewee
-    # press y, to accept veewee's settings
-
-Follow instructions until veewee is actually installed and working.
+    rbenv exec gem install bundler
+    rbenv exec bundle install
 
 ## building your baseboxes
 
-    vagrant basebox define 'Debian-7.0.0-amd64' 'Debian-7.0-b4-amd64-netboot'
-    vagrant basebox build 'Debian-7.0.0-amd64'
+All of the following commands need to run from the vagrant/veewee directory, in
+veewee's development mode:
+
+    rbenv exec bundle exec vagrant basebox define 'Debian-7.0.0-amd64' 'Debian-7.0-b4-amd64-netboot'
+    rbenv exec bundle exec vagrant basebox build 'Debian-7.0.0-amd64'
     
 Now you have a virtual box with wheezy running. You can login either with
 vagrant:vagrant or using vagrant's low-security ssh key to connect as root.
 Let's check whether everything installed fine.
 
-    vagrant basebox validate 'Debian-7.0.0-amd64'
+    rbenv exec bundle exec vagrant basebox validate 'Debian-7.0.0-amd64'
 
 Now package up the box as basebox, which we can use for our work.
 
-    vagrant basebox export 'Debian-7.0.0-amd64'
+    rbenv exec bundle exec vagrant basebox export 'Debian-7.0.0-amd64'
 
 Copy the 'Debian-7.0.0-amd64.box' file to some permanent storage.
-Then, import it from there into vagrant proper.
-
-Note: seemingly, the vagrant bundle only wants to tun from within the vagrant/
-directory, so as soon as you're done building boxes with veewee, you'll want to
-undo rvm's changes to your PATH and unalias vagrant.
+Then, import it from there into vagrant proper. This can use the non-veewee
+vagrant as packaged in Debian. Taste the sweetness of freedom!
 
     vagrant box add 'Debian-7.0.0-amd64' 'Debian-7.0.0-amd64.box'
-
-
 
