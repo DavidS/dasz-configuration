@@ -1,14 +1,14 @@
 [submodule "example42"]
 	path = example42
 	url = ../puppet-modules-nextgen.git
-[submodule "override/ntp"]
-	path = override/ntp
+[submodule "modules/ntp"]
+	path = modules/ntp
 	url = ../puppet-ntp.git
-[submodule "override/vcsrepo"]
-	path = override/vcsrepo
-	url = ../puppetlabs-vcsrepo.git
-[submodule "override/postgresql"]
-	path = override/postgresql
+[submodule "modules/vcsrepo"]
+	path = modules/vcsrepo
+	url = ../puppet-vcsrepo.git
+[submodule "modules/postgresql"]
+	path = modules/postgresql
 	url = ../puppet-postgresql.git
 [submodule "vagrant/wheezy"]
 	path = vagrant/wheezy
@@ -16,3 +16,33 @@
 [submodule "vagrant/veewee"]
 	path = vagrant/veewee
 	url = ../veewee.git
+[submodule "modules/apt"]
+	path = modules/apt
+	url = ../puppet-apt.git
+[submodule "modules/puppi"]
+	path = modules/puppi
+	url = ../puppi.git
+[submodule "modules/firewall"]
+	path = modules/firewall
+	url = ../puppet-firewall.git
+[submodule "modules/iptables"]
+	path = modules/iptables
+	url = ../puppet-iptables.git
+[submodule "modules/concat"]
+	path = modules/concat
+	url = ../puppet-concat.git
+[submodule "modules/monitor"]
+	path = modules/monitor
+	url = ../puppet-monitor.git
+[submodule "modules/icinga"]
+	path = modules/icinga
+	url = ../puppet-icinga.git
+[submodule "modules/mysql"]
+	path = modules/mysql
+	url = ../puppet-mysql.git
+[submodule "modules/nrpe"]
+	path = modules/nrpe
+	url = ../puppet-nrpe.git
+[submodule "modules/foreman"]
+	path = modules/foreman
+	url = ../puppet-foreman.git

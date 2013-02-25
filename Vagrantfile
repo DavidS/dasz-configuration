@@ -10,7 +10,7 @@ Vagrant::Config.run do |config|
     pm_config.vm.provision :puppet do |puppet|
       puppet.manifests_path = "manifests"
       puppet.manifest_file  = "puppetmaster.pp"
-      puppet.module_path    = [ "override/", "example42" ]
+      puppet.module_path    = [ "modules" ]
     end
   end
 
