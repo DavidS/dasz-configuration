@@ -74,6 +74,11 @@ user { 'david':
   gid    => 'david';
 }
 
+package { "git":
+  ensure => installed,
+  before => [Vcsrepo["/srv/puppet/secrets"], Vcsrepo["/srv/puppet/configuration"]];
+}
+
 # of course, the following is not botstrappable, but after a manual intervention, it should lead to a stable, and migratable
 # situation.
 # for a key roll-over, the git server has to accept both the old and the new key until the puppetmaster has updated itself.
