@@ -1,6 +1,3 @@
-[submodule "example42"]
-	path = example42
-	url = ../puppet-modules-nextgen.git
 [submodule "modules/ntp"]
 	path = modules/ntp
 	url = ../puppet-ntp.git
