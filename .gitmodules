@@ -46,3 +46,21 @@
 [submodule "modules/foreman"]
 	path = modules/foreman
 	url = ../puppet-foreman.git
+[submodule "modules/apache"]
+	path = modules/apache
+	url = ../puppet-apache.git
+[submodule "modules/openssh"]
+	path = modules/openssh
+	url = ../puppet-openssh.git
+[submodule "modules/puppet"]
+	path = modules/puppet
+	url = ../puppet-puppet.git
+[submodule "modules/puppetdb"]
+	path = modules/puppetdb
+	url = ../puppet-puppetdb.git
+[submodule "modules/rsyslog"]
+	path = modules/rsyslog
+	url = ../puppet-rsyslog.git
+[submodule "modules/sudo"]
+	path = modules/sudo
+	url = ../puppet-sudo.git
