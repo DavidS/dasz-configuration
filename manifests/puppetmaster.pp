@@ -79,6 +79,11 @@ package { "git":
   before => [Vcsrepo["/srv/puppet/secrets"], Vcsrepo["/srv/puppet/configuration"]];
 }
 
+sshkey { "dasz.at":
+  type => 'ssh-rsa',
+  key  => 'AAAAB3NzaC1yc2EAAAABIwAAAQEA7fm/+pwGWYvPGvdstm3FfIWaDQtVFVHUySqmZRXRjXQk/UDClzmQ12aqu3e+2rgHA1GVcgEg1/MZeS1LgIfyTM9Z2IhjP4dWlR+xpZbsI6z0L6HGK4UAhT5wuIunltSj1hZAZbm5kU2bvuc/GuzDa7VF8iW1SOyop5PVgM3Jl/JoScSjaSz+eGXYX97Ixd8frj12lu40jGmOaUNsmsj5S1P4Nb57dQj4qsLT3jHUqBQyje/Cp2R0hLCBZaipow7zmoT8grNlN8Rnc6OesArtos0w3hErhDaPfKCYeXOIDZFRoDIA/xXqujFivEWRaSdccJvon46xWuhf+Hbd1OWY/Q=='
+}
+
 # of course, the following is not botstrappable, but after a manual intervention, it should lead to a stable, and migratable
 # situation.
 # for a key roll-over, the git server has to accept both the old and the new key until the puppetmaster has updated itself.
