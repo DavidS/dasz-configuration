@@ -30,15 +30,16 @@ class {
     db_server     => $fqdn, # TODO: should be default?
     db_port       => 8081, # TODO: should be default for puppetdb?
     dns_alt_names => '',
-    require       => [Vcsrepo["/srv/puppet/secrets"], Vcsrepo["/srv/puppet/configuration"]];
+    require       => [Vcsrepo["/srv/puppet/configuration"], Apt::Repository["wheezy-puppetlabs"]];
 
   "puppetdb":
     db_type => 'postgresql',
     db_host => 'localhost',
-    db_user => 'puppetdb';
+    db_user => 'puppetdb',
+    require => Apt::Repository["wheezy-puppetlabs"];
 
   "puppetdb::postgresql":
-  ;
+    require => Apt::Repository["wheezy-puppetlabs"];
 
   "rsyslog":
   ;
@@ -60,6 +61,14 @@ apt::repository {
     distro     => "wheezy/updates",
     repository => "main",
     src_repo   => false;
+
+  "wheezy-puppetlabs":
+    url        => "http://apt.puppetlabs.com",
+    distro     => "wheezy",
+    repository => "main",
+    src_repo   => false,
+    key        => "4BD6EC30",
+    key_url    => "https://apt.puppetlabs.com/pubkey.gpg";
 }
 
 sudo::directive { "admin-users":
@@ -76,7 +85,7 @@ user { 'david':
 
 package { "git":
   ensure => installed,
-  before => [Vcsrepo["/srv/puppet/secrets"], Vcsrepo["/srv/puppet/configuration"]];
+  before => Vcsrepo["/srv/puppet/configuration"];
 }
 
 sshkey {
@@ -94,14 +103,16 @@ sshkey {
 # of course, the following is not botstrappable, but after a manual intervention, it should lead to a stable, and migratable
 # situation.
 # for a key roll-over, the git server has to accept both the old and the new key until the puppetmaster has updated itself.
-vcsrepo { "/srv/puppet/secrets":
-  ensure   => latest,
-  provider => git,
-  source   => "ssh://ccnet@dasz.at/srv/dasz/git/puppet-secrets.git",
-  owner    => puppet,
-  group    => puppet,
-  require  => Sshkey["dasz.at"];
-} -> file {
+# vcsrepo { "/srv/puppet/secrets":
+#  ensure   => latest,
+#  provider => git,
+#  source   => "ssh://ccnet@dasz.at/srv/dasz/git/puppet-secrets.git",
+#  owner    => puppet,
+#  group    => puppet,
+#  require  => Sshkey["dasz.at"];
+# } ->
+
+file {
   # vcsrepo does not manage the rights on the directory, so we have to.
   # this leaves a little window of opportunity where the secrets are accessible, after
   # cloning the repository. Since this should only happen when the puppetmaster is
