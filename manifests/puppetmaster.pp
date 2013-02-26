@@ -79,9 +79,16 @@ package { "git":
   before => [Vcsrepo["/srv/puppet/secrets"], Vcsrepo["/srv/puppet/configuration"]];
 }
 
-sshkey { "dasz.at":
-  type => 'ssh-rsa',
-  key  => 'AAAAB3NzaC1yc2EAAAABIwAAAQEA7fm/+pwGWYvPGvdstm3FfIWaDQtVFVHUySqmZRXRjXQk/UDClzmQ12aqu3e+2rgHA1GVcgEg1/MZeS1LgIfyTM9Z2IhjP4dWlR+xpZbsI6z0L6HGK4UAhT5wuIunltSj1hZAZbm5kU2bvuc/GuzDa7VF8iW1SOyop5PVgM3Jl/JoScSjaSz+eGXYX97Ixd8frj12lu40jGmOaUNsmsj5S1P4Nb57dQj4qsLT3jHUqBQyje/Cp2R0hLCBZaipow7zmoT8grNlN8Rnc6OesArtos0w3hErhDaPfKCYeXOIDZFRoDIA/xXqujFivEWRaSdccJvon46xWuhf+Hbd1OWY/Q=='
+sshkey {
+  "dasz.at":
+    type => 'ssh-rsa',
+    key  => 'AAAAB3NzaC1yc2EAAAABIwAAAQEA7fm/+pwGWYvPGvdstm3FfIWaDQtVFVHUySqmZRXRjXQk/UDClzmQ12aqu3e+2rgHA1GVcgEg1/MZeS1LgIfyTM9Z2IhjP4dWlR+xpZbsI6z0L6HGK4UAhT5wuIunltSj1hZAZbm5kU2bvuc/GuzDa7VF8iW1SOyop5PVgM3Jl/JoScSjaSz+eGXYX97Ixd8frj12lu40jGmOaUNsmsj5S1P4Nb57dQj4qsLT3jHUqBQyje/Cp2R0hLCBZaipow7zmoT8grNlN8Rnc6OesArtos0w3hErhDaPfKCYeXOIDZFRoDIA/xXqujFivEWRaSdccJvon46xWuhf+Hbd1OWY/Q=='
+    ;
+
+  "github.com":
+    type => 'ssh-rsa',
+    key  => 'AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
+    ;
 }
 
 # of course, the following is not botstrappable, but after a manual intervention, it should lead to a stable, and migratable
@@ -92,7 +99,8 @@ vcsrepo { "/srv/puppet/secrets":
   provider => git,
   source   => "ssh://ccnet@dasz.at/srv/dasz/git/puppet-secrets.git",
   owner    => puppet,
-  group    => puppet;
+  group    => puppet,
+  require  => Sshkey["dasz.at"];
 } -> file {
   # vcsrepo does not manage the rights on the directory, so we have to.
   # this leaves a little window of opportunity where the secrets are accessible, after
@@ -124,6 +132,7 @@ vcsrepo { "/srv/puppet/configuration":
   provider => git,
   source   => "git://github.com/DavidS/dasz-configuration.git",
   owner    => root,
-  group    => root;
+  group    => root,
+  require  => Sshkey["github.com"];
 }
 
