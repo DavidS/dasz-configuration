@@ -1,6 +1,8 @@
-include "apt"
 
 class {
+  "apt":
+    force_sources_list_d => true;
+
   #  "foreman":
   #    url           => "http://${::fqdn}",
   #    puppet_server => $::fqdn,
@@ -9,8 +11,7 @@ class {
   #    facts         => true,
   #    storeconfigs  => false,
   #    db            => postgresql,
-  #    db_user       => 'foreman',
-  #    db_password   => file("/srv/puppet/secrets/puppetmaster/foreman.password");
+  #    db_user       => 'foreman';
   "ntp":
   ;
 
@@ -28,13 +29,13 @@ class {
     db            => 'puppetdb',
     db_server     => $fqdn, # TODO: should be default?
     db_port       => 8081, # TODO: should be default for puppetdb?
-    dns_alt_names => '';
+    dns_alt_names => '',
+    require       => [Vcsrepo["/srv/puppet/secrets"], Vcsrepo["/srv/puppet/configuration"]];
 
   "puppetdb":
-    db_type     => 'postgresql',
-    db_host     => 'localhost',
-    db_user     => 'puppetdb',
-    db_password => file("/srv/puppet/secrets/puppetmaster/puppetdb.password");
+    db_type => 'postgresql',
+    db_host => 'localhost',
+    db_user => 'puppetdb';
 
   "puppetdb::postgresql":
   ;
