@@ -10,7 +10,7 @@ https://github.com/sstephenson/ruby-build
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
 
-Note: sstephenson recommends putting init commands into .bash_profile, which
+Note: sstephenson recommends putting init commands into .bash\_profile, which
 will disable your normal .profile processing in Debian.
 
 ## create a local ruby install to disconnect us from any system installation
