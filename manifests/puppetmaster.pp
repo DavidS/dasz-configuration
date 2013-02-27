@@ -22,7 +22,7 @@ class {
   ;
 
   "puppet":
-    template      => 'site/puppetmaster/puppet.conf.erb',
+    template      => 'site/puppetmaster/puppet-vagrant.conf.erb',
     mode          => 'server',
     server        => 'puppetmaster.dasz.at', # can be configured more globally
     runmode       => 'manual', # change this later (to cron), see also croninterval, croncommand
@@ -30,13 +30,14 @@ class {
     db_server     => $fqdn, # TODO: should be default?
     db_port       => 8081, # TODO: should be default for puppetdb?
     dns_alt_names => '',
-    require       => [Vcsrepo["/srv/puppet/configuration"], Apt::Repository["wheezy-puppetlabs"]];
+    require       => Apt::Repository["wheezy-puppetlabs"];
 
   "puppetdb":
-    db_type => 'postgresql',
-    db_host => 'localhost',
-    db_user => 'puppetdb',
-    require => Apt::Repository["wheezy-puppetlabs"];
+    db_type     => 'postgresql',
+    db_host     => 'localhost',
+    db_user     => 'puppetdb',
+    db_password => 'muhblah', # local installation cannot depend on some secrets repo
+    require     => [Host[$::fqdn], Apt::Repository["wheezy-puppetlabs"]];
 
   "puppetdb::postgresql":
     require => Apt::Repository["wheezy-puppetlabs"];
@@ -46,6 +47,11 @@ class {
 
   "sudo":
   ;
+}
+
+host { $::fqdn:
+  host_aliases => [$::hostname, 'puppet'],
+  ip           => $::ipaddress;
 }
 
 apt::repository {
@@ -83,10 +89,10 @@ user { 'david':
   gid    => 'david';
 }
 
-package { "git":
-  ensure => installed,
-  before => Vcsrepo["/srv/puppet/configuration"];
-}
+# package { "git":
+#  ensure => installed,
+#  before => Vcsrepo["/srv/puppet/configuration"];
+#}
 
 sshkey {
   "dasz.at":
@@ -112,38 +118,37 @@ sshkey {
 #  require  => Sshkey["dasz.at"];
 # } ->
 
-file {
-  # vcsrepo does not manage the rights on the directory, so we have to.
-  # this leaves a little window of opportunity where the secrets are accessible, after
-  # cloning the repository. Since this should only happen when the puppetmaster is
-  # re-imaged, I do not believe this to be a problem.
-  "/srv/puppet/secrets":
-    ensure => directory,
-    mode   => 0700,
-    owner  => puppet,
-    group  => puppet;
-
-  "/root/.ssh":
-    ensure => directory,
-    mode   => 0700,
-    owner  => root,
-    group  => root;
-
-  "/root/.ssh/id_rsa":
-    source => "/srv/puppet/secrets/puppetmaster/id_rsa",
-    mode   => 0600,
-    owner  => root,
-    group  => root;
+file { "/root/.ssh":
+  ensure => directory,
+  mode   => 0700,
+  owner  => root,
+  group  => root;
 }
+
+# file {
+# vcsrepo does not manage the rights on the directory, so we have to.
+# this leaves a little window of opportunity where the secrets are accessible, after
+# cloning the repository. Since this should only happen when the puppetmaster is
+# re-imaged, I do not believe this to be a problem.
+#  "/srv/puppet/secrets":
+#    ensure => directory,
+#    mode   => 0700,
+#    owner  => puppet,
+#    group  => puppet;
+#  "/root/.ssh/id_rsa":
+#    source => "/srv/puppet/secrets/puppetmaster/id_rsa",
+#    mode   => 0600,
+#    owner  => root,
+#    group  => root;
+#}
 
 # for documentation purposes only.
 # in production, this will be replaced by a git-hook-pushed mirror
-vcsrepo { "/srv/puppet/configuration":
-  ensure   => latest,
-  provider => git,
-  source   => "git://github.com/DavidS/dasz-configuration.git",
-  owner    => root,
-  group    => root,
-  require  => Sshkey["github.com"];
-}
-
+# vcsrepo { "/srv/puppet/configuration":
+#  ensure   => latest,
+#  provider => git,
+#  source   => "git://github.com/DavidS/dasz-configuration.git",
+#  owner    => root,
+#  group    => root,
+#  require  => Sshkey["github.com"];
+#}
