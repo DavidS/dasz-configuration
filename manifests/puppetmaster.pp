@@ -4,13 +4,16 @@ class {
     force_sources_list_d => true;
 
   "foreman":
+    install_mode  => all,
     url           => "http://${::fqdn}",
     puppet_server => $::fqdn,
-    enc           => false, # TODO: enable this
+    enc           => true,
     reports       => true,
     facts         => true,
     storeconfigs  => false,
+    passenger     => true,
     db            => postgresql,
+    db_server     => 'localhost',
     db_user       => 'foreman',
     db_password   => 'muhblah';
 
