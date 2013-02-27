@@ -3,15 +3,17 @@ class {
   "apt":
     force_sources_list_d => true;
 
-  #  "foreman":
-  #    url           => "http://${::fqdn}",
-  #    puppet_server => $::fqdn,
-  #    enc           => false, # TODO: enable this
-  #    reports       => true,
-  #    facts         => true,
-  #    storeconfigs  => false,
-  #    db            => postgresql,
-  #    db_user       => 'foreman';
+  "foreman":
+    url           => "http://${::fqdn}",
+    puppet_server => $::fqdn,
+    enc           => false, # TODO: enable this
+    reports       => true,
+    facts         => true,
+    storeconfigs  => false,
+    db            => postgresql,
+    db_user       => 'foreman',
+    db_password   => 'muhblah';
+
   "ntp":
   ;
 
