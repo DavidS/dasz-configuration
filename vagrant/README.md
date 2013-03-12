@@ -15,7 +15,9 @@ will disable your normal .profile processing in Debian.
 
 ## create a local ruby install to disconnect us from any system installation
 
+    sudo aptitude install build-essential zlib1g-dev libssl-dev libxslt-dev libxml2-dev libreadline-dev
     rbenv install 1.9.2-p320
+    rbenv shell 1.9.2-p320 # for the local shell only
 
 ## veewee, to build local test boxes for vagrant
 
@@ -23,7 +25,6 @@ https://github.com/jedi4ever/veewee/blob/master/doc/installation.md
 
 I've added the snapshot of veewee I've used as submodule at vagrant/veewee.
 
-    sudo aptitude install libxslt-dev libxml2-dev
     cd vagrant/veewee
     rbenv exec gem install bundler
     rbenv exec bundle install
