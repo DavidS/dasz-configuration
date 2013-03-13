@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Starting registration"
+echo "$1"
+echo "$2"
+
+puppet resource host "$2" ip="$1"
+

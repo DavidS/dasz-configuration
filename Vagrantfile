@@ -20,9 +20,11 @@ Vagrant::Config.run do |config|
     pm_config.vm.host_name = "testagent.example.org"
     pm_config.vm.network :hostonly, "192.168.50.50"
 
+    pm_config.vm.provision :shell, :inline => "/vagrant/scripts/register_puppetmaster 192.168.50.4 puppetmaster.example.org"
+
     pm_config.vm.provision :puppet_server do |puppet|
-      puppet.puppet_server  = "192.168.50.4"
-      puppet.puppet_node    = "agent01"
+      puppet.puppet_server  = "puppetmaster.example.org"
+      puppet.options = [ '--test' ]
     end
   end
 end
