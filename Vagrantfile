@@ -4,7 +4,7 @@
 Vagrant::Config.run do |config|
   config.vm.define :puppetmaster do |pm_config|
     pm_config.vm.box = "Debian-7.0.0-amd64"
-    pm_config.vm.host_name = "puppetmaster"
+    pm_config.vm.host_name = "puppetmaster.example.org"
     pm_config.vm.forward_port 3140, 3140 # puppetmaster
     pm_config.vm.network :hostonly, "192.168.50.4"
 
@@ -17,7 +17,7 @@ Vagrant::Config.run do |config|
 
   config.vm.define :testagent do |pm_config|
     pm_config.vm.box = "Debian-7.0.0-amd64"
-    pm_config.vm.host_name = "testagent"
+    pm_config.vm.host_name = "testagent.example.org"
     pm_config.vm.network :hostonly, "192.168.50.50"
 
     pm_config.vm.provision :puppet_server do |puppet|
