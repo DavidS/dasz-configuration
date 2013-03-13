@@ -37,6 +37,7 @@ class {
     db_port       => 8081, # TODO: should be default for puppetdb?
     dns_alt_names => '',
     autosign      => true,
+    server_service_autorestart => true,
     require       => Apt::Repository["wheezy-puppetlabs"];
 
   "puppetdb":
