@@ -1,5 +1,8 @@
 
-node 'puppetmaster.dasz.at' {
+node 'testagent.example.org' {
+}
+
+node 'puppetmaster.example.org' {
   include "apt"
 
   class {
