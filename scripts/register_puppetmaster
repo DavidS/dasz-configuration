@@ -1,8 +1,14 @@
-#!/bin/bash
+#!/bin/bash -e
 
-echo "Starting registration"
-echo "$1"
-echo "$2"
+export DEBIAN_FRONTEND=noninteractive
+
+if [ ! -x /usr/sbin/puppetd ] ; then
+
+	aptitude update
+	aptitude -y full-upgrade
+	aptitude -y install puppet # replace the gem-installed version available in the box
+
+fi
 
 puppet resource host "$2" ip="$1"
 
