@@ -6,12 +6,13 @@ class {
 
   "foreman":
     install_mode  => all,
-    url           => "http://${::fqdn}",
+    url           => "http://foreman",
     puppet_server => $::fqdn,
     enc           => true,
     reports       => true,
+    rubysitedir   => '/usr/lib/ruby/vendor_ruby',
     facts         => true,
-    storeconfigs  => false,
+    storeconfigs  => true,
     passenger     => true,
     db            => postgresql,
     db_server     => 'localhost',
@@ -32,12 +33,13 @@ class {
     mode          => 'server',
     server        => 'puppetmaster.example.org', # can be configured more globally
     runmode       => 'manual', # change this later (to cron), see also croninterval, croncommand
+    nodetool      => 'foreman',
     db            => 'puppetdb',
     db_server     => $::fqdn, # TODO: should be default?
     db_port       => 8081, # TODO: should be default for puppetdb?
     dns_alt_names => '',
     autosign      => true,
-    server_service_autorestart => true,
+    # server_service_autorestart => true,
     require       => Apt::Repository["wheezy-puppetlabs"];
 
   "puppetdb":
