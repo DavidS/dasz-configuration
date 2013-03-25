@@ -29,18 +29,19 @@ class {
   ;
 
   "puppet":
-    template      => 'site/puppetmaster/puppet-vagrant.conf.erb',
-    mode          => 'server',
-    server        => 'puppetmaster.example.org', # can be configured more globally
-    runmode       => 'manual', # change this later (to cron), see also croninterval, croncommand
-    nodetool      => 'foreman',
-    db            => 'puppetdb',
-    db_server     => $::fqdn, # TODO: should be default?
-    db_port       => 8081, # TODO: should be default for puppetdb?
-    dns_alt_names => '',
-    autosign      => true,
+    template        => 'site/puppetmaster/puppet-vagrant.conf.erb',
+    mode            => 'server',
+    server          => 'puppetmaster.example.org', # can be configured more globally
+    runmode         => 'manual', # change this later (to cron), see also croninterval, croncommand
+    nodetool        => 'foreman',
+    db              => 'puppetdb',
+    db_server       => $::fqdn, # TODO: should be default?
+    db_port         => 8081, # TODO: should be default for puppetdb?
+    dns_alt_names   => '',
+    autosign        => true,
+    inventoryserver => '', # do not try to store facts anywhere
     # server_service_autorestart => true,
-    require       => Apt::Repository["wheezy-puppetlabs"];
+    require         => Apt::Repository["wheezy-puppetlabs"];
 
   "puppetdb":
     db_type     => 'postgresql',
@@ -59,9 +60,13 @@ class {
   ;
 }
 
-host { $::fqdn:
-  host_aliases => [$::hostname, 'puppet'],
-  ip           => $::ipaddress;
+host {
+  $::fqdn:
+    host_aliases => [$::hostname, 'puppet', 'foreman'],
+    ip           => $::ipaddress;
+
+  'testagent.example.org':
+    ip => '192.168.50.50';
 }
 
 apt::repository {

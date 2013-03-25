@@ -9,6 +9,9 @@ Vagrant::Config.run do |config|
     pm_config.vm.forward_port 3140, 3140 # puppetmaster
     pm_config.vm.network :hostonly, "192.168.50.4"
 
+    # The puppetmaster and friends need oodles of memory
+    pm_config.vm.customize ["modifyvm", :id, "--memory", 1024]
+
     pm_config.vm.provision :puppet do |puppet|
       puppet.manifests_path = "manifests"
       puppet.manifest_file  = "puppetmaster.pp"
