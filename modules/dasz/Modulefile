@@ -1,0 +1,9 @@
+name 'david-dasz'
+version '0.0.1'
+
+author 'David Schmitt <david@dasz.at>'
+license ''
+project_page ''
+source ''
+summary 'Various local hacks and fixes'
+description ''

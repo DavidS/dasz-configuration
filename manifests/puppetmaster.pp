@@ -4,6 +4,9 @@ class {
   "apt":
     force_sources_list_d => true;
 
+  "dasz::packages":
+  ;
+
   "foreman":
     install_mode  => all,
     url           => "http://foreman",
