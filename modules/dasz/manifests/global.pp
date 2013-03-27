@@ -17,7 +17,7 @@ class dasz::global {
       ensure => installed;
 
     [
-      "vim-tiny"]:
+      "vim-tiny", "nano"]:
       ensure => absent;
   }
 }

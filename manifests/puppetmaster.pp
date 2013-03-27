@@ -4,7 +4,7 @@ class {
   "apt":
     force_sources_list_d => true;
 
-  "dasz::packages":
+  "dasz::global":
   ;
 
   "foreman":

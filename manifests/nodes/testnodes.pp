@@ -1,0 +1,4 @@
+
+node 'testagent.example.org' {
+}
+
