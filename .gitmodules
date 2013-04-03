@@ -7,9 +7,6 @@
 [submodule "modules/postgresql"]
 	path = modules/postgresql
 	url = ../puppet-postgresql.git
-[submodule "vagrant/wheezy"]
-	path = vagrant/wheezy
-	url = ../minimal-debian-vagrant.git
 [submodule "vagrant/veewee"]
 	path = vagrant/veewee
 	url = ../veewee.git
