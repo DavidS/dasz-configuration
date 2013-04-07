@@ -35,8 +35,8 @@ All of the following commands need to run from the vagrant/veewee directory, in
 veewee's development mode:
 
     export VEEWEE_PURE=yes
-    rbenv exec bundle exec vagrant basebox define --force 'Debian-7.0.0-amd64' 'Debian-7.0-rc1-amd64-netboot'
-    rbenv exec bundle exec vagrant basebox build --force 'Debian-7.0.0-amd64'
+    nice rbenv exec bundle exec vagrant basebox define --force 'Debian-7.0.0-amd64' 'Debian-7.0-rc1-amd64-netboot'
+    nice rbenv exec bundle exec vagrant basebox build --force 'Debian-7.0.0-amd64'
     
 Now you have a virtual box with wheezy running. You can login either with
 vagrant:vagrant or using vagrant's low-security ssh key to connect as root.
@@ -46,11 +46,11 @@ Let's check whether everything installed fine.
 
 Now package up the box as basebox, which we can use for our work.
 
-    rbenv exec bundle exec vagrant basebox export --force 'Debian-7.0.0-amd64'
+    nice rbenv exec bundle exec vagrant basebox export --force 'Debian-7.0.0-amd64'
 
 Copy the 'Debian-7.0.0-amd64.box' file to some permanent storage.
 Then, import it from there into vagrant proper. This can use the non-veewee
 vagrant as packaged in Debian. Taste the sweetness of freedom!
 
-    vagrant box add --force 'Debian-7.0.0-amd64' 'Debian-7.0.0-amd64.box'
+    nice vagrant box add --force 'Debian-7.0.0-amd64' 'Debian-7.0.0-amd64.box'
 
