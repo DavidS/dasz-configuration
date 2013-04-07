@@ -5,7 +5,8 @@ class {
     force_sources_list_d => true;
 
   "dasz::global":
-  ;
+    distro   => "wheezy",
+    location => "global";
 
   "foreman":
     install_mode  => all,
@@ -44,17 +45,17 @@ class {
     autosign        => true,
     inventoryserver => '', # do not try to store facts anywhere
     # server_service_autorestart => true,
-    require         => Apt::Repository["wheezy-puppetlabs"];
+    require         => Class["dasz::global"];
 
   "puppetdb":
     db_type     => 'postgresql',
     db_host     => 'localhost',
     db_user     => 'puppetdb',
     db_password => 'muhblah', # local installation cannot depend on some secrets repo
-    require     => [Host[$::fqdn], Apt::Repository["wheezy-puppetlabs"]];
+    require     => [Host[$::fqdn], Class["dasz::global"]];
 
   "puppetdb::postgresql":
-    require => Apt::Repository["wheezy-puppetlabs"];
+    require => Class["dasz::global"];
 
   "rsyslog":
   ;
@@ -72,25 +73,3 @@ host {
     ip => '192.168.50.50';
 }
 
-apt::repository {
-  "wheezy":
-    url        => "http://http.debian.net/debian",
-    distro     => "wheezy",
-    repository => "main",
-    src_repo   => false,
-    key        => "55BE302B";
-
-  "wheezy-security":
-    url        => "http://security.debian.org/",
-    distro     => "wheezy/updates",
-    repository => "main",
-    src_repo   => false;
-
-  "wheezy-puppetlabs":
-    url        => "http://apt.puppetlabs.com",
-    distro     => "wheezy",
-    repository => "main",
-    src_repo   => false,
-    key        => "4BD6EC30",
-    key_url    => "https://apt.puppetlabs.com/pubkey.gpg";
-}

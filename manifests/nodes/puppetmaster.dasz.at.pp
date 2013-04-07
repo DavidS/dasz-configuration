@@ -4,7 +4,8 @@ node 'puppetmaster.dasz.at' {
       force_sources_list_d => true;
 
     "dasz::global":
-    ;
+      distro   => wheezy,
+      location => hetzner;
 
     "foreman":
       install_mode  => all,
@@ -43,17 +44,17 @@ node 'puppetmaster.dasz.at' {
       autosign        => false, # do not autosign on publicly accessible masters
       inventoryserver => '', # do not try to store facts anywhere
       # server_service_autorestart => true,
-      require         => Apt::Repository["wheezy-puppetlabs"];
+      require         => Class["dasz::global"];
 
     "puppetdb":
       db_type     => 'postgresql',
       db_host     => 'localhost',
       db_user     => 'puppetdb',
       db_password => file("/srv/puppet/secrets/puppetmaster/puppetdb.password"),
-      require     => [Host[$::fqdn], Apt::Repository["wheezy-puppetlabs"]];
+      require     => [Host[$::fqdn], Class["dasz::global"]];
 
     "puppetdb::postgresql":
-      require => Apt::Repository["wheezy-puppetlabs"];
+      require => Class["dasz::global"];
 
     "rsyslog":
     ;
@@ -65,29 +66,6 @@ node 'puppetmaster.dasz.at' {
   host { $::fqdn:
     host_aliases => [$::hostname, 'puppet', 'foreman'],
     ip           => $::ipaddress;
-  }
-
-  apt::repository {
-    "wheezy-hetzner":
-      url        => "http://mirror.hetzner.de/debian/packages",
-      distro     => "wheezy",
-      repository => "main",
-      src_repo   => false,
-      key        => "55BE302B";
-
-    "wheezy-security":
-      url        => "http://security.debian.org/",
-      distro     => "wheezy/updates",
-      repository => "main",
-      src_repo   => false;
-
-    "wheezy-puppetlabs":
-      url        => "http://apt.puppetlabs.com",
-      distro     => "wheezy",
-      repository => "main",
-      src_repo   => false,
-      key        => "4BD6EC30",
-      key_url    => "https://apt.puppetlabs.com/pubkey.gpg";
   }
 
   sudo::directive { "admin-users":
