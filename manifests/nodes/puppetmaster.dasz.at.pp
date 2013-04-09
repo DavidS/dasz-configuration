@@ -15,7 +15,7 @@ node 'puppetmaster.dasz.at' {
       reports       => true,
       rubysitedir   => '/usr/lib/ruby/vendor_ruby',
       facts         => true,
-      storeconfigs  => true,
+      storeconfigs  => false,
       passenger     => true,
       db            => postgresql,
       db_server     => 'localhost',
