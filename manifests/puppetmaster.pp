@@ -14,7 +14,6 @@ class {
     puppet_server => $::fqdn,
     enc           => true,
     reports       => true,
-    rubysitedir   => '/usr/lib/ruby/vendor_ruby',
     facts         => true,
     storeconfigs  => true,
     passenger     => true,
