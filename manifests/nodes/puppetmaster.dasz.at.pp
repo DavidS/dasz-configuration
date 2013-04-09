@@ -33,6 +33,7 @@ node 'puppetmaster.dasz.at' {
 
     "puppet":
       template        => 'site/puppetmaster/puppet.conf.erb',
+      allow           => ['*.dasz.at', '*.black.co.at', '127.0.0.1'],
       mode            => 'server',
       server          => 'puppetmaster.dasz.at', # can be configured more globally
       runmode         => 'manual', # change this later (to cron), see also croninterval, croncommand
