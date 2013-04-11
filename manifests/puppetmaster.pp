@@ -6,7 +6,7 @@ class {
 
   "foreman":
     install_mode  => all,
-    url           => "https://foreman",
+    url           => "https://${::fqdn}",
     puppet_server => $::fqdn,
     enc           => true,
     reports       => true,
