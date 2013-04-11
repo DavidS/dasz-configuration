@@ -15,7 +15,7 @@ class {
     enc           => true,
     reports       => true,
     facts         => true,
-    storeconfigs  => true,
+    storeconfigs  => false,
     passenger     => true,
     db            => postgresql,
     db_server     => 'localhost',
