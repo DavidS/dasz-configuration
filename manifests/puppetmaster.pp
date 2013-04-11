@@ -72,3 +72,13 @@ host {
     ip => '192.168.50.50';
 }
 
+# workaround http://projects.theforeman.org/issues/2343
+file { "/usr/share/foreman/app/models/setting.rb":
+  ensure  => present,
+  source  => "puppet:///modules/site/foreman-app-models-setting.rb",
+  mode    => 0644,
+  owner   => foreman,
+  group   => foreman,
+  require => Package['foreman'],
+  before  => Apache::Vhost['foreman'];
+}
