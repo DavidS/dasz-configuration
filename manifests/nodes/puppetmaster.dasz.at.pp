@@ -1,7 +1,9 @@
 node 'puppetmaster.dasz.at' {
-  include dasz::defaults
-
   class {
+    'dasz::defaults':
+      location     => hetzner,
+      puppet_agent => false;
+
     "foreman":
       install_mode  => all,
       url           => "https://${::fqdn}",
@@ -34,17 +36,17 @@ node 'puppetmaster.dasz.at' {
       autosign        => false, # do not autosign on publicly accessible masters
       inventoryserver => '', # do not try to store facts anywhere
       # server_service_autorestart => true,
-      require         => Class["dasz::global"];
+      require         => Class["dasz::defaults"];
 
     "puppetdb":
       db_type     => 'postgresql',
       db_host     => 'localhost',
       db_user     => 'puppetdb',
       db_password => file("/srv/puppet/secrets/puppetmaster/puppetdb.password"),
-      require     => [Host[$::fqdn], Class["dasz::global"]];
+      require     => [Host[$::fqdn], Class["dasz::defaults"]];
 
     "puppetdb::postgresql":
-      require => Class["dasz::global"];
+      require => Class["dasz::defaults"];
   }
 
   host { $::fqdn:

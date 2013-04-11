@@ -1,11 +1,12 @@
 # This file is used for the initial puppet provisioning of the puppetmaster vbox
 
-include dasz::defaults
-
 class {
+  'dasz::defaults':
+    puppet_agent => false;
+
   "foreman":
     install_mode  => all,
-    url           => "http://foreman",
+    url           => "https://foreman",
     puppet_server => $::fqdn,
     enc           => true,
     reports       => true,
@@ -33,17 +34,17 @@ class {
     autosign        => true,
     inventoryserver => '', # do not try to store facts anywhere
     # server_service_autorestart => true,
-    require         => Class["dasz::global"];
+    require         => Class["dasz::defaults"];
 
   "puppetdb":
     db_type     => 'postgresql',
     db_host     => 'localhost',
     db_user     => 'puppetdb',
     db_password => 'muhblah', # local installation cannot depend on some secrets repo
-    require     => [Host[$::fqdn], Class["dasz::global"]];
+    require     => [Host[$::fqdn], Class["dasz::defaults"]];
 
   "puppetdb::postgresql":
-    require => Class["dasz::global"];
+    require => Class["dasz::defaults"];
 }
 
 host {
