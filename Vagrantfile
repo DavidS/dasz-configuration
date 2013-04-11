@@ -28,7 +28,7 @@ Vagrant::Config.run do |config|
 
     pm_config.vm.provision :puppet_server do |puppet|
       puppet.puppet_server  = "puppetmaster.example.org"
-      puppet.options = [ '--test' ]
+      puppet.options = [ '--test', '--summarize' ]
     end
   end
 end
