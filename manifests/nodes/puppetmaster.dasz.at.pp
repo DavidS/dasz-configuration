@@ -1,12 +1,7 @@
 node 'puppetmaster.dasz.at' {
+  include dasz::defaults
+
   class {
-    "apt":
-      force_sources_list_d => true;
-
-    "dasz::global":
-      distro   => wheezy,
-      location => hetzner;
-
     "foreman":
       install_mode  => all,
       url           => "https://${::fqdn}",
@@ -21,12 +16,6 @@ node 'puppetmaster.dasz.at' {
       db_server     => 'localhost',
       db_user       => 'foreman',
       db_password   => file("/srv/puppet/secrets/puppetmaster/foreman.password");
-
-    "ntp":
-    ;
-
-    "openssh": # TODO: add host key management
-    ;
 
     "postgresql":
     ;
@@ -56,12 +45,6 @@ node 'puppetmaster.dasz.at' {
 
     "puppetdb::postgresql":
       require => Class["dasz::global"];
-
-    "rsyslog":
-    ;
-
-    "sudo":
-    ;
   }
 
   host { $::fqdn:

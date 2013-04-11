@@ -1,13 +1,8 @@
 # This file is used for the initial puppet provisioning of the puppetmaster vbox
 
+include dasz::defaults
+
 class {
-  "apt":
-    force_sources_list_d => true;
-
-  "dasz::global":
-    distro   => "wheezy",
-    location => "global";
-
   "foreman":
     install_mode  => all,
     url           => "http://foreman",
@@ -21,12 +16,6 @@ class {
     db_server     => 'localhost',
     db_user       => 'foreman',
     db_password   => 'muhblah';
-
-  "ntp":
-  ;
-
-  "openssh": # TODO: add host key management
-  ;
 
   "postgresql":
   ;
@@ -55,12 +44,6 @@ class {
 
   "puppetdb::postgresql":
     require => Class["dasz::global"];
-
-  "rsyslog":
-  ;
-
-  "sudo":
-  ;
 }
 
 host {
