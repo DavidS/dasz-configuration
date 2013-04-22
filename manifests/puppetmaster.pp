@@ -5,18 +5,21 @@ class {
     puppet_agent => false;
 
   "foreman":
-    install_mode  => all,
-    url           => "https://${::fqdn}",
-    puppet_server => $::fqdn,
-    enc           => true,
-    reports       => true,
-    facts         => true,
-    storeconfigs  => false,
-    passenger     => true,
-    db            => postgresql,
-    db_server     => 'localhost',
-    db_user       => 'foreman',
-    db_password   => 'muhblah';
+    install_mode         => all,
+    url                  => "https://${::fqdn}",
+    puppet_server        => $::fqdn,
+    authentication       => true,
+    enc                  => true,
+    reports              => true,
+    facts                => true,
+    storeconfigs         => false,
+    passenger            => true,
+    db                   => postgresql,
+    db_server            => 'localhost',
+    db_user              => 'foreman',
+    db_password          => 'muhblah',
+    install_proxy        => true,
+    proxy_feature_puppet => true;
 
   "postgresql":
   ;

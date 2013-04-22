@@ -5,19 +5,22 @@ node 'puppetmaster.dasz.at' {
       puppet_agent => false;
 
     "foreman":
-      install_mode  => all,
-      url           => "https://${::fqdn}",
-      puppet_server => $::fqdn,
-      enc           => true,
-      reports       => true,
-      rubysitedir   => '/usr/lib/ruby/vendor_ruby',
-      facts         => true,
-      storeconfigs  => false,
-      passenger     => true,
-      db            => postgresql,
-      db_server     => 'localhost',
-      db_user       => 'foreman',
-      db_password   => file("/srv/puppet/secrets/puppetmaster/foreman.password");
+      install_mode         => all,
+      url                  => "https://${::fqdn}",
+      puppet_server        => $::fqdn,
+      authentication       => true,
+      enc                  => true,
+      reports              => true,
+      rubysitedir          => '/usr/lib/ruby/vendor_ruby',
+      facts                => true,
+      storeconfigs         => false,
+      passenger            => true,
+      db                   => postgresql,
+      db_server            => 'localhost',
+      db_user              => 'foreman',
+      db_password          => file("/srv/puppet/secrets/puppetmaster/foreman.password"),
+      install_proxy        => true,
+      proxy_feature_puppet => true;
 
     "postgresql":
     ;
