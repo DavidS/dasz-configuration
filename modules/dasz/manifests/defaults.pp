@@ -1,16 +1,19 @@
 class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $puppet_agent = true) {
-  $ntp_absent = $::virtual ? {
-    'vserver' => true,
-    default   => false,
+  case $::virtual {
+    'vserver' : {
+      # only remove the package. See https://github.com/example42/puppet-ntp/issues/20
+      include ntp::params
+
+      package { $ntp::params::package: ensure => absent; }
+    }
+    default   : {
+      class { "ntp": ; }
+    }
   }
 
   class {
     "apt":
       force_sources_list_d => true;
-
-    "ntp":
-	  absent => $ntp_absent
-    ;
 
     "openssh": # TODO: add host key management
     ;
