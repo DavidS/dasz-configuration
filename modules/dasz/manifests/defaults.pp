@@ -21,7 +21,7 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
       mode    => 'client',
       server  => 'puppetmaster.dasz.at', # can be configured more globally
       runmode => 'cron',
-      require => Apt::Repository['wheezy-puppetlabs'];
+      require => Apt::Repository["${distro}-puppetlabs"];
     }
   }
 
@@ -38,7 +38,7 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
   }
 
   apt::repository {
-    "wheezy-base":
+    "${distro}-base":
       url        => $location ? {
         'hetzner' => "http://mirror.hetzner.de/debian/packages",
         default   => 'http://http.debian.net/debian',
@@ -48,13 +48,13 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
       src_repo   => false,
       key        => "55BE302B";
 
-    "wheezy-security":
+    "${distro}-security":
       url        => "http://security.debian.org/",
       distro     => "${distro}/updates",
       repository => "main",
       src_repo   => false;
 
-    "wheezy-puppetlabs":
+    "${distro}-puppetlabs":
       url        => "http://apt.puppetlabs.com",
       distro     => $distro,
       repository => "main",
