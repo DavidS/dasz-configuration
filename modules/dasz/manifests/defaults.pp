@@ -1,9 +1,15 @@
 class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $puppet_agent = true) {
+  $ntp_absent = $::virtual ? {
+    'vserver' => true,
+    default   => false,
+  }
+
   class {
     "apt":
       force_sources_list_d => true;
 
     "ntp":
+	  absent => $ntp_absent
     ;
 
     "openssh": # TODO: add host key management
