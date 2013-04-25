@@ -1,3 +1,7 @@
+# windows pc
 node 'david-pc3.dasz' {
-  # windows pc
+  package { 'notepadplusplus':
+    ensure   => installed,
+    provider => 'chocolatey';
+  }
 }

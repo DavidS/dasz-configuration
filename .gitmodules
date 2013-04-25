@@ -58,3 +58,6 @@
 [submodule "modules/sudo"]
 	path = modules/sudo
 	url = ../puppet-sudo.git
+[submodule "modules/chocolatey"]
+	path = modules/chocolatey
+	url = ../puppet-chocolatey.git
