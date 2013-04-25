@@ -61,3 +61,9 @@
 [submodule "modules/chocolatey"]
 	path = modules/chocolatey
 	url = ../puppet-chocolatey.git
+[submodule "modules/registry"]
+	path = modules/registry
+	url = ../puppetlabs-registry.git
+[submodule "modules/stdlib"]
+	path = modules/stdlib
+	url = ../puppetlabs-stdlib.git

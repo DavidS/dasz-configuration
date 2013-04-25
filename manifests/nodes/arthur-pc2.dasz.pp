@@ -1,3 +1,4 @@
+# windows pc
 node 'arthur-pc2.dasz' {
-  # windows pc
+  # nothing yet
 }
