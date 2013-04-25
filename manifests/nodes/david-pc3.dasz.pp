@@ -1,9 +1,9 @@
 # windows pc
 node 'david-pc3.dasz' {
   # workaround https://github.com/chocolatey/chocolatey/issues/283
-  registry::value { 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\ChocolateyInstall':
-    type  => 'string',
-    value => 'C:\Chocolatey';
+  registry::value { 'ChocolateyInstall':
+    key  => 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment',
+    data => 'C:\Chocolatey';
   }
 
   # global
