@@ -30,7 +30,7 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
       mode    => 'client',
       server  => 'puppetmaster.dasz.at', # can be configured more globally
       runmode => 'cron',
-      require => Apt::Repository["${distro}-puppetlabs"];
+      require => Apt::Repository["puppetlabs"];
     }
   }
 
