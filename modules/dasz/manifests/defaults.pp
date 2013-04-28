@@ -15,7 +15,7 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
     "apt":
       force_sources_list_d => true;
 
-    "openssh": # TODO: add host key management
+    "openssh":
     ;
 
     "rsyslog":
