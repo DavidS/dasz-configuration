@@ -67,3 +67,9 @@
 [submodule "modules/stdlib"]
 	path = modules/stdlib
 	url = ../puppetlabs-stdlib.git
+[submodule "modules/tftp"]
+	path = modules/tftp
+	url = ../puppet-tftp.git
+[submodule "modules/xinetd"]
+	path = modules/xinetd
+	url = ../puppet-xinetd.git

@@ -5,21 +5,26 @@ class {
     puppet_agent => false;
 
   "foreman":
-    install_mode         => all,
-    url                  => "https://${::fqdn}",
-    puppet_server        => $::fqdn,
-    authentication       => true,
-    enc                  => true,
-    reports              => true,
-    facts                => true,
-    storeconfigs         => false,
-    passenger            => true,
-    db                   => postgresql,
-    db_server            => 'localhost',
-    db_user              => 'foreman',
-    db_password          => 'muhblah',
-    install_proxy        => true,
-    proxy_feature_puppet => true;
+    install_mode           => all,
+    url                    => "https://${::fqdn}",
+    puppet_server          => $::fqdn,
+    authentication         => true,
+    enc                    => true,
+    reports                => true,
+    facts                  => true,
+    storeconfigs           => false,
+    passenger              => true,
+    unattended             => true,
+    db                     => postgresql,
+    db_server              => 'localhost',
+    db_user                => 'foreman',
+    db_password            => 'muhblah',
+    install_proxy          => true,
+    proxy_feature_dhcp     => true,
+    proxy_feature_dns      => true,
+    proxy_feature_puppet   => true,
+    proxy_feature_puppetca => true,
+    proxy_feature_tftp     => true;
 
   "postgresql":
   ;
@@ -57,6 +62,9 @@ host {
 
   'testagent.example.org':
     ip => '192.168.50.50';
+
+  'workstation':
+    ip => '192.168.50.1';
 }
 
 # workaround http://projects.theforeman.org/issues/2343
