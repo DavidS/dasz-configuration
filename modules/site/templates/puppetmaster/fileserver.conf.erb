@@ -1,0 +1,10 @@
+# File managed by Puppet 
+
+[plugins]
+<% scope.lookupvar('puppet::allow').each do |pa| %>  allow <%= pa %>
+<% end -%>
+
+# only allow each host access to it's own fqdn partition
+[secrets]
+    path /srv/puppet/secrets/%H
+    allow *

@@ -18,7 +18,7 @@ node 'puppetmaster.dasz.at' {
       db                     => postgresql,
       db_server              => 'localhost',
       db_user                => 'foreman',
-      db_password            => file("/srv/puppet/secrets/puppetmaster/foreman.password"),
+      db_password            => file("/srv/puppet/secrets/${::fqdn}/foreman.password"),
       unattended             => true,
       install_proxy          => true,
       proxy_feature_puppet   => true,
@@ -29,26 +29,27 @@ node 'puppetmaster.dasz.at' {
     ;
 
     "puppet":
-      template        => 'site/puppetmaster/puppet.conf.erb',
-      allow           => ['*.dasz.at', '*.dasz', '*.black.co.at', '*.edv-bus.at', '127.0.0.1'],
-      mode            => 'server',
-      server          => 'puppetmaster.dasz.at', # can be configured more globally
-      runmode         => 'cron',
-      nodetool        => 'foreman',
-      db              => 'puppetdb',
-      db_server       => $fqdn, # TODO: should be default?
-      db_port         => 8081, # TODO: should be default for puppetdb?
-      dns_alt_names   => '',
-      autosign        => false, # do not autosign on publicly accessible masters
-      inventoryserver => '', # do not try to store facts anywhere
+      template            => 'site/puppetmaster/puppet.conf.erb',
+      template_fileserver => 'site/puppetmaster/fileserver.conf.erb',
+      allow               => ['*.dasz.at', '*.dasz', '*.black.co.at', '*.edv-bus.at', '127.0.0.1'],
+      mode                => 'server',
+      server              => 'puppetmaster.dasz.at', # can be configured more globally
+      runmode             => 'cron',
+      nodetool            => 'foreman',
+      db                  => 'puppetdb',
+      db_server           => $fqdn, # TODO: should be default?
+      db_port             => 8081, # TODO: should be default for puppetdb?
+      dns_alt_names       => '',
+      autosign            => false, # do not autosign on publicly accessible masters
+      inventoryserver     => '', # do not try to store facts anywhere
       # server_service_autorestart => true,
-      require         => Class["dasz::defaults"];
+      require             => Class["dasz::defaults"];
 
     "puppetdb":
       db_type     => 'postgresql',
       db_host     => 'localhost',
       db_user     => 'puppetdb',
-      db_password => file("/srv/puppet/secrets/puppetmaster/puppetdb.password"),
+      db_password => file("/srv/puppet/secrets/${::fqdn}/puppetdb.password"),
       require     => [Host[$::fqdn], Class["dasz::defaults"]];
 
     "puppetdb::postgresql":
@@ -99,9 +100,21 @@ node 'puppetmaster.dasz.at' {
       group  => root;
 
     "/root/.ssh/id_rsa":
-      source => "/srv/puppet/secrets/puppetmaster/id_rsa",
+      source => "puppet:///secrets/id_rsa",
       mode   => 0600,
       owner  => root,
       group  => root;
+
+    "/usr/share/foreman/.ssh":
+      ensure => directory,
+      mode   => 0700,
+      owner  => foreman,
+      group  => foreman;
+
+    "/usr/share/foreman/.ssh/id_rsa":
+      source => "puppet:///secrets/foreman/id_rsa",
+      mode   => 0600,
+      owner  => foreman,
+      group  => foreman;
   }
 }

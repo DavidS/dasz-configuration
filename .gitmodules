@@ -73,3 +73,6 @@
 [submodule "modules/xinetd"]
 	path = modules/xinetd
 	url = ../puppet-xinetd.git
+[submodule "modules/libvirt"]
+	path = modules/libvirt
+	url = ../puppet-libvirt.git
