@@ -63,10 +63,18 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
       repository => "main",
       src_repo   => false;
 
-    "${distro}-puppetlabs":
+    "puppetlabs":
       url        => "http://apt.puppetlabs.com",
       distro     => $distro,
       repository => "main",
+      src_repo   => false,
+      key        => "4BD6EC30",
+      key_url    => "https://apt.puppetlabs.com/pubkey.gpg";
+
+    "puppetlabs-dependencies":
+      url        => "http://apt.puppetlabs.com",
+      distro     => $distro,
+      repository => "dependencies",
       src_repo   => false,
       key        => "4BD6EC30",
       key_url    => "https://apt.puppetlabs.com/pubkey.gpg";
