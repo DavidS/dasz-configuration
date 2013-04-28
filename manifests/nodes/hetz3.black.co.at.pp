@@ -19,11 +19,13 @@ node 'hetz3.black.co.at' {
     "${home}/.ssh":
       ensure => directory,
       owner  => 'foreman-mgr',
+      group  => 'foreman-mgr',
       mode   => 0700;
 
     "${home}/.ssh/authorized_keys":
-      content => "puppet:///secrets/foreman_keys",
-      owner   => 'foreman-mgr',
-      mode    => 0600;
+      source => "puppet:///modules/site/foreman-authorized_keys",
+      owner  => 'foreman-mgr',
+      group  => 'foreman-mgr',
+      mode   => 0600;
   }
 }
