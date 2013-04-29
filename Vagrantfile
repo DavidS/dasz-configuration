@@ -16,6 +16,7 @@ Vagrant::Config.run do |config|
       puppet.manifests_path = "manifests"
       puppet.manifest_file  = "puppetmaster.pp"
       puppet.module_path    = [ "modules" ]
+      puppet.options = [ '--verbose', '--show_diff', '--summarize' ]
     end
   end
 
