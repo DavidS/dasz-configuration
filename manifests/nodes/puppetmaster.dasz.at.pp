@@ -1,8 +1,13 @@
 node 'puppetmaster.dasz.at' {
+  $proxy_key = file("/srv/puppet/secrets/${::fqdn}/proxy_key.key")
+
   class {
     'dasz::defaults':
       location     => hetzner,
       puppet_agent => false;
+
+    "dhcpd":
+      template => "site/${::fqdn}/dhcpd.conf.erb";
 
     "foreman":
       install_mode           => all,
@@ -23,7 +28,9 @@ node 'puppetmaster.dasz.at' {
       install_proxy          => true,
       proxy_feature_puppet   => true,
       proxy_feature_puppetca => true,
-      proxy_feature_tftp     => true;
+      proxy_feature_tftp     => true,
+      proxy_feature_dhcp     => true,
+      proxy_dhcp_omapi_key   => $proxy_key;
 
     "postgresql":
     ;
