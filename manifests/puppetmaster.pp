@@ -20,11 +20,8 @@ class {
     db_user                => 'foreman',
     db_password            => 'muhblah',
     install_proxy          => true,
-    proxy_feature_dhcp     => true,
-    proxy_feature_dns      => true,
     proxy_feature_puppet   => true,
-    proxy_feature_puppetca => true,
-    proxy_feature_tftp     => true;
+    proxy_feature_puppetca => true;
 
   "postgresql":
   ;

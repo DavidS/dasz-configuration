@@ -2,6 +2,8 @@
 # testagent in vagrant
 # this can be used to test various stuff deployed via the puppetmaster
 node 'testagent.example.org' {
+  $testkey = 'OS/Yq8CnQ+XnsvwS783zCwHtTOtCuzPZhjM/sBZdTHTutLxxv/ahpPBOPPTrBWwSDeNL5BuW+IEcZF42c3V9WA=='
+
   class {
     'dasz::defaults':
       puppet_agent => false;
@@ -11,6 +13,16 @@ node 'testagent.example.org' {
       server  => 'puppetmaster.example.org',
       runmode => 'cron',
       require => Class['dasz::defaults'];
+
+    "dhcpd":
+      template => 'site/testagent/dhcpd.conf.erb';
+
+    "foreman":
+      install_mode         => 'none',
+      install_proxy        => true,
+      proxy_feature_tftp   => true,
+      proxy_feature_dhcp   => true,
+      proxy_dhcp_omapi_key => $testkey;
   }
 }
 

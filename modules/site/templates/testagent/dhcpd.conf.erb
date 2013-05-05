@@ -1,0 +1,29 @@
+# Delivered by puppet
+
+# Default config
+
+ddns-update-style none;
+
+option domain-name "<%= domain %>";
+option domain-name-servers 10.0.2.3;
+
+default-lease-time 600;
+max-lease-time 7200;
+
+log-facility local7;
+
+# Accept OMAPI access from smart proxy
+omapi-port 7911;
+
+# See http://projects.theforeman.org/projects/smart-proxy/wiki/ISC_DHCP
+key proxy_key {
+	algorithm HMAC-MD5;
+	secret "<%= @testkey %>";
+};
+omapi-key proxy_key;
+
+
+# serve the hostonly subnet
+subnet 192.168.50.0 netmask 255.255.255.0 {
+    range 192.168.50.200 192.168.50.250;
+}
