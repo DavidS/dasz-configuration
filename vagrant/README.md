@@ -34,8 +34,8 @@ I've added the snapshot of veewee I've used as submodule at vagrant/veewee.
 All of the following commands need to run from the vagrant/veewee directory, in
 veewee's development mode:
 
-    export VEEWEE_PURE=yes
-    nice rbenv exec bundle exec vagrant basebox define --force 'Debian-7.0.0-amd64' 'Debian-7.0-rc1-amd64-netboot'
+    # export VEEWEE_PURE=yes
+    nice rbenv exec bundle exec vagrant basebox define --force 'Debian-7.0.0-amd64' 'Debian-7.0-amd64-netboot'
     nice rbenv exec bundle exec vagrant basebox build --force 'Debian-7.0.0-amd64'
     
 Now you have a virtual box with wheezy running. You can login either with
