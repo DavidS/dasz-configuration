@@ -21,7 +21,8 @@ class {
     db_password            => 'muhblah',
     install_proxy          => true,
     proxy_feature_puppet   => true,
-    proxy_feature_puppetca => true;
+    proxy_feature_puppetca => true,
+    proxy_feature_tftp     => true;
 
   "postgresql":
   ;
