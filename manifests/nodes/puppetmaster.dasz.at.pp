@@ -58,10 +58,9 @@ node 'puppetmaster.dasz.at' {
       db_user     => 'puppetdb',
       db_password => file("/srv/puppet/secrets/${::fqdn}/puppetdb.password"),
       require     => [Host[$::fqdn], Class["dasz::defaults"]];
-
-    "puppetdb::postgresql":
-      require => Class["dasz::defaults"];
   }
+
+  Class["puppetdb::postgresql"] -> Class["dasz::defaults"]
 
   host { $::fqdn:
     host_aliases => [$::hostname, 'puppet', 'foreman'],

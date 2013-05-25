@@ -48,10 +48,9 @@ class {
     db_user     => 'puppetdb',
     db_password => 'muhblah', # local installation cannot depend on some secrets repo
     require     => [Host[$::fqdn], Class["dasz::defaults"]];
-
-  "puppetdb::postgresql":
-    require => Class["dasz::defaults"];
 }
+
+Class["puppetdb::postgresql"] -> Class["dasz::defaults"]
 
 host {
   $::fqdn:
