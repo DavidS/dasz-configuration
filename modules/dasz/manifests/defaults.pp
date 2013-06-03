@@ -19,6 +19,9 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
       distro       => $distro,
       dependencies => true;
 
+    "dasz::snips::locales":
+    ;
+
     "openssh":
       exchange_hostkeys => true;
 
@@ -67,4 +70,5 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
       repository => "main",
       src_repo   => false;
   }
+
 }
