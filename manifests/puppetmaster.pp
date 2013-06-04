@@ -19,6 +19,7 @@ class {
     db_server              => 'localhost',
     db_user                => 'foreman',
     db_password            => 'muhblah',
+    repo_flavour           => 'rc',
     install_proxy          => true,
     proxy_feature_puppet   => true,
     proxy_feature_puppetca => true,
@@ -49,8 +50,6 @@ class {
     db_password => 'muhblah', # local installation cannot depend on some secrets repo
     require     => [Host[$::fqdn], Class["dasz::defaults"]];
 }
-
-Class["puppetdb::postgresql"] -> Class["dasz::defaults"]
 
 host {
   $::fqdn:

@@ -20,6 +20,7 @@ node 'testagent.example.org' {
     "foreman":
       install_mode         => 'none',
       install_proxy        => true,
+      repo_flavour         => 'rc',
       proxy_feature_tftp   => true,
       proxy_feature_dhcp   => true,
       proxy_dhcp_omapi_key => $testkey;
