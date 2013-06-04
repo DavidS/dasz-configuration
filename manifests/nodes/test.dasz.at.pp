@@ -1,3 +1,3 @@
-node 'test.black.co.at' {
+node 'test.dasz.at' {
   class { 'dasz::defaults': location => hetzner; }
 }
