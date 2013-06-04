@@ -2,6 +2,10 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
+# avoid having a mess
+# see https://projects.puppetlabs.com/issues/20913
+gem uninstall puppet
+
 if [ ! -x /usr/sbin/puppetd ] ; then
 
 	aptitude update
