@@ -53,7 +53,7 @@ class puppetmaster_example_org {
       db_host     => 'localhost',
       db_user     => 'puppetdb',
       db_password => 'muhblah', # local installation cannot depend on some secrets repo
-      require     => [Host[$::fqdn], Class["dasz::defaults"]];
+      require     => Class["dasz::defaults"];
   }
 
   host { 'workstation': ip => '192.168.50.1'; }
