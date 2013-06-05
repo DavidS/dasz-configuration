@@ -104,6 +104,15 @@ class dasz::defaults (
       src_repo   => false,
       key        => "55BE302B";
 
+    "${distro}-backports":
+      url        => $distro ? {
+        'squeeze' => 'http://backports.debian.org/debian-backports/',
+        default   => 'http://http.debian.net/debian',
+      },
+      distro     => "${distro}-backports",
+      repository => "main",
+      src_repo   => false;
+
     "${distro}-security":
       url        => "http://security.debian.org/",
       distro     => "${distro}/updates",
