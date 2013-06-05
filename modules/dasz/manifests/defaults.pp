@@ -13,7 +13,8 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
 
   class {
     "apt":
-      force_sources_list_d => true;
+      force_sources_list_d => true,
+      purge_sources_list_d => true;
 
     "apt::repo::puppetlabs":
       distro       => $distro,
