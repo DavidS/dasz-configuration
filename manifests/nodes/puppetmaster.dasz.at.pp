@@ -3,8 +3,9 @@ node 'puppetmaster.dasz.at' {
 
   class {
     'dasz::defaults':
-      location     => hetzner,
-      puppet_agent => false;
+      location          => hetzner,
+      puppet_agent      => false,
+      apt_dater_manager => true;
 
     "dhcpd":
       template => "site/${::fqdn}/dhcpd.conf.erb";

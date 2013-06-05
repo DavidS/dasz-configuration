@@ -1,4 +1,10 @@
-class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $puppet_agent = true) {
+class dasz::defaults (
+  $distro               = $::lsbdistcodename,
+  $location             = 'unknown',
+  $puppet_agent         = true,
+  $apt_dater_manager    = false,
+  $apt_dater_key        = '',
+  $apt_dater_secret_key = '') {
   case $::virtual {
     'vserver' : {
       # only remove the package. See https://github.com/example42/puppet-ntp/issues/20
@@ -15,6 +21,27 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
     "apt":
       force_sources_list_d => true,
       purge_sources_list_d => true;
+
+    "apt::dater":
+      role             => $apt_dater_manager ? {
+        true  => 'all',
+        false => 'host',
+      },
+      customer         => $location,
+      ssh_key_type     => $apt_dater_key ? {
+        ''      => file("/srv/puppet/secrets/apt-dater-host.pub.type"),
+        default => 'ssh-rsa',
+      },
+      ssh_key          => $apt_dater_key ? {
+        ''      => file("/srv/puppet/secrets/apt-dater-host.pub.key"),
+        default => $apt_dater_key,
+      },
+      manager_user     => 'david',
+      manager_home_dir => '/home/david',
+      manager_ssh_key  => $apt_dater_secret_key ? {
+        ''      => file("/srv/puppet/secrets/apt-dater-host"),
+        default => $apt_dater_secret_key,
+      } ;
 
     "apt::repo::puppetlabs":
       distro       => $distro,
@@ -71,5 +98,4 @@ class dasz::defaults ($distro = $::lsbdistcodename, $location = 'unknown', $pupp
       repository => "main",
       src_repo   => false;
   }
-
 }
