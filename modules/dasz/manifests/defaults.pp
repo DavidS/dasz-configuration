@@ -69,6 +69,18 @@ class dasz::defaults (
     }
   }
 
+  # export a default host entry for apt-dater
+  @@host { $::fqdn:
+    host_aliases => [$hostname],
+    ip           => $::ipaddress,
+    tag          => 'dasz::default_host';
+  }
+
+  # collect host entries if we're a manager host
+  if $apt_dater_manager {
+    Host <<| tag == 'dasz::default_host' |>>
+  }
+
   package {
     [
       "vim",

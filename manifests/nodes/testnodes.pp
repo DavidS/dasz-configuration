@@ -56,17 +56,7 @@ class puppetmaster_example_org {
       require     => [Host[$::fqdn], Class["dasz::defaults"]];
   }
 
-  host {
-    $::fqdn:
-      host_aliases => [$::hostname, 'puppet', 'foreman'],
-      ip           => $::ipaddress;
-
-    'testagent.example.org':
-      ip => '192.168.50.50';
-
-    'workstation':
-      ip => '192.168.50.1';
-  }
+  host { 'workstation': ip => '192.168.50.1'; }
 
   # workaround http://projects.theforeman.org/issues/2343
   file { "/usr/share/foreman/app/models/setting.rb":
@@ -80,7 +70,11 @@ class puppetmaster_example_org {
   }
 
   # required as apt-dater manager
-  user { 'david': ensure => present; }
+  user { 'david':
+    ensure     => present,
+    shell      => '/bin/bash',
+    managehome => true;
+  }
 }
 
 node 'puppetmaster.example.org' {
