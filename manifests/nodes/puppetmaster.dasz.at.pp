@@ -65,11 +65,6 @@ node 'puppetmaster.dasz.at' {
       require     => [Host[$::fqdn], Class["dasz::defaults"]];
   }
 
-  host { $::fqdn:
-    host_aliases => [$::hostname, 'puppet', 'foreman'],
-    ip           => $::ipaddress;
-  }
-
   sudo::directive { "admin-users":
     ensure  => present,
     content => "david ALL=(ALL) NOPASSWD: ALL\n"
