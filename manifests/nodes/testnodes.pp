@@ -116,12 +116,3 @@ node 'testagent.example.org' {
       proxy_dhcp_omapi_key => $testkey;
   }
 }
-
-# my dev machine
-# only used for stuff that has to run on bare metal
-node 'david-lx1.dasz' {
-  class { 'dasz::defaults':
-    location     => hetzner,
-    puppet_agent => false
-  }
-}
