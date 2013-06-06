@@ -66,18 +66,6 @@ node 'puppetmaster.dasz.at' {
       require     => [Host[$::fqdn], Class["dasz::defaults"]];
   }
 
-  sudo::directive { "admin-users":
-    ensure  => present,
-    content => "david ALL=(ALL) NOPASSWD: ALL\n"
-  }
-
-  group { 'david': ensure => present; }
-
-  user { 'david':
-    ensure => present,
-    gid    => 'david';
-  }
-
   # of course, the following is not bootstrappable, but after a manual intervention, it should lead to a stable, and migratable
   # situation.
   # for a key roll-over, the git server has to accept both the old and the new key until the puppetmaster has updated itself.

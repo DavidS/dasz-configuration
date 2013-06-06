@@ -68,13 +68,6 @@ class puppetmaster_example_org {
     require => Package['foreman'],
     before  => Apache::Vhost['foreman'];
   }
-
-  # required as apt-dater manager
-  user { 'david':
-    ensure     => present,
-    shell      => '/bin/bash',
-    managehome => true;
-  }
 }
 
 node 'puppetmaster.example.org' {

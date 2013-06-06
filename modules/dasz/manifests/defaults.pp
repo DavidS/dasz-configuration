@@ -6,7 +6,7 @@ class dasz::defaults (
   $apt_dater_key        = '',
   $apt_dater_secret_key = '',
   $ssh_port             = 22, # can be used on non-public sshds to reduce ssh bruteforce spamming, or avoid conflicts on shared IPs
-  ) {
+  $admin_users          = true,) {
   case $::virtual {
     'vserver' : {
       # only remove the package. See https://github.com/example42/puppet-ntp/issues/20
@@ -122,5 +122,20 @@ class dasz::defaults (
       distro     => "${distro}/updates",
       repository => "main",
       src_repo   => false;
+  }
+
+  if $admin_users {
+    dasz::snips::admin {
+      "david":
+        realname     => 'David Schmitt',
+        ssh_key_type => 'ssh-rsa',
+        ssh_key      => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC+PMJEejWaaoCHa46au1dBY+Atp53DSe4tSp28yFapd8/l40F9ENakp5V/58v+xMqQur1Wrj3xyFyavKMBSWedlezvUQKI4YMzH0VYJ0omrqkAKtZR/essZOBAHIB7fVXk4HHB6u5kNLXzGzESSiDDskmKTiN9ogQjWwCtdtk2DyooKMeA+nzWMmXoIOdUBxaZZkK12NT+LrMb8FyqhfUAHrpt2dK8L5xXnQ/xCFVbLgnsLe9aw/0qFtNndgw+0RuLm7jjetz7gYAQ4SpQAKiGC0wQLhB8ZLGKt/W+kCbdRO2WEjXzZxRAbjQyHao8gdCfHrflqy2rDm/ZXVikUwDV'
+        ;
+
+      'arthur':
+        realname     => 'Arthur Zaczek',
+        ssh_key_type => 'ssh-rsa',
+        ssh_key      => 'none_yet';
+    }
   }
 }
