@@ -1,3 +1,3 @@
 node 'sh.dasz.at' {
-  class { 'dasz::defaults': location => tech21; }
+  class { 'dasz::defaults': location => hetzner; }
 }

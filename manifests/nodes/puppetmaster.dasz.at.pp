@@ -5,7 +5,8 @@ node 'puppetmaster.dasz.at' {
     'dasz::defaults':
       location          => hetzner,
       puppet_agent      => false,
-      apt_dater_manager => true;
+      apt_dater_manager => true,
+      ssh_port          => 2200;
 
     "dhcpd":
       template => "site/${::fqdn}/dhcpd.conf.erb";

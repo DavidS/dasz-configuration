@@ -1,5 +1,8 @@
 node 'hetz3.black.co.at' {
-  class { 'dasz::defaults': location => hetzner; }
+  class { 'dasz::defaults':
+    location => hetzner,
+    ssh_port => 2200;
+  }
 
   # foreman virt host
   $home = '/var/lib/foreman-mgr'

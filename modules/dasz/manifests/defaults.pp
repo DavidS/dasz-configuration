@@ -4,7 +4,9 @@ class dasz::defaults (
   $puppet_agent         = true,
   $apt_dater_manager    = false,
   $apt_dater_key        = '',
-  $apt_dater_secret_key = '') {
+  $apt_dater_secret_key = '',
+  $ssh_port             = 22, # can be used on non-public sshds to reduce ssh bruteforce spamming, or avoid conflicts on shared IPs
+  ) {
   case $::virtual {
     'vserver' : {
       # only remove the package. See https://github.com/example42/puppet-ntp/issues/20
@@ -36,6 +38,7 @@ class dasz::defaults (
         ''      => file("/srv/puppet/secrets/apt-dater-host.pub.key"),
         default => $apt_dater_key,
       },
+      ssh_port         => $ssh_port,
       manager_user     => 'david',
       manager_home_dir => '/home/david',
       manager_ssh_key  => $apt_dater_secret_key ? {
@@ -51,6 +54,7 @@ class dasz::defaults (
     ;
 
     "openssh":
+      port              => $ssh_port,
       exchange_hostkeys => true;
 
     "rsyslog":
