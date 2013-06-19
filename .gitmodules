@@ -79,3 +79,9 @@
 [submodule "modules/dhcpd"]
 	path = modules/dhcpd
 	url = ../puppet-dhcpd.git
+[submodule "modules/munin"]
+	path = modules/munin
+	url = ../puppet-munin.git
+[submodule "modules/inittab"]
+	path = modules/inittab
+	url = ../puppet-inittab.git

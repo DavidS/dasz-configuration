@@ -33,6 +33,15 @@ class puppetmaster_example_org {
     "postgresql":
     ;
 
+    munin:
+      server         => '192.168.50.4',
+      server_local   => true,
+      graph_strategy => cgi,
+      address        => '192.168.50.4';
+
+    'munin::cgi':
+    ;
+
     "puppet":
       template        => 'site/puppetmaster/puppet-vagrant.conf.erb',
       mode            => 'server',
@@ -68,6 +77,12 @@ class puppetmaster_example_org {
     require => Package['foreman'],
     before  => Apache::Vhost['foreman'];
   }
+
+  file { "/etc/apache2/conf.d/munin":
+    ensure  => present,
+    content => template('base/puppetmaster/munin-apache.conf.erb'),
+    require => Package['munin'];
+  }
 }
 
 node 'puppetmaster.example.org' {
@@ -83,7 +98,12 @@ node 'testagent.example.org' {
     'dasz::defaults':
       puppet_agent         => false,
       apt_dater_key        => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCsg5F+Ml0AngmMMKrEr4YW5OP2qe2gpY9pfg0iFwjXnTqh8HZK63+HqmWGrGUt7mPZZMYOnGGkpYDmksqgHZscm6NGIxOvEWg52ZfcBUxIgKkoqZHIMSf/zhCifGxmepMHO/hb7wQKzwuc+XjzOwt70qwkhEDs6flKfYnagwxFC6YvrAeW5h2cwHDQb9To6ryITSvbhbUHNIwKGpYbz0Bqx5sdn2Kca80FsW8ImRmph4albnVMqDTdLCUvZoPhl/z6BCqduFpdPGGkfxicSmOBPRHuQOgTwTAh3aMR0lmnKfNX/wHqYgaWoU+ow+846ob70N949Oy05B/1Dc109Xfh',
-      apt_dater_secret_key => 'unused';
+      apt_dater_secret_key => 'unused',
+      ssh_port             => 22;
+
+    munin:
+      server  => '192.168.50.4',
+      address => '192.168.50.50';
 
     "puppet":
       mode    => 'client',
