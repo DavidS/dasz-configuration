@@ -58,10 +58,24 @@ class dasz::defaults (
       exchange_hostkeys => true;
 
     "rsyslog":
-    ;
+      template => 'dasz/rsyslog.conf.erb';
 
     "sudo":
     ;
+  }
+
+  file {
+    "/etc/profile.d/tf.sh":
+      content => template('dasz/rsyslog.tf.sh.erb'),
+      mode    => 0644,
+      owner   => root,
+      group   => root;
+
+    "/etc/logrotate.d/rsyslog":
+      content => template('dasz/rsyslog.logrotate.erb'),
+      mode    => 0644,
+      owner   => root,
+      group   => root;
   }
 
   if $puppet_agent {

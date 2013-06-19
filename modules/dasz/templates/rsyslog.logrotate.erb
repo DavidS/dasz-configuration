@@ -1,0 +1,17 @@
+/var/log/allmessages
+{
+	rotate 10
+	daily
+	missingok
+	notifempty
+	compress
+	delaycompress
+	sharedscripts
+	postrotate
+<% if scope['::lsbdistcodename'] == 'squeeze' -%>
+		invoke-rc.d rsyslog reload > /dev/null
+<% else -%>
+		invoke-rc.d rsyslog rotate > /dev/null
+<% end -%>
+	endscript
+}

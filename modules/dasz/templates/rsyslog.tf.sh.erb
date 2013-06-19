@@ -1,0 +1,4 @@
+# Check for interactive bash and that we haven't already been sourced.
+[ -z "$BASH_VERSION" -o -z "$PS1" ] && return
+
+alias tf='tail -F /var/log/allmessages'
