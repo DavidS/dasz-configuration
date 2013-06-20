@@ -5,10 +5,11 @@ node 'monitor.dasz.at' {
       munin_node => false;
 
     'munin':
-      folder         => 'Tech21',
-      server         => $::ipaddress,
-      server_local   => true,
-      graph_strategy => cgi;
+      folder            => 'Tech21',
+      server            => $::ipaddress,
+      server_local      => true,
+      include_dir_purge => true,
+      graph_strategy    => cgi;
 
     'munin::cgi':
     ;
