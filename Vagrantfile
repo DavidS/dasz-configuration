@@ -29,7 +29,20 @@ Vagrant::Config.run do |config|
 
     pm_config.vm.provision :puppet_server do |puppet|
       puppet.puppet_server  = "puppetmaster.example.org"
-      puppet.options = [ '--test', '--summarize' ]
+      puppet.options = [ '--test', '--summarize', '--pluginsync' ]
+    end
+  end
+
+  config.vm.define :testagent2 do |pm_config|
+    pm_config.vm.box = "Debian-7.0.0-amd64"
+    pm_config.vm.host_name = "testagent2.example.org"
+    pm_config.vm.network :hostonly, "192.168.50.51"
+
+    pm_config.vm.provision :shell, :inline => "/vagrant/scripts/register_puppetmaster 192.168.50.4 puppetmaster.example.org"
+
+    pm_config.vm.provision :puppet_server do |puppet|
+      puppet.puppet_server  = "puppetmaster.example.org"
+      puppet.options = [ '--test', '--summarize', '--pluginsync' ]
     end
   end
 end

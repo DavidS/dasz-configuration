@@ -3,6 +3,7 @@
 class puppetmaster_example_org {
   class {
     'dasz::defaults':
+      location             => test,
       puppet_agent         => false,
       apt_dater_manager    => true,
       apt_dater_key        => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCsg5F+Ml0AngmMMKrEr4YW5OP2qe2gpY9pfg0iFwjXnTqh8HZK63+HqmWGrGUt7mPZZMYOnGGkpYDmksqgHZscm6NGIxOvEWg52ZfcBUxIgKkoqZHIMSf/zhCifGxmepMHO/hb7wQKzwuc+XjzOwt70qwkhEDs6flKfYnagwxFC6YvrAeW5h2cwHDQb9To6ryITSvbhbUHNIwKGpYbz0Bqx5sdn2Kca80FsW8ImRmph4albnVMqDTdLCUvZoPhl/z6BCqduFpdPGGkfxicSmOBPRHuQOgTwTAh3aMR0lmnKfNX/wHqYgaWoU+ow+846ob70N949Oy05B/1Dc109Xfh',
@@ -32,15 +33,6 @@ class puppetmaster_example_org {
       proxy_feature_tftp     => true;
 
     "postgresql":
-    ;
-
-    munin:
-      server         => '192.168.50.4',
-      server_local   => true,
-      graph_strategy => cgi,
-      address        => '192.168.50.4';
-
-    'munin::cgi':
     ;
 
     "puppet":
@@ -92,36 +84,41 @@ node 'puppetmaster.example.org' {
 
 # testagent in vagrant
 # this can be used to test various stuff deployed via the puppetmaster
-node 'testagent.example.org' {
+class testagent_example_org {
   $testkey = 'OS/Yq8CnQ+XnsvwS783zCwHtTOtCuzPZhjM/sBZdTHTutLxxv/ahpPBOPPTrBWwSDeNL5BuW+IEcZF42c3V9WA=='
 
   class {
     'dasz::defaults':
+      distro               => wheezy,
       puppet_agent         => false,
       apt_dater_key        => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCsg5F+Ml0AngmMMKrEr4YW5OP2qe2gpY9pfg0iFwjXnTqh8HZK63+HqmWGrGUt7mPZZMYOnGGkpYDmksqgHZscm6NGIxOvEWg52ZfcBUxIgKkoqZHIMSf/zhCifGxmepMHO/hb7wQKzwuc+XjzOwt70qwkhEDs6flKfYnagwxFC6YvrAeW5h2cwHDQb9To6ryITSvbhbUHNIwKGpYbz0Bqx5sdn2Kca80FsW8ImRmph4albnVMqDTdLCUvZoPhl/z6BCqduFpdPGGkfxicSmOBPRHuQOgTwTAh3aMR0lmnKfNX/wHqYgaWoU+ow+846ob70N949Oy05B/1Dc109Xfh',
       apt_dater_secret_key => 'unused',
       ssh_port             => 22,
       munin_node           => false;
 
-    munin:
-      server  => '192.168.50.4',
-      address => '192.168.50.50';
-
     "puppet":
       mode    => 'client',
       server  => 'puppetmaster.example.org',
       runmode => 'cron',
       require => Class['dasz::defaults'];
-
-    "dhcpd":
-      template => 'site/testagent/dhcpd.conf.erb';
-
-    "foreman":
-      install_mode         => 'none',
-      install_proxy        => true,
-      repo_flavour         => 'rc',
-      proxy_feature_tftp   => true,
-      proxy_feature_dhcp   => true,
-      proxy_dhcp_omapi_key => $testkey;
   }
+}
+
+node 'testagent.example.org' {
+  include testagent_example_org
+
+  apt::repository { "experimental":
+    url        => $dasz::defaults::location ? {
+      'hetzner' => "http://mirror.hetzner.de/debian/packages",
+      default   => 'http://http.debian.net/debian',
+    },
+    distro     => experimental,
+    repository => "main",
+    src_repo   => false,
+    key        => "55BE302B";
+  }
+}
+
+node 'testagent2.example.org' {
+  include testagent_example_org
 }
