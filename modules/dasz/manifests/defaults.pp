@@ -3,6 +3,7 @@ class dasz::defaults (
   $location             = 'unknown',
   $puppet_agent         = true,
   $munin_node           = true,
+  $munin_address        = $::ipaddress,
   $munin_port           = 4949,
   $apt_dater_manager    = false,
   $apt_dater_key        = '',
@@ -91,16 +92,17 @@ class dasz::defaults (
 
   if $munin_node {
     class { "munin":
-      folder => $location ? {
+      folder  => $location ? {
         'tech21'  => 'Tech21',
         'hetzner' => 'Hetzner',
         default   => $location,
       },
-      server => $location ? {
+      server  => $location ? {
         'tech21' => '10.0.0.217',
         default  => '91.217.119.254',
       },
-      port   => $munin_port;
+      address => $munin_address,
+      port    => $munin_port;
     }
   }
 
