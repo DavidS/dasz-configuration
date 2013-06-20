@@ -3,6 +3,7 @@ class dasz::defaults (
   $location             = 'unknown',
   $puppet_agent         = true,
   $munin_node           = true,
+  $munin_port           = 4949,
   $apt_dater_manager    = false,
   $apt_dater_key        = '',
   $apt_dater_secret_key = '',
@@ -98,7 +99,8 @@ class dasz::defaults (
       server => $location ? {
         'tech21' => '10.0.0.217',
         default  => '91.217.119.254',
-      } ;
+      },
+      port   => $munin_port;
     }
   }
 
