@@ -1,5 +1,6 @@
 node 'jenkins.dasz.at' {
   class { 'dasz::defaults': location => tech21; }
+
   apt::repository { 'jenkins':
     url        => 'http://pkg.jenkins-ci.org/debian',
     distro     => '',
