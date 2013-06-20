@@ -133,31 +133,35 @@ class dasz::defaults (
       ensure => absent;
   }
 
-  apt::repository {
-    "${distro}-base":
-      url        => $location ? {
-        'hetzner' => "http://mirror.hetzner.de/debian/packages",
-        default   => 'http://http.debian.net/debian',
-      },
-      distro     => $distro,
-      repository => "main",
-      src_repo   => false,
-      key        => "55BE302B";
+  apt::repository { "${distro}-base":
+    url        => $location ? {
+      'hetzner' => "http://mirror.hetzner.de/debian/packages",
+      default   => 'http://http.debian.net/debian',
+    },
+    distro     => $distro,
+    repository => "main",
+    src_repo   => false,
+    key        => "55BE302B";
+  }
 
-    "${distro}-backports":
-      url        => $distro ? {
-        'squeeze' => 'http://backports.debian.org/debian-backports/',
-        default   => 'http://http.debian.net/debian',
-      },
-      distro     => "${distro}-backports",
-      repository => "main",
-      src_repo   => false;
+  # testing and unstable do not have backports or security repos
+  if ($distro != 'jessie' and $distro != 'sid' and $distro != 'testing' and $distro != 'unstable') {
+    apt::repository {
+      "${distro}-backports":
+        url        => $distro ? {
+          'squeeze' => 'http://backports.debian.org/debian-backports/',
+          default   => 'http://http.debian.net/debian',
+        },
+        distro     => "${distro}-backports",
+        repository => "main",
+        src_repo   => false;
 
-    "${distro}-security":
-      url        => "http://security.debian.org/",
-      distro     => "${distro}/updates",
-      repository => "main",
-      src_repo   => false;
+      "${distro}-security":
+        url        => "http://security.debian.org/",
+        distro     => "${distro}/updates",
+        repository => "main",
+        src_repo   => false;
+    }
   }
 
   if $admin_users {
