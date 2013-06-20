@@ -2,6 +2,7 @@ class dasz::defaults (
   $distro               = $::lsbdistcodename,
   $location             = 'unknown',
   $puppet_agent         = true,
+  $munin_node           = true,
   $apt_dater_manager    = false,
   $apt_dater_key        = '',
   $apt_dater_secret_key = '',
@@ -87,6 +88,20 @@ class dasz::defaults (
     }
   }
 
+  if $munin_node {
+    class { "munin":
+      folder => $location ? {
+        'tech21'  => 'Tech21',
+        'hetzner' => 'Hetzner',
+        default   => $location,
+      },
+      server => $location ? {
+        'tech21' => '10.0.0.217',
+        default  => '91.217.119.254',
+      } ;
+    }
+  }
+
   # export a default host entry for apt-dater
   @@host { $::fqdn:
     host_aliases => [$hostname],
@@ -149,7 +164,8 @@ class dasz::defaults (
       'arthur':
         realname     => 'Arthur Zaczek',
         ssh_key_type => 'ssh-rsa',
-        ssh_key      => 'AAAAB3NzaC1yc2EAAAABJQAAAQB2KUlinYZSvgqjkPUn62qkt8TIy+AbFOuuWMEf5sETWHoOA//RVmK4PkiAnAzdHKkWL0NdMAxkk5pl0guAuQtNZWrNaeqDtoiZX7+D1arPomykuurD27ceKkMgumhP/SHjV4cSvtSKif23X3y9x5mDkzHfewLjKypXBW58MlzhT7SRaMAmD4R1RTNrM4/0RpeiPB9t0wiCkE93ciqutFTm2h279CQnBGMoiV+hE5jloR18dGwByiGR7wpb2hOpmu6Q6CWotFaLWdUKO5TnqRWcOqkfA+H2Bb6wSjugOXek5N/Z7iWgM5IlITrBdLT7heroezLcuSbLtFHh8UVCIzQz';
+        ssh_key      => 'AAAAB3NzaC1yc2EAAAABJQAAAQB2KUlinYZSvgqjkPUn62qkt8TIy+AbFOuuWMEf5sETWHoOA//RVmK4PkiAnAzdHKkWL0NdMAxkk5pl0guAuQtNZWrNaeqDtoiZX7+D1arPomykuurD27ceKkMgumhP/SHjV4cSvtSKif23X3y9x5mDkzHfewLjKypXBW58MlzhT7SRaMAmD4R1RTNrM4/0RpeiPB9t0wiCkE93ciqutFTm2h279CQnBGMoiV+hE5jloR18dGwByiGR7wpb2hOpmu6Q6CWotFaLWdUKO5TnqRWcOqkfA+H2Bb6wSjugOXek5N/Z7iWgM5IlITrBdLT7heroezLcuSbLtFHh8UVCIzQz'
+        ;
     }
   }
 }
