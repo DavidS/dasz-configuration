@@ -65,6 +65,9 @@ class dasz::defaults (
 
     "sudo":
     ;
+
+    "timezone":
+      timezone => 'Europe/Vienna';
   }
 
   file {

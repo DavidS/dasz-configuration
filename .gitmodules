@@ -85,3 +85,6 @@
 [submodule "modules/inittab"]
 	path = modules/inittab
 	url = ../puppet-inittab.git
+[submodule "modules/timezone"]
+	path = modules/timezone
+	url = ../puppet-timezone.git
