@@ -102,8 +102,9 @@ class dasz::defaults (
         default   => $location,
       },
       server  => $location ? {
-        'tech21' => '10.0.0.217',
-        default  => '91.217.119.254',
+        'vagrant' => '192.168.50.5',
+        'tech21'  => '10.0.0.217',
+        default   => '91.217.119.254',
       },
       address => $munin_address,
       port    => $munin_port;
