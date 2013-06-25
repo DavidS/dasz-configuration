@@ -7,8 +7,7 @@ class puppetmaster_example_org {
       puppet_agent         => false,
       apt_dater_manager    => true,
       apt_dater_key        => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCsg5F+Ml0AngmMMKrEr4YW5OP2qe2gpY9pfg0iFwjXnTqh8HZK63+HqmWGrGUt7mPZZMYOnGGkpYDmksqgHZscm6NGIxOvEWg52ZfcBUxIgKkoqZHIMSf/zhCifGxmepMHO/hb7wQKzwuc+XjzOwt70qwkhEDs6flKfYnagwxFC6YvrAeW5h2cwHDQb9To6ryITSvbhbUHNIwKGpYbz0Bqx5sdn2Kca80FsW8ImRmph4albnVMqDTdLCUvZoPhl/z6BCqduFpdPGGkfxicSmOBPRHuQOgTwTAh3aMR0lmnKfNX/wHqYgaWoU+ow+846ob70N949Oy05B/1Dc109Xfh',
-      apt_dater_secret_key => template('site/puppetmaster/apt-dater-test-secret'),
-      munin_node           => false;
+      apt_dater_secret_key => template('site/puppetmaster/apt-dater-test-secret');
 
     "foreman":
       install_mode           => all,
@@ -70,12 +69,6 @@ class puppetmaster_example_org {
     require => Package['foreman'],
     before  => Apache::Vhost['foreman'];
   }
-
-  file { "/etc/apache2/conf.d/munin":
-    ensure  => present,
-    content => template('site/puppetmaster/munin-apache.conf.erb'),
-    require => Package['munin'];
-  }
 }
 
 node 'puppetmaster.example.org' {
@@ -93,8 +86,7 @@ class testagent_example_org {
       puppet_agent         => false,
       apt_dater_key        => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCsg5F+Ml0AngmMMKrEr4YW5OP2qe2gpY9pfg0iFwjXnTqh8HZK63+HqmWGrGUt7mPZZMYOnGGkpYDmksqgHZscm6NGIxOvEWg52ZfcBUxIgKkoqZHIMSf/zhCifGxmepMHO/hb7wQKzwuc+XjzOwt70qwkhEDs6flKfYnagwxFC6YvrAeW5h2cwHDQb9To6ryITSvbhbUHNIwKGpYbz0Bqx5sdn2Kca80FsW8ImRmph4albnVMqDTdLCUvZoPhl/z6BCqduFpdPGGkfxicSmOBPRHuQOgTwTAh3aMR0lmnKfNX/wHqYgaWoU+ow+846ob70N949Oy05B/1Dc109Xfh',
       apt_dater_secret_key => 'unused',
-      ssh_port             => 22,
-      munin_node           => false;
+      ssh_port             => 22;
 
     "puppet":
       mode    => 'client',
@@ -121,4 +113,15 @@ node 'testagent.example.org' {
 
 node 'testagent2.example.org' {
   include testagent_example_org
+
+  apt::repository { "experimental":
+    url        => $dasz::defaults::location ? {
+      'hetzner' => "http://mirror.hetzner.de/debian/packages",
+      default   => 'http://http.debian.net/debian',
+    },
+    distro     => experimental,
+    repository => "main",
+    src_repo   => false,
+    key        => "55BE302B";
+  }
 }
