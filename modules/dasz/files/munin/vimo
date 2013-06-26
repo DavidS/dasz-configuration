@@ -1,0 +1,49 @@
+#!/bin/bash
+
+VIMO_DIR=/srv/www/sh.dasz.at
+LOG_DIR="$VIMO_DIR/App_Data/Logging"
+
+. $MUNIN_LIBDIR/plugins/plugin.sh
+
+cd "$LOG_DIR"
+
+if [ "$1" = "config" ]; then
+
+        echo 'graph_title Vimo Errors'
+        echo 'graph_args --base 1000'
+        echo 'graph_vlabel messages'
+        echo 'graph_category application'
+        echo 'graph_period second'
+        echo 'graph_info This graph shows the log activity of vimo components.'
+
+
+        for level in INFO WARN ERROR FATAL; do
+        for log in *.txt; do
+                base="$(basename "$log" .txt)"_$level
+                echo "$base.label $base"
+                echo "$base.type DERIVE"
+                echo "$base.min 0"
+                echo "$base.info The number of errors in $base."
+                print_warning $base
+                print_critical $base
+        done
+        done
+
+        exit 0
+fi
+
+perl -n -e 'next unless /\[(INFO|WARN|ERROR|FATAL)\]/;
+        $level = $1;
+        $ARGV =~ /(.*).txt$/;
+        $key = "${1}_$level";
+        $count{$key} += 1;
+        END {
+                foreach (glob "*.txt") {
+                        /(.*).txt$/;
+                        $file=$1;
+                        foreach(qw( INFO WARN ERROR FATAL )) {
+                                $count = $count{"${file}_$_"} || 0;
+                                print "${file}_$_.value $count\n" } } }' *.txt
+
+
+
