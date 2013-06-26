@@ -60,7 +60,7 @@ class dasz::defaults (
     "openssh":
       address           => $ssh_address,
       port              => $ssh_port,
-      template          => "openssh/sshd_config-wheezy.erb",
+      template          => "openssh/sshd_config-${::lsbdistcodename}.erb",
       exchange_hostkeys => true;
 
     "rsyslog":
