@@ -108,6 +108,7 @@ class dasz::defaults (
         'tech21'  => '10.0.0.217',
         default   => '91.217.119.254',
       },
+      autoconfigure => once,
       address => $munin_address,
       port    => $munin_port;
     }

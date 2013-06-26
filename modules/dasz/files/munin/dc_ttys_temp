@@ -1,0 +1,42 @@
+#!/bin/bash
+#%# capabilities=autoconf
+
+TTY=/dev/ttyUSB0
+
+if [ "$1" = "autoconf" ]; then
+        echo 'yes'
+        exit 0
+fi
+
+if [ "$1" = "config" ]; then
+        echo 'graph_title Temperature'
+        echo 'graph_args --base 1000 -l 0'
+        echo 'graph_vlabel temp in ▒C'
+        echo 'graph_category sensors'
+        echo 'graph_info This graph shows temperatures based on the serially attached sensor.'
+        echo temp.label temp
+        echo temp.info temperature
+        echo temp.warning 20:30
+        echo temp.critical 5:35
+        echo temp.max 99
+        exit 0
+fi
+
+(
+        TEMP=$(head -n 1 $TTY | cut -d, -f 1)
+        TEMP=${TEMP#0x}
+        TEMP=$(echo -e ibase=16\\n$TEMP | bc -l)
+        # echo READ $TEMP
+        a=.00000000001043207840
+        b=-0.000180358
+        c=776.0385276
+        # echo "$a*$TEMP*$TEMP + $b*$TEMP + $c"
+        echo temp.value $(echo "$a*$TEMP*$TEMP + $b*$TEMP + $c" | bc -l)
+) &
+
+sleep 1
+echo -ne '$01R1\r' > $TTY
+
+wait
+
+

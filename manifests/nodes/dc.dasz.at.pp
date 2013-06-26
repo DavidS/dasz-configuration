@@ -3,14 +3,12 @@ node 'dc.dasz.at' {
     location    => tech21,
     admin_users => false; # collides with local ldap setup
   }
-  file {
-    '/etc/munin/plugins/ttys_temp':
-      ensure => link,
-      target => '/etc/munin/ttys_temp',
-      notify => Service['munin-node'];
-    '/etc/munin/plugins/sensors':
-      ensure => link,
-      target => '/etc/munin/sensors',
-      notify => Service['munin-node'];
+  munin::plugin {
+    'sensors_temp':
+      linkplugins => true,
+      linktarget  => 'sensors_';
+    'ttys_temp':
+      source      => 'dasz/munin/dc_ttys_temp',
+      linkplugins => true;
   }
 }
