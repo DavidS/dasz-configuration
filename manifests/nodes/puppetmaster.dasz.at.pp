@@ -28,7 +28,7 @@ node 'puppetmaster.dasz.at' {
       db_password            => file("/srv/puppet/secrets/${::fqdn}/foreman.password"),
       unattended             => true,
       # There currently is no working stable release (candidate) for wheezy
-      repo_flavour           => nightly,
+      repo_flavour           => rc,
       install_proxy          => true,
       proxy_feature_puppet   => true,
       proxy_feature_puppetca => true,
