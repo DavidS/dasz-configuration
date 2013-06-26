@@ -8,6 +8,7 @@ class dasz::defaults (
   $apt_dater_manager    = false,
   $apt_dater_key        = '',
   $apt_dater_secret_key = '',
+  $ssh_address          = '*',
   $ssh_port             = 22, # can be used on non-public sshds to reduce ssh bruteforce spamming, or avoid conflicts on shared IPs
   $admin_users          = true,) {
   case $::virtual {
@@ -57,6 +58,7 @@ class dasz::defaults (
     ;
 
     "openssh":
+      address           => $ssh_address,
       port              => $ssh_port,
       template          => "openssh/sshd_config-wheezy.erb",
       exchange_hostkeys => true;
