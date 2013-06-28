@@ -187,8 +187,4 @@ class dasz::defaults (
         ;
     }
   }
-
-  file { [ '/etc/cron.d/puppet', '/etc/rsyslog.d/puppet.conf' ]:
-    ensure => absent;
-  }
 }
