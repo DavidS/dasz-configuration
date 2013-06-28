@@ -98,19 +98,19 @@ class dasz::defaults (
 
   if $munin_node {
     class { "munin":
-      folder  => $location ? {
+      folder        => $location ? {
         'tech21'  => 'Tech21',
         'hetzner' => 'Hetzner',
         default   => $location,
       },
-      server  => $location ? {
+      server        => $location ? {
         'vagrant' => '192.168.50.5',
         'tech21'  => '10.0.0.217',
         default   => '91.217.119.254',
       },
       autoconfigure => once,
-      address => $munin_address,
-      port    => $munin_port;
+      address       => $munin_address,
+      port          => $munin_port;
     }
   }
 
