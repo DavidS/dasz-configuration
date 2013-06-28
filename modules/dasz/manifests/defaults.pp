@@ -129,7 +129,10 @@ class dasz::defaults (
   package {
     [
       "vim",
-      "lsb-release"]:
+      "lsb-release",
+      "mmv",
+      "strace",
+      "lsof"]:
       ensure => installed;
 
     [
