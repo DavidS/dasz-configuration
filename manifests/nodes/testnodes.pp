@@ -85,17 +85,12 @@ node 'testagent.example.org' {
       server  => 'puppetmaster.example.org',
       runmode => 'cron',
       require => Class['dasz::defaults'];
-  }
 
-  apt::repository { "experimental":
-    url        => $dasz::defaults::location ? {
-      'hetzner' => "http://mirror.hetzner.de/debian/packages",
-      default   => 'http://http.debian.net/debian',
-    },
-    distro     => experimental,
-    repository => "main",
-    src_repo   => false,
-    key        => "55BE302B";
+    'experimental':
+    ;
+
+    'apt::repo::meebey':
+    ;
   }
 }
 
@@ -144,5 +139,18 @@ node 'workstation.example.org' {
 
     'testagent.example.org':
       ip => '192.168.50.50';
+  }
+}
+
+class experimental {
+  apt::repository { "experimental":
+    url        => $dasz::defaults::location ? {
+      'hetzner' => "http://mirror.hetzner.de/debian/packages",
+      default   => 'http://http.debian.net/debian',
+    },
+    distro     => experimental,
+    repository => "main",
+    src_repo   => false,
+    key        => "55BE302B";
   }
 }
