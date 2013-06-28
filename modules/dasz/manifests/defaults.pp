@@ -174,7 +174,7 @@ class dasz::defaults (
       "david":
         realname     => 'David Schmitt',
         ssh_key_type => 'ssh-rsa',
-        ssh_key      => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC+PMJEejWaaoCHa46au1dBY+Atp53DSe4tSp28yFapd8/l40F9ENakp5V/58v+xMqQur1Wrj3xyFyavKMBSWedlezvUQKI4YMzH0VYJ0omrqkAKtZR/essZOBAHIB7fVXk4HHB6u5kNLXzGzESSiDDskmKTiN9ogQjWwCtdtk2DyooKMeA+nzWMmXoIOdUBxaZZkK12NT+LrMb8FyqhfUAHrpt2dK8L5xXnQ/xCFVbLgnsLe9aw/0qFtNndgw+0RuLm7jjetz7gYAQ4SpQAKiGC0wQLhB8ZLGKt/W+kCbdRO2WEjXzZxRAbjQyHao8gdCfHrflqy2rDm/ZXVikUwDV'
+        ssh_key      => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQC6nfLnzeT4NmXy53/8ZCbvcbgZ496s5+o7ouIAhuNs7jzLBTSdXxJAxdDuX2RYJVL3AmcBkhrg2sL2dMnXrhP7KT/55z1vYFds80a6byWnFUKs/ZJAamEh+FfWkfbMe7MxdWn3qt832Kr6+t2/mxgZA+c0b4hHZuZy7VLw6O2hoLhrudOJV11GdMEebx9vNThj3NMsjtYOdaGiX8FgxpaI5JwahkuhCr/D6qSgu/GbWGuYc9r1O1QUy+lsuV8oe9LQdfT3j7dhLW1EsTNRzhsQJXKpfV0PPrYonNYQsyCoVEhP+2gqlnwEePeKaGYnxNYvqrWnXBs3j6sInwb0Btv/'
         ;
 
       'arthur':
