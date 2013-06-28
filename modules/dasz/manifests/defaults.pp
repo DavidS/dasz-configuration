@@ -2,8 +2,8 @@ class dasz::defaults (
   $distro               = $::lsbdistcodename,
   $location             = 'unknown',
   $puppet_agent         = true,
+  $primary_ip           = $::ipaddress,
   $munin_node           = true,
-  $munin_address        = $::ipaddress,
   $munin_port           = 4949,
   $apt_dater_manager    = false,
   $apt_dater_key        = '',
@@ -109,7 +109,7 @@ class dasz::defaults (
         default   => '91.217.119.254',
       },
       autoconfigure => once,
-      address       => $munin_address,
+      address       => $primary_ip,
       port          => $munin_port;
     }
   }
@@ -117,7 +117,7 @@ class dasz::defaults (
   # export a default host entry for apt-dater
   @@host { $::fqdn:
     host_aliases => [$hostname],
-    ip           => $::ipaddress,
+    ip           => $primary_ip,
     tag          => 'dasz::default_host';
   }
 
