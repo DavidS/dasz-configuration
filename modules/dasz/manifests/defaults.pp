@@ -132,7 +132,8 @@ class dasz::defaults (
       "lsb-release",
       "mmv",
       "strace",
-      "lsof"]:
+      "lsof",
+      "screen"]:
       ensure => installed;
 
     [
