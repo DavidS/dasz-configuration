@@ -8,7 +8,7 @@ tls-server
 ifconfig 192.168.0.254 255.255.255.0
 
 client-to-client
-dh dh1024.pem
+dh maria-ca/keys/dh4096.pem
 ca maria-ca/keys/ca.crt
 cert maria-ca/keys/<%= @fqdn %>.crt
 key maria-ca/keys/<%= @fqdn %>.key
