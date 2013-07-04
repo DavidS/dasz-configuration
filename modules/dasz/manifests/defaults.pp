@@ -80,6 +80,15 @@ class dasz::defaults (
       remoterelay => 'hosting.edv-bus.at',
       remoteopts  => '--ssl';
     }
+
+    @@file { "/var/lib/puppet/modules/ssmtp/domains/${::fqdn}":
+      ensure  => present,
+      content => 'root: root@dasz.at',
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      tag     => 'nullmailer_workaround';
+    }
   }
 
   file {

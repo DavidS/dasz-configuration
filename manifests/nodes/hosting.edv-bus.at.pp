@@ -3,4 +3,6 @@ node 'hosting.edv-bus.at' {
     location    => hetzner,
     admin_users => false; # collides with existing users
   }
+
+  File <<| tag == 'nullmailer_workaround' |>>
 }
