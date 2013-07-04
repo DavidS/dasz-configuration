@@ -1,8 +1,9 @@
 node 'monitor.dasz.at' {
   class {
     'dasz::defaults':
-      location   => tech21,
-      munin_node => false;
+      location         => tech21,
+      munin_node       => false,
+      force_nullmailer => true;
 
     'munin':
       folder            => 'Tech21',

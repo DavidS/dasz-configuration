@@ -10,7 +10,8 @@ class dasz::defaults (
   $apt_dater_secret_key = '',
   $ssh_address          = '*',
   $ssh_port             = 22, # can be used on non-public sshds to reduce ssh bruteforce spamming, or avoid conflicts on shared IPs
-  $admin_users          = true,) {
+  $admin_users          = true,
+  $force_nullmailer     = false) {
   case $::virtual {
     'vserver' : {
       # only remove the package. See https://github.com/example42/puppet-ntp/issues/20
@@ -71,6 +72,14 @@ class dasz::defaults (
 
     "timezone":
       timezone => 'Europe/Vienna';
+  }
+
+  if $force_nullmailer {
+    class { "nullmailer":
+      adminaddr   => 'hetz@dasz.at',
+      remoterelay => 'hosting.edv-bus.at',
+      remoteopts  => '--ssl';
+    }
   }
 
   file {

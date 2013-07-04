@@ -1,5 +1,8 @@
 node 'jenkins.dasz.at' {
-  class { 'dasz::defaults': location => tech21; }
+  class { 'dasz::defaults':
+    location         => tech21,
+    force_nullmailer => true;
+  }
 
   apt::repository { 'jenkins':
     url        => 'http://pkg.jenkins-ci.org/debian',
