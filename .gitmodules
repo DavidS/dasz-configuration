@@ -88,3 +88,6 @@
 [submodule "modules/timezone"]
 	path = modules/timezone
 	url = ../puppet-timezone.git
+[submodule "modules/openvpn"]
+	path = modules/openvpn
+	url = ../puppet-openvpn.git
