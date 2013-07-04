@@ -10,8 +10,8 @@ route 10.0.0.0 255.255.255.0
 
 ca dasz-ca/keys/ca.crt
 dh dasz-ca/keys/dh4096.pem
-cert dasz-ca/keys/hetz3.black.co.at.crt
-key dasz-ca/keys/hetz3.black.co.at.key
+cert dasz-ca/keys/<%= @fqdn %>.crt
+key dasz-ca/keys/<%= @fqdn %>.key
 remote-cert-tls client
 
 status /var/run/openvpn-<%= @name %>-status.log

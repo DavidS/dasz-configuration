@@ -36,33 +36,6 @@ node 'hetz3.black.co.at' {
       owner  => 'foreman-mgr',
       group  => 'foreman-mgr',
       mode   => 0600;
-
-    "/etc/openvpn/dasz-ca":
-      ensure => directory,
-      mode   => '0700',
-      owner  => root,
-      group  => root,
-      notify => Class['openvpn'];
-
-    "/etc/openvpn/dasz-ca/keys":
-      ensure  => directory,
-      mode    => '0700',
-      owner   => root,
-      group   => root,
-      source  => 'puppet:///secrets/openvpn_ca/dasz-ca/keys',
-      ignore  => ['*.key', '*.csr'],
-      recurse => true,
-      force   => true,
-      purge   => true,
-      notify  => Class['openvpn'];
-
-    "/etc/openvpn/dasz-ca/keys/${::fqdn}.key":
-      ensure => directory,
-      mode   => '0600',
-      owner  => root,
-      group  => root,
-      source => "puppet:///secrets/openvpn_ca/dasz-ca/keys/${::fqdn}.key",
-      notify => Class['openvpn'];
   }
 
   openvpn::tunnel {
@@ -80,5 +53,42 @@ node 'hetz3.black.co.at' {
       port     => 1199,
       server   => '10.254.0.9 10.254.0.10',
       template => 'site/hosting3.edv-bus.at/openvpn_dasz-lan-nb.conf.erb';
+
+    'maria':
+      port     => 1195,
+      template => 'site/hosting3.edv-bus.at/openvpn_maria.conf.erb';
+  }
+
+  ca { ['dasz', 'maria']: }
+}
+
+define ca () {
+  file {
+    "/etc/openvpn/${name}-ca":
+      ensure => directory,
+      mode   => '0700',
+      owner  => root,
+      group  => root,
+      notify => Class['openvpn'];
+
+    "/etc/openvpn/${name}-ca/keys":
+      ensure  => directory,
+      mode    => '0700',
+      owner   => root,
+      group   => root,
+      source  => 'puppet:///secrets/openvpn_ca/${name}-ca/keys',
+      ignore  => ['*.key', '*.csr'],
+      recurse => true,
+      force   => true,
+      purge   => true,
+      notify  => Class['openvpn'];
+
+    "/etc/openvpn/dasz-ca/keys/${::fqdn}.key":
+      ensure => directory,
+      mode   => '0600',
+      owner  => root,
+      group  => root,
+      source => "puppet:///secrets/openvpn_ca/${name}-ca/keys/${::fqdn}.key",
+      notify => Class['openvpn'];
   }
 }
