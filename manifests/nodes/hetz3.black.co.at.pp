@@ -76,7 +76,7 @@ define ca () {
       mode    => '0700',
       owner   => root,
       group   => root,
-      source  => 'puppet:///secrets/openvpn_ca/${name}-ca/keys',
+      source  => "puppet:///secrets/openvpn_ca/${name}-ca/keys",
       ignore  => ['*.key', '*.csr'],
       recurse => true,
       force   => true,
