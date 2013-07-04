@@ -76,7 +76,7 @@ class dasz::defaults (
 
   if $force_nullmailer {
     class { "nullmailer":
-      adminaddr   => 'hetz@dasz.at',
+      adminaddr   => 'root@dasz.at',
       remoterelay => 'hosting.edv-bus.at',
       remoteopts  => '--ssl';
     }
