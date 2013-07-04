@@ -13,6 +13,7 @@ dh dasz-ca/keys/dh4096.pem
 cert dasz-ca/keys/<%= @fqdn %>.crt
 key dasz-ca/keys/<%= @fqdn %>.key
 remote-cert-tls client
+crl-verify dasz-ca/keys/crl.pem
 
 status /var/run/openvpn-<%= @name %>-status.log
 
