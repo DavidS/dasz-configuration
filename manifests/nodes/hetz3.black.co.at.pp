@@ -68,6 +68,7 @@ node 'hetz3.black.co.at' {
   openvpn::tunnel {
     'dasz-lan':
       port     => 1197,
+      server   => '10.254.0.1 10.254.0.2',
       template => 'site/hosting3.edv-bus.at/openvpn_dasz-lan.conf.erb';
 
     'dasz-lan-david-nb':
