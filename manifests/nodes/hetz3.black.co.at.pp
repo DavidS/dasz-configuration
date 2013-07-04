@@ -83,7 +83,7 @@ define ca () {
       purge   => true,
       notify  => Class['openvpn'];
 
-    "/etc/openvpn/dasz-ca/keys/${::fqdn}.key":
+    "/etc/openvpn/${name}-ca/keys/${::fqdn}.key":
       ensure => directory,
       mode   => '0600',
       owner  => root,
