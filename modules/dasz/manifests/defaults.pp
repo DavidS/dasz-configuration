@@ -133,12 +133,14 @@ class dasz::defaults (
       "mmv",
       "strace",
       "lsof",
-      "screen"]:
+      "screen",
+      "mtr-tiny"]:
       ensure => installed;
 
     [
       "vim-tiny",
-      "nano"]:
+      "nano",
+      "apt-listchanges"]:
       ensure => absent;
   }
 
