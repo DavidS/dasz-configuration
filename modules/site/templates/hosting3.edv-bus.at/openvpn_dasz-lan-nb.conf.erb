@@ -1,0 +1,23 @@
+local <%= @ipaddress %>
+port <%= port %>
+proto <%= real_proto %>
+
+dev tun
+tls-server
+
+ifconfig <%= @server %>
+
+ca dasz-ca/keys/ca.crt
+dh dasz-ca/keys/dh4096.pem
+cert dasz-ca/keys/hetz3.black.co.at.crt
+key dasz-ca/keys/hetz3.black.co.at.key
+remote-cert-tls client
+
+status /var/run/openvpn-<%= @name %>-status.log
+
+# set to 3 for production
+verb 3
+
+script-security 2
+
+keepalive 5 20
