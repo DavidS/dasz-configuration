@@ -41,7 +41,8 @@ node 'hetz3.black.co.at' {
       ensure => directory,
       mode   => '0700',
       owner  => root,
-      group  => root;
+      group  => root,
+      notify => Class['openvpn'];
 
     "/etc/openvpn/dasz-ca/keys":
       ensure  => directory,
@@ -52,7 +53,16 @@ node 'hetz3.black.co.at' {
       ignore  => ['*.key', '*.csr'],
       recurse => true,
       force   => true,
-      purge   => true;
+      purge   => true,
+      notify  => Class['openvpn'];
+
+    "/etc/openvpn/dasz-ca/keys/${::fqdn}.key":
+      ensure => directory,
+      mode   => '0600',
+      owner  => root,
+      group  => root,
+      source => "puppet:///secrets/openvpn_ca/dasz-ca/keys/${::fqdn}.key",
+      notify => Class['openvpn'];
   }
 
   openvpn::tunnel {
