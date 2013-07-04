@@ -91,3 +91,6 @@
 [submodule "modules/openvpn"]
 	path = modules/openvpn
 	url = ../puppet-openvpn.git
+[submodule "modules/nullmailer"]
+	path = modules/nullmailer
+	url = git@github.com:DavidS/puppet-nullmailer.git
