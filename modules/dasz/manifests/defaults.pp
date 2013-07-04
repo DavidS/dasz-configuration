@@ -134,7 +134,8 @@ class dasz::defaults (
       "strace",
       "lsof",
       "screen",
-      "mtr-tiny"]:
+      "mtr-tiny",
+      "etckeeper"]:
       ensure => installed;
 
     [
