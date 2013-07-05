@@ -5,8 +5,7 @@ node 'squeeze.dasz.at' {
   }
 
   munin::plugin { 'zetbox_exceptions_ini50':
-    source        => 'dasz/munin/zetbox_exceptions_',
-    source_config => 'dasz/munin/zetbox_exceptions_ini50',
-    linkplugins   => true;
+    source        => 'puppet:///modules/dasz/munin/zetbox_exceptions_',
+    config_source => 'puppet:///modules/dasz/munin/zetbox_exceptions_ini50';
   }
 }

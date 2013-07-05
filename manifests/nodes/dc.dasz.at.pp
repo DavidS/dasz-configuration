@@ -7,23 +7,18 @@ node 'dc.dasz.at' {
 
   munin::plugin {
     'sensors_temp':
-      linkplugins => true,
-      linktarget  => 'sensors_';
+      target => "${munin::plugins_dir}/sensors_";
 
     'ping_8.8.8.8':
-      linkplugins => true,
-      linktarget  => 'ping_';
+      target => "${munin::plugins_dir}/ping_";
 
     'ping_hosting.edv-bus.at':
-      linkplugins => true,
-      linktarget  => 'ping_';
+      target => "${munin::plugins_dir}/ping_";
 
     'ping_www.uni-ak.ac.at':
-      linkplugins => true,
-      linktarget  => 'ping_';
+      target => "${munin::plugins_dir}/ping_";
 
     'ttys_temp':
-      source      => 'dasz/munin/dc_ttys_temp',
-      linkplugins => true;
+      source => 'puppet:///modules/dasz/munin/dc_ttys_temp';
   }
 }
