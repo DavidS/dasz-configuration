@@ -134,7 +134,7 @@ class dasz::defaults (
     }
   }
 
-  munin::plugin { 'apt': ; }
+  munin::plugin { 'apt_all': ; }
 
   # export a default host entry for apt-dater
   @@host { $::fqdn:
