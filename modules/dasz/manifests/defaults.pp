@@ -134,7 +134,21 @@ class dasz::defaults (
     }
   }
 
-  munin::plugin { 'apt_all': ; }
+  munin::plugin {
+    'apt': ;
+
+    'apt_all':
+      ensure => absent; # only works if testing and unstable sources are configured
+  }
+
+  # replace default cronjob to workaround bug in apt update
+  file { '/etc/cron.d/munin-node':
+    ensure => present,
+    source => 'puppet:///modules/site/munin-node.cron',
+    mode   => '0644',
+    owner  => root,
+    group  => root;
+  }
 
   # export a default host entry for apt-dater
   @@host { $::fqdn:
