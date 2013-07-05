@@ -107,10 +107,12 @@ class dasz::defaults (
 
   if $puppet_agent {
     class { "puppet":
-      mode    => 'client',
-      server  => 'puppetmaster.dasz.at', # can be configured more globally
-      runmode => 'cron',
-      require => Apt::Repository["puppetlabs"];
+      mode            => 'client',
+      server          => 'puppetmaster.dasz.at', # can be configured more globally
+      runmode         => 'cron',
+      prerun_command  => '/etc/puppet/etckeeper-commit-pre',
+      postrun_command => '/etc/puppet/etckeeper-commit-post',
+      require         => Apt::Repository["puppetlabs"];
     }
   }
 
