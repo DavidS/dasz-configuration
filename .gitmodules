@@ -94,3 +94,6 @@
 [submodule "modules/nullmailer"]
 	path = modules/nullmailer
 	url = ../puppet-nullmailer.git
+[submodule "modules/nginx"]
+	path = modules/nginx
+	url = ../puppet-nginx.git
