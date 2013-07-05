@@ -88,10 +88,7 @@ node 'testagent.example.org' {
       runmode => 'cron',
       require => Class['dasz::defaults'];
 
-    'experimental':
-    ;
-
-    'apt::repo::meebey':
+    'nginx':
     ;
   }
 }
