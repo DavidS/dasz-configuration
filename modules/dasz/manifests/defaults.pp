@@ -78,7 +78,10 @@ class dasz::defaults (
     class { "nullmailer":
       adminaddr   => 'root@dasz.at',
       remoterelay => 'hosting.edv-bus.at',
-      remoteopts  => '--ssl';
+      remoteopts  => $::lsbdistcodename ? {
+        'squeeze' => undef,
+        default   => '--ssl'
+      } ;
     }
 
     @@file { "/var/lib/puppet/modules/ssmtp/domains/${::fqdn}":
