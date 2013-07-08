@@ -1,0 +1,14 @@
+dev tap
+
+remote hetz3.black.co.at
+port 1197
+proto udp
+
+tls-client
+ca ca.crt
+cert david-nb.crt
+key david-nb.key
+remote-cert-tls server
+
+verb 3
+keepalive 5 20
