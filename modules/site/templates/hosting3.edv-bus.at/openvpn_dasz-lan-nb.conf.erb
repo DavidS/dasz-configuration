@@ -1,6 +1,7 @@
 local <%= @ipaddress %>
 port <%= @port %>
 proto <%= @real_proto %>
+mode server
 
 dev tun
 tls-server
@@ -18,7 +19,3 @@ status /var/run/openvpn-<%= @name %>-status.log
 
 # set to 3 for production
 verb 3
-
-script-security 2
-
-keepalive 5 20
