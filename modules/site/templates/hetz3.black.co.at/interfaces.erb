@@ -1,0 +1,33 @@
+### Hetzner Online AG - installimage
+### Deployed by puppet
+# Loopback device:
+auto lo
+iface lo inet loopback
+
+# device: eth0
+auto  eth0
+iface eth0 inet manual
+
+auto br0
+iface br0 inet static
+  bridge_ports eth0
+  address   88.198.141.234
+  broadcast 88.198.141.255
+  netmask   255.255.255.224
+  gateway   88.198.141.225
+  # default route to access subnet
+  # not needed, kills inter-vm communication
+  # up route add -net 88.198.141.224 netmask 255.255.255.224 gw 88.198.141.225 br0
+  
+iface br0 inet6 static
+  address 2a01:4f8:190:62e9::2
+  netmask 64
+  gateway fe80::1
+
+iface vnet0 inet manual
+   hwaddress ether fe:50:56:00:12:50
+
+allow-hotplug tap0
+iface tap0 inet dhcp
+
+

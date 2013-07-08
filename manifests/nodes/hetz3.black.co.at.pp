@@ -37,6 +37,10 @@ node 'hetz3.black.co.at' {
       owner  => 'foreman-mgr',
       group  => 'foreman-mgr',
       mode   => 0600;
+
+    "/etc/network/interfaces":
+      ensure  => present,
+      content => template("site/${::fqdn}/interfaces.erb");
   }
 
   openvpn::tunnel {
