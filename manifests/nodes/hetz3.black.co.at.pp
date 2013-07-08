@@ -60,7 +60,8 @@ node 'hetz3.black.co.at' {
 
     'maria':
       port     => 1195,
-      proto    => 'tcp-server',
+      proto    => 'tcp',
+      mode     => 'server',
       template => 'site/hosting3.edv-bus.at/openvpn_maria.conf.erb';
   }
 
