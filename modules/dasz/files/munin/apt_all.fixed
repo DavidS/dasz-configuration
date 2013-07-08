@@ -98,6 +98,7 @@ sub update_state() {
 				    foreach my $package (split /\s+/)
 				    {
 					    next unless ($package =~ /\S/);
+					    next if ($package =~ /^(sysvinit|systemd-sysv)$/);
 					    push (@remove, "-$package");
 				    }
 			    }
@@ -111,6 +112,7 @@ sub update_state() {
 				    foreach my $package (split /\s+/)
 				    {
 					    next unless ($package =~ /\S/);
+					    next if ($package =~ /^(sysvinit|systemd-sysv)$/);
 					    push (@install, "+$package");
 				    }
 			    }
