@@ -1,0 +1,16 @@
+# default non-ssl server: only hit if no more specific vhost matches
+server {
+	listen   80; ## listen for ipv4
+	##listen   [::]:80 default ipv6only=on; ## listen for ipv6
+
+	server_name  localhost;
+
+	access_log  /var/log/nginx/localhost.access.log;
+
+	location /nginx_status {
+		stub_status on;
+		access_log off;
+		allow 127.0.0.1;
+		deny all;
+	}
+}

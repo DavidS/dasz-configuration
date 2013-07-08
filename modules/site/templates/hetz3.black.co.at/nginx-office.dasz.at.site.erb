@@ -1,0 +1,160 @@
+server {
+	server_name	office.dasz.at;
+
+	access_log  /var/log/nginx/office.dasz.at.access.log;
+	# error_log	/var/log/nginx/office.dasz.at.error.log debug;
+
+	root /srv/www;
+	index default.htm;
+
+	location /ngf {
+		proxy_pass http://office/ngf;
+		proxy_set_header Host office.dasz.at;
+	}
+
+	location ~* ^/fogbugz/ {
+		rewrite ^ https://office.dasz.at/FogBugz/ permanent;
+	}
+}
+
+upstream fw_schmidg {
+	server 192.168.0.2:443;
+	keepalive 10;
+}
+
+server {
+	listen 443;
+
+	server_name	office.dasz.at;
+
+	ssl on;
+	ssl_certificate	/etc/nginx/certs/office.dasz.at.bundle.crt;
+	ssl_certificate_key	/etc/nginx/certs/office.dasz.at.key;
+
+	access_log  /var/log/nginx/office.dasz.at.access.log;
+	#error_log	/var/log/nginx/office.dasz.at.error.log debug;
+
+##########################################################################
+########  FogBugz  #######################################################
+##########################################################################
+
+	location ^~ /FogBugz {
+		proxy_pass http://office/FogBugz;
+		proxy_set_header Host office.dasz.at;
+		proxy_redirect http://office/ https://office.dasz.at/;
+		proxy_redirect http://office.dasz.at/ https://office.dasz.at/;
+	}
+
+	location ~* ^/fogbugz$ {
+		rewrite ^ https://office.dasz.at/FogBugz/ permanent;
+	}
+
+	location ~* ^/fogbugz/ {
+		rewrite ^/[^/]*/(.*)$ https://office.dasz.at/FogBugz/$1 permanent;
+	}
+
+##########################################################################
+########  munin  #########################################################
+##########################################################################
+
+	location = /munin {
+		rewrite / https://office.dasz.at/munin/ permanent;
+	}
+
+	location /munin/ {
+		proxy_pass http://monitor/munin/;
+		proxy_set_header Host monitor;
+	}
+
+	location /munin-cgi/ {
+		proxy_pass http://monitor/munin-cgi/;
+		proxy_set_header Host monitor;
+	}
+
+##########################################################################
+########  nagios  ########################################################
+##########################################################################
+
+	location = /nagios {
+		rewrite / https://office.dasz.at/nagios3/ permanent;
+	}
+
+	location = /nagios3 {
+		rewrite / https://office.dasz.at/nagios3/ permanent;
+	}
+
+	location /nagios3/ {
+		proxy_pass http://monitor/nagios3/;
+		proxy_set_header Host monitor;
+	}
+
+	location /cgi-bin/nagios3/ {
+		proxy_pass http://monitor/cgi-bin/nagios3/;
+		proxy_set_header Host monitor;
+	}
+
+##########################################################################
+########  backuppc schmidgasse  ##########################################
+##########################################################################
+
+	location = /backuppc {
+		rewrite / https://office.dasz.at/backuppc/ permanent;
+	}
+
+	location /backuppc/ {
+		proxy_pass https://fw_schmidg;
+		proxy_set_header Host fw-schmidg.edv-bus.at;
+	}
+
+##########################################################################
+########  backuppc tech21  ###############################################
+##########################################################################
+
+	location = /backuppc-tech21 {
+		rewrite / https://office.dasz.at/backuppc/ permanent;
+	}
+
+	location /backuppc-tech21/ {
+		proxy_pass http://10.0.0.1/backuppc/;
+		proxy_set_header Host dc;
+	}
+
+##########################################################################
+########  FH App: LiveEOG  ###############################################
+##########################################################################
+
+	location = /LiveEOG {
+		rewrite / https://office.dasz.at/LiveEOG/ permanent;
+	}
+
+	location /LiveEOG/ {
+		proxy_pass https://office/LiveEOG;
+		proxy_set_header Host office.dasz.at;
+	}
+
+##########################################################################
+########  nuget feeder  ##################################################
+##########################################################################
+
+	location /ngf {
+		proxy_pass https://office/ngf;
+		proxy_set_header Host office.dasz.at;
+		proxy_redirect http://office/ https://office.dasz.at/;
+		proxy_redirect http://office.dasz.at/ https://office.dasz.at/;
+	}
+
+##########################################################################
+########  default location: local  #######################################
+##########################################################################
+
+	location / {
+		rewrite ^/ngf http://office.dasz.at/ngf permanent;
+		root /srv/www;
+		index default.htm publish.htm;
+		# proxy_pass http://office;
+		# proxy_http_version 1.1;
+		# proxy_set_header Host office;
+		# proxy_set_header Connection "";
+	}
+}
+
