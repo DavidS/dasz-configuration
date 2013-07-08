@@ -93,10 +93,15 @@ node 'hetz3.black.co.at' {
       template       => "site/${::fqdn}/nginx-office.dasz.at.site.erb";
   }
 
-  # required so that nginx finds the upstrem server
-  host { "office":
-    ip     => '10.0.0.221',
-    notify => Service['nginx'];
+  # required so that nginx finds the upstrem servers at dasz lan
+  host {
+    "office":
+      ip     => '10.0.0.221',
+      notify => Service['nginx'];
+
+    'monitor':
+      ip     => '10.0.0.217',
+      notify => Service['nginx'];
   }
 
   file {
