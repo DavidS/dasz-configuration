@@ -92,8 +92,8 @@ node 'testagent.example.org' {
     ;
   }
 }
-
 node 'monitor.example.org' {
+
   class {
     'dasz::defaults':
       location             => vagrant,
