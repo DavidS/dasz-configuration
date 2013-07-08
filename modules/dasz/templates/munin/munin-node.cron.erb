@@ -6,6 +6,7 @@ MAILTO=root
 
 # force setting the plugstate directory, so the plugin knows where to put its state.
 MUNIN_PLUGSTATE=/var/lib/munin-node/plugin-state/root
+releases=<%= @distro %>
 
 # If the APT plugin is enabled, update packages databases approx. once
 # an hour (12 invokations an hour, 1 in 12 chance that the update will

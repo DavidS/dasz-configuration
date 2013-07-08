@@ -146,19 +146,20 @@ class dasz::defaults (
     'apt':
       ensure => absent; # only works if testing and unstable sources are configured
 
+
     'apt_all':
       path           => '/usr/share/munin/plugins/apt_all.fixed',
       source         => 'puppet:///modules/dasz/munin/apt_all.fixed',
       config_content => "[apt_all]\nuser root\nenv.releases ${distro}\n";
   }
 
-  # replace default cronjob to workaround bug in apt update
+  # replace default cronjob to set proper environment vars in cronjob
   file { '/etc/cron.d/munin-node':
-    ensure => present,
-    source => 'puppet:///modules/site/munin-node.cron',
-    mode   => '0644',
-    owner  => root,
-    group  => root;
+    ensure  => present,
+    content => template('dasz/munin/munin-node.cron.erb'),
+    mode    => '0644',
+    owner   => root,
+    group   => root;
   }
 
   # export a default host entry for apt-dater
