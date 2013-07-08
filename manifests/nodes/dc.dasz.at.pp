@@ -21,4 +21,13 @@ node 'dc.dasz.at' {
     'ttys_temp':
       source => 'puppet:///modules/dasz/munin/dc_ttys_temp';
   }
+
+  openvpn::tunnel { 'dasz-lan':
+    port     => 1197,
+    proto    => 'udp',
+    server   => '10.254.0.2 10.254.0.1',
+    template => "site/${::fqdn}/openvpn_dasz-lan.conf.erb";
+  }
+
+  site::ovpn_keys { 'dasz': }
 }

@@ -1,0 +1,25 @@
+remote hetz3.black.co.at
+port <%= @port %>
+proto <%= @real_proto %>
+
+dev tun0
+tls-client
+
+ifconfig <%= @server %>
+route 10.254.0.0 255.255.255.0
+
+ca dasz-ca/keys/ca.crt
+dh dasz-ca/keys/dh4096.pem
+cert dasz-ca/keys/<%= @fqdn %>.crt
+key dasz-ca/keys/<%= @fqdn %>.key
+remote-cert-tls server
+crl-verify dasz-ca/keys/crl.pem
+
+status /var/run/openvpn-<%= @name %>-status.log
+
+# set to 3 for production
+verb 3
+
+script-security 2
+
+keepalive 5 20

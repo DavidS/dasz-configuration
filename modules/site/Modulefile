@@ -1,7 +1,7 @@
-name 'david-site'
-version ''
+name 'dasz-site'
+version '0.0.1'
 
-author 'david'
+author 'David Schmitt <david@dasz.at>'
 license ''
 project_page ''
 source ''
