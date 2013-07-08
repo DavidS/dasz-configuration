@@ -15,6 +15,6 @@ node 'arthur-nb2.dasz' {
 
     'C:\Program Files\OpenVPN\config\arthur-nb.crt':
       ensure => present,
-      source => "puppet:///modules/openvpn/arthur-nb.crt";
+      source => "puppet:///secrets/openvpn/arthur-nb.crt";
   }
 }
