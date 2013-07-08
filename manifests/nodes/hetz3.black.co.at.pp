@@ -99,5 +99,12 @@ node 'hetz3.black.co.at' {
       owner  => root,
       group  => 'www-data',
       notify => Service['nginx'];
+
+    '/srv/dasz':
+      ensure => directory,
+      mode   => 0750,
+      owner  => david,
+      group  => www-data,
+      before => Service['nginx'];
   }
 }

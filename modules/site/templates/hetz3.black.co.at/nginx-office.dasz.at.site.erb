@@ -4,7 +4,7 @@ server {
 	access_log  /var/log/nginx/office.dasz.at.access.log;
 	# error_log	/var/log/nginx/office.dasz.at.error.log debug;
 
-	root /srv/www;
+	root /srv/dasz;
 	index default.htm;
 
 	location /ngf {
@@ -149,7 +149,7 @@ server {
 
 	location / {
 		rewrite ^/ngf http://office.dasz.at/ngf permanent;
-		root /srv/www;
+		root /srv/dasz;
 		index default.htm publish.htm;
 		# proxy_pass http://office;
 		# proxy_http_version 1.1;
