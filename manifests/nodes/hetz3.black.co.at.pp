@@ -40,29 +40,17 @@ node 'hetz3.black.co.at' {
   }
 
   openvpn::tunnel {
-    'dasz-lan':
+    'dasz-bridge':
       port     => 1197,
       proto    => 'udp',
-      server   => '10.254.0.1 10.254.0.2',
-      template => 'site/hosting3.edv-bus.at/openvpn_dasz-lan.conf.erb';
-
-    'dasz-lan-david-nb':
-      port     => 1198,
-      proto    => 'udp',
-      server   => '10.254.0.5 10.254.0.6',
-      template => 'site/hosting3.edv-bus.at/openvpn_dasz-lan-nb.conf.erb';
-
-    'dasz-lan-arthur-nb':
-      port     => 1199,
-      proto    => 'udp',
-      server   => '10.254.0.9 10.254.0.10',
-      template => 'site/hosting3.edv-bus.at/openvpn_dasz-lan-nb.conf.erb';
+      mode     => 'server',
+      template => "site/${::fqdn}/openvpn_dasz-bridge.conf.erb";
 
     'maria':
       port     => 1195,
       proto    => 'tcp',
       mode     => 'server',
-      template => 'site/hosting3.edv-bus.at/openvpn_maria.conf.erb';
+      template => "site/${::fqdn}/openvpn_maria.conf.erb";
   }
 
   site::ovpn_keys { ['dasz', 'maria']: }
