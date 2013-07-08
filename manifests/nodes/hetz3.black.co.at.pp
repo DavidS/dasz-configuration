@@ -37,7 +37,9 @@ node 'hetz3.black.co.at' {
       owner  => 'foreman-mgr',
       group  => 'foreman-mgr',
       mode   => 0600;
+  }
 
+  file {
     "/etc/network/interfaces":
       ensure  => present,
       content => template("site/${::fqdn}/interfaces.erb");
@@ -45,6 +47,22 @@ node 'hetz3.black.co.at' {
     "/etc/dhcp/dhclient.conf":
       ensure  => present,
       content => template("site/${::fqdn}/dhclient.conf.erb");
+
+    "/etc/openvpn/dasz_up":
+      ensure  => present,
+      content => template("site/${::fqdn}/dasz_up.erb"),
+      mode    => 0755,
+      owner   => root,
+      group   => root,
+      notify  => Service['openvpn'];
+
+    "/etc/openvpn/dasz_down":
+      ensure  => present,
+      content => template("site/${::fqdn}/dasz_down.erb"),
+      mode    => 0755,
+      owner   => root,
+      group   => root,
+      notify  => Service['openvpn'];
   }
 
   openvpn::tunnel {
