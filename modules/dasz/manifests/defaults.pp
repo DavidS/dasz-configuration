@@ -143,10 +143,13 @@ class dasz::defaults (
   }
 
   munin::plugin {
-    'apt': ;
+    'apt':
+      ensure => absent; # only works if testing and unstable sources are configured
 
     'apt_all':
-      ensure => absent; # only works if testing and unstable sources are configured
+      path           => '/usr/share/munin/plugins/apt_all.fixed',
+      source         => 'puppet:///modules/dasz/munin/apt_all.fixed',
+      config_content => "[apt_all]\nuser root\nenv.releases ${distro}\n";
   }
 
   # replace default cronjob to workaround bug in apt update
