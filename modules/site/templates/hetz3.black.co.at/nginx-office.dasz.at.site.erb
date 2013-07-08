@@ -12,7 +12,7 @@ server {
 		proxy_set_header Host office.dasz.at;
 	}
 
-	location ~* ^/fogbugz/ {
+	location ~* ^/fogbugz {
 		rewrite ^ https://office.dasz.at/FogBugz/ permanent;
 	}
 }
