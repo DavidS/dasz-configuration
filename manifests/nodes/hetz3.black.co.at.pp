@@ -41,6 +41,10 @@ node 'hetz3.black.co.at' {
     "/etc/network/interfaces":
       ensure  => present,
       content => template("site/${::fqdn}/interfaces.erb");
+
+    "/etc/dhcp/dhclient.conf":
+      ensure  => present,
+      content => template("site/${::fqdn}/dhclient.conf.erb");
   }
 
   openvpn::tunnel {

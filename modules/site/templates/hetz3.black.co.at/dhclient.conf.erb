@@ -1,0 +1,9 @@
+# This host should only do dhcp to look into LANs managed by others.
+# This config file removes all dangerous options, like updating resolv.conf
+# or futzing with routes
+
+option rfc3442-classless-static-routes code 121 = array of unsigned integer 8;
+send host-name = gethostname();
+prepend domain-name-servers 213.133.98.98 213.133.99.99 213.133.100.100;
+request subnet-mask, broadcast-address, time-offset, interface-mtu;
+
