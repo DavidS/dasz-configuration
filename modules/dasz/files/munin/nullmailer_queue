@@ -1,0 +1,95 @@
+#!/bin/sh
+# -*- sh -*-
+
+: << =cut
+
+=head1 NAME
+
+nullmailer_queue - monitor the nullmailer's queue length
+
+=head1 CONFIGURATION
+
+The following environment variables are used by this plugin:
+
+=over 4
+
+=item queue_dir <string>
+
+Where the nullmailer queue is. Default: /var/spool/nullmailer/queue
+
+=item queue_warning <int>
+
+Threshold for when to report a warning
+
+=item queue_critical <int>
+
+Threshold for when to report a critical
+
+=back
+
+=head2 EXAMPLE CONFIGURATION
+
+ [nullmailer_queue]
+  group root
+  env.queue_warning 1
+  env.queue_critical 10
+
+=head1 NOTES
+
+If run with the "autoconf"-parameter, give our opinion on whether we
+should be run on this system or not. This is optional, and only used
+by munin-config. In the case of this plugin, we should most probably
+always be included.
+
+=head1 MAGIC MARKERS
+
+ #%# family=auto
+ #%# capabilities=autoconf
+
+=cut
+
+. $MUNIN_LIBDIR/plugins/plugin.sh
+
+queue_dir="${queue_dir:-/var/spool/nullmailer/queue}"
+
+if [ "$1" = "autoconf" ]; then
+        if [ -d "$queue_dir" ] ; then
+                echo yes
+        else
+                echo no
+        fi
+        exit 0
+fi
+
+# If run with the "config"-parameter, give out information on how the
+# graphs should look.
+if [ "$1" = "config" ]; then
+        # The title of the graph
+        echo 'graph_title Nullmailer Queue Length'
+        # Arguments to "rrdtool graph". In this case, tell it that the
+        # lower limit of the graph is '0', and that 1k=1000 (not 1024)
+        echo 'graph_args --base 1000 -l 0'
+        # The Y-axis label
+        echo 'graph_vlabel queued mails'
+        # Graph category. Defaults to 'other'
+        echo 'graph_category mail'
+        # The fields. "label" is used in the legend. "label" is the only
+        # required subfield.
+        echo 'queue.label queued mails'
+        # These two read the environment for warning values for the field
+        # "queue".  If "queue_warning" or "warning" aren't set in the
+        # environment, no warning levels are set.  Likewise for "queue_critical"
+        # and "critical".
+        print_warning queue
+        print_critical queue
+        # Last, if run with the "config"-parameter, quit here (don't
+        # display any data)
+        exit 0
+fi
+
+# If not run with any parameters at all (or only unknown ones), do the
+# real work - i.e. display the data. Almost always this will be
+# "value" subfield for every data field.
+
+echo -n "queue.value "
+find "$queue_dir" -type f | wc -l

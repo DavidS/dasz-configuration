@@ -89,6 +89,11 @@ class dasz::defaults (
       group   => root,
       tag     => 'nullmailer_workaround';
     }
+
+    munin::plugin { 'nullmailer_queue':
+      source        => 'puppet:///modules/dasz/munin/nullmailer_queue',
+      config_source => 'puppet:///modules/dasz/munin/nullmailer_queue.conf';
+    }
   }
 
   file {
