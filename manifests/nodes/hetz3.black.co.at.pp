@@ -74,6 +74,9 @@ node 'hetz3.black.co.at' {
   }
 
   file {
+    '/etc/nginx/sites-available/default':
+      ensure => absent;
+
     '/etc/nginx/certs':
       ensure => directory,
       mode   => 0750,
