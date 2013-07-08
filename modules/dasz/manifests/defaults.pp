@@ -138,14 +138,17 @@ class dasz::defaults (
       },
       autoconfigure => once,
       address       => $primary_ip,
-      port          => $munin_port;
+      port          => $munin_port,
+      version       => $::lsbdistcodename ? {
+        'squeeze' => '2.0.6-4~bpo60+1',
+        default   => 'present',
+      } ;
     }
   }
 
   munin::plugin {
     'apt':
       ensure => absent; # only works if testing and unstable sources are configured
-
 
     'apt_all':
       path           => '/usr/share/munin/plugins/apt_all.fixed',
