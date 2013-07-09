@@ -1,0 +1,140 @@
+#!/usr/bin/perl
+# -*- cperl -*-
+
+=head1 NAME
+
+jenkins_statis - number of jobs and their status in a jenkins instance
+
+=head1 APPLICABLE SYSTEMS
+
+Jenkins masters
+
+=head1 CONFIGURATION
+
+The plugin needs access to the jenkins dashboard.
+
+  [jenkins]
+     env.url   http://127.0.0.1:8080/
+
+If you need authenticated access to the URL you can specify the
+username and password in the URL.  For example:
+
+  [jenkins]
+     env.url http://munin:spamalot@localhost:8080/
+
+This will provide for HTTP basic authentication.
+
+=head1 MAGIC MARKERS
+
+  #%# family=auto
+  #%# capabilities=autoconf
+
+=head1 VERSION
+
+  $Id$
+
+=head1 BUGS
+
+Does not support digest authentication.
+
+=head1 AUTHOR
+
+Based on apache_accesses, modified by David Schmitt <david@dasz.at>
+
+=head1 LICENSE
+
+GPLv2
+
+=cut
+
+use strict;
+use warnings;
+use Munin::Plugin;
+
+my $ret = undef;
+
+if (! eval "require LWP::UserAgent;")
+{
+	$ret = "LWP::UserAgent not found";
+	if ( ! defined $ARGV[0] ) {
+		die $ret;
+	}
+}
+
+my $URL = exists $ENV{'url'} ? $ENV{'url'} : "http://127.0.0.1:8080";
+# fetch the job status only
+$URL .= "/api/xml?xpath=/hudson/job/color&wrapper=status";
+
+my @STATUS = qw(disabled blue red notbuilt aborted);
+
+if ( defined $ARGV[0] and $ARGV[0] eq "autoconf" )
+{
+	if ($ret)
+	{
+		print "no ($ret)\n";
+		exit 0;
+	}
+
+	my $ua = LWP::UserAgent->new(timeout => 30,
+			agent => sprintf("munin/%s (libwww-perl/%s)", $Munin::Common::Defaults::MUNIN_VERSION, $LWP::VERSION));
+
+	my $response = $ua->request(HTTP::Request->new('GET',$URL));
+	if ($response->is_success) {
+		print "yes\n";
+		exit 0;
+	}
+	elsif ($response->code == 404)  {
+		print "no (jenkins api not found)\n";
+		exit 0;
+	}
+	else {
+		print "no (". $response->message .")\n";
+		exit 0;
+	}
+	print "yes\n";
+	exit 0;
+}
+
+if ( defined $ARGV[0] and $ARGV[0] eq "config" )
+{
+	print "graph_title Job Status\n";
+	print "graph_args --base 1000\n";
+	print "graph_vlabel number of jobs\n";
+	print "graph_category jenkins\n";
+
+	for my $status (@STATUS) {
+		print "$status.label $status\n";
+		print "$status.draw AREASTACK\n";
+		print "$status.min 0\n";
+		print_thresholds($status);
+	}
+
+	print "running.label running\n";
+	print "running.draw LINE1\n";
+	print "running.min 0\n";
+	print_thresholds('running');
+
+	exit 0;
+}
+
+my $ua = LWP::UserAgent->new(timeout => 30,
+		agent => sprintf("munin/%s (libwww-perl/%s)", $Munin::Common::Defaults::MUNIN_VERSION, $LWP::VERSION));
+
+my $response = $ua->request(HTTP::Request->new('GET',$URL));
+my (@jobs, %counts);
+if (@jobs = $response->content =~ />([^<>]+)</g) {
+	foreach my $job (@jobs) {
+		$job =~ /^(.*)(_.*)?$/;
+		$counts{$1} += 1;
+		$counts{'running'} += 1 if defined $2;
+	}
+	foreach my $key (@STATUS) {
+		my $cnt = exists $counts{$key} ? $counts{$key} : 'U';
+		print "$key.value $cnt\n";
+	}
+
+	my $cnt = exists $counts{'running'} ? $counts{'running'} : '0';
+	print "running.value $cnt\n";
+}
+
+# vim:syntax=perl

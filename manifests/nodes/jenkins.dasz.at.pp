@@ -1,7 +1,11 @@
 node 'jenkins.dasz.at' {
-  class { 'dasz::defaults':
-    location         => tech21,
-    force_nullmailer => true;
+  class {
+    'dasz::defaults':
+      location         => tech21,
+      force_nullmailer => true;
+
+    'dasz::snips::jenkins':
+      url => 'http://jenkins:8080';
   }
 
   apt::repository { 'jenkins':
