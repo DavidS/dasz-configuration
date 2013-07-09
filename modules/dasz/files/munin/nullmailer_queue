@@ -31,8 +31,8 @@ Threshold for when to report a critical
 
  [nullmailer_queue]
   group root
-  env.queue_warning 1:10
-  env.queue_critical 10:
+  env.queue_warning 0:5
+  env.queue_critical 0:10
 
 =head1 NOTES
 
