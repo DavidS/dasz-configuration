@@ -66,6 +66,14 @@ my $URL = exists $ENV{'url'} ? $ENV{'url'} : "http://127.0.0.1:8080";
 $URL .= "/api/xml?xpath=/hudson/job/color&wrapper=status";
 
 my @STATUS = qw(disabled blue red notbuilt aborted);
+my %COLOURS = (
+	'disabled' => 'cccccc',
+	'blue'     => '66cc33',
+	'red'      => 'ff3300',
+	'notbuilt' => '666666',
+	'aborted'  => '999900',
+	'running'  => '0033ff'
+);
 
 if ( defined $ARGV[0] and $ARGV[0] eq "autoconf" )
 {
@@ -106,12 +114,14 @@ if ( defined $ARGV[0] and $ARGV[0] eq "config" )
 		print "$status.label $status\n";
 		print "$status.draw AREASTACK\n";
 		print "$status.min 0\n";
+		print "$status.colour $COLOURS{$status}\n";
 		print_thresholds($status);
 	}
 
 	print "running.label running\n";
 	print "running.draw LINE1\n";
 	print "running.min 0\n";
+	print "running.colour $COLOURS{'running'}\n";
 	print_thresholds('running');
 
 	exit 0;
