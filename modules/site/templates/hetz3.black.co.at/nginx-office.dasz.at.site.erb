@@ -111,7 +111,7 @@ server {
 ##########################################################################
 
 	location = /backuppc-tech21 {
-		rewrite / https://office.dasz.at/backuppc/ permanent;
+		rewrite / https://office.dasz.at/backuppc-tech21/ permanent;
 	}
 
 	location /backuppc-tech21/ {
@@ -128,7 +128,7 @@ server {
 	}
 
 	location /LiveEOG/ {
-		proxy_pass https://office/LiveEOG;
+		proxy_pass https://office/LiveEOG/;
 		proxy_set_header Host office.dasz.at;
 	}
 
