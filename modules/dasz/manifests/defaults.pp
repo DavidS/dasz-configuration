@@ -190,7 +190,8 @@ class dasz::defaults (
       "lsof",
       "screen",
       "mtr-tiny",
-      "etckeeper"]:
+      "etckeeper",
+      "smartmontools"]:
       ensure => installed;
 
     [
