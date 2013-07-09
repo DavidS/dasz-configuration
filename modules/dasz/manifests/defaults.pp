@@ -249,5 +249,8 @@ class dasz::defaults (
 }
 
 define smart () {
-  munin::plugin { "smart_${name}": path => '/usr/share/munin/plugins/smart_'; }
+  munin::plugin { "smart_${name}":
+    path          => '/usr/share/munin/plugins/smart_',
+    manage_script => false;
+  }
 }
