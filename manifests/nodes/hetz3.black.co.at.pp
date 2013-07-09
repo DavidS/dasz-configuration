@@ -1,8 +1,9 @@
 node 'hetz3.black.co.at' {
   class { 'dasz::defaults':
-    location         => hetzner,
-    ssh_port         => 2200,
-    force_nullmailer => true;
+    location          => hetzner,
+    ssh_port          => 2200,
+    munin_smart_disks => ['sda', 'sdb'],
+    force_nullmailer  => true;
   }
 
   class {
