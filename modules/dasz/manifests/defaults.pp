@@ -191,7 +191,8 @@ class dasz::defaults (
       "screen",
       "mtr-tiny",
       "etckeeper",
-      "smartmontools"]:
+      "smartmontools",
+      "popularity-contest"]:
       ensure => installed;
 
     [
@@ -199,6 +200,11 @@ class dasz::defaults (
       "nano",
       "apt-listchanges"]:
       ensure => absent;
+  }
+
+  file_line { 'popcon_http_only':
+    path => '/etc/popularity-contest.conf',
+    line => 'MAILTO=""';
   }
 
   apt::repository { "${distro}-base":
