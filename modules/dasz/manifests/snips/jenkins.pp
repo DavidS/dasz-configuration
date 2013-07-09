@@ -1,5 +1,7 @@
 # configures the munin plugin for the specified url
 class dasz::snips::jenkins($url) {
+  package { 'libwww-perl': ensure => present; }
+
   munin::plugin { 'jenkins_status':
     ensure         => 'present',
     source         => 'puppet:///modules/dasz/munin/jenkins_status',
