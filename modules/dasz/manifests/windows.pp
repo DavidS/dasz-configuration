@@ -7,7 +7,7 @@ class dasz::windows {
   }
 
   # global
-  package { ['chocolatey', 'notepadplusplus', '7zip', 'adobereader', 'windirstat', 'javaruntime', 'Firefox', "NSClientPlusPlus.${::architecture}"]:
+  package { ['chocolatey', 'notepadplusplus', '7zip', 'adobereader', 'windirstat', 'javaruntime', 'Firefox', "NSClientPlusPlus.${::architecture}", 'sumatrapdf.install']:
     ensure   => installed,
     provider => 'chocolatey';
   }
