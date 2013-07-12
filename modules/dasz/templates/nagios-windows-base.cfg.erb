@@ -1,0 +1,48 @@
+define command {
+        command_name nscp
+        command_line /usr/lib/nagios/plugins/check_nrpe -H "$HOSTNAME$" -p 5666 -c "alias_$SERVICEDESC$"
+}
+
+define hostgroup {
+        hostgroup_name windows-hosts
+        alias   Windows
+        notes   Automatically defines a few default checks via NSClient++
+}
+
+define host {
+        name windows-host
+        hostgroups windows-hosts
+        check_command check-host-alive
+        contacts dasz
+        max_check_attempts 5
+        register 0
+}
+
+define service {
+        name            windows-service
+        hostgroup_name  windows-hosts
+        check_command   nscp
+        use             generic-service
+        register        0
+}
+
+define service {
+        service_description cpu
+        use     windows-service
+}
+
+define service {
+        service_description disk
+        use     windows-service
+}
+
+define service {
+        service_description service
+        use     windows-service
+}
+
+define service {
+        service_description up
+        use     windows-service
+}
+

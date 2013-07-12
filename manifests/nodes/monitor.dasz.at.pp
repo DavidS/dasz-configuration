@@ -26,4 +26,20 @@ node 'monitor.dasz.at' {
     content => template("site/munin/manual-servers.conf.erb"),
     tag     => "munin_host_${munin::magic_tag}",
   }
+
+  # collect manual nagios definitions (currently only windows hosts)
+  File <<| tag == 'nagios_host_' |>>
+
+  file { "/etc/nagios3/conf.d/windows.cfg":
+    ensure  => present,
+    content => template("dasz/nagios-windows-base.cfg.erb"),
+    mode    => 0644,
+    owner   => root,
+    group   => root,
+    notify  => Service['nagios3'];
+  }
+  service { 'nagios3':
+    ensure => running,
+    enable => true,
+  }
 }
