@@ -1,6 +1,6 @@
 # windows pc
 node 'david-pc3.dasz' {
-  class { "dasz::windows_devtop": }
+  include dasz::windows::devtop
 
   # david only
   package { ['virtuawin']:

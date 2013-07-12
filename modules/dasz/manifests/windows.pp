@@ -1,5 +1,5 @@
 # a windows machine
-class dasz::windows {
+class dasz::windows($nagios_notifications, $nagios_allowed_hosts = '10.0.0.217') {
   # workaround https://github.com/chocolatey/chocolatey/issues/283
   registry::value { 'ChocolateyInstall':
     key  => 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment',

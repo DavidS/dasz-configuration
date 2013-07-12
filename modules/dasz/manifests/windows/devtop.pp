@@ -1,5 +1,7 @@
 # a devop's desktop (if it has to run windows)
-class dasz::windows_devtop inherits dasz::windows {
+class dasz::windows::devtop {
+  class { 'dasz::windows': nagios_notifications => false; }
+
   # global
   package { ['TortoiseGit', 'snoop', 'putty', 'filezilla',]:
     ensure   => installed,
