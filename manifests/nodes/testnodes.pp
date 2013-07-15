@@ -26,8 +26,7 @@ class puppetmaster_example_org {
       db_server              => 'localhost',
       db_user                => 'foreman',
       db_password            => 'muhblah',
-      # There currently is no working stable release (candidate) for wheezy
-      repo_flavour           => nightly,
+      repo_flavour           => stable,
       install_proxy          => true,
       proxy_feature_puppet   => true,
       proxy_feature_puppetca => true,
