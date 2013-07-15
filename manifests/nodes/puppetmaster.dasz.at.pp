@@ -65,6 +65,9 @@ node 'puppetmaster.dasz.at' {
       db_user     => 'puppetdb',
       db_password => file("/srv/puppet/secrets/${::fqdn}/puppetdb.password"),
       require     => [Host[$::fqdn], Class["dasz::defaults"]];
+
+    'dasz::snips::systemd':
+    ;
   }
 
   # of course, the following is not bootstrappable, but after a manual intervention, it should lead to a stable, and migratable

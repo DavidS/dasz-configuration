@@ -57,6 +57,9 @@ class puppetmaster_example_org {
       db_user     => 'puppetdb',
       db_password => 'muhblah', # local installation cannot depend on some secrets repo
       require     => Class["dasz::defaults"];
+
+    'dasz::snips::systemd':
+      grub_timeout => 0;
   }
 
   host { 'workstation': ip => '192.168.50.1'; }
@@ -90,10 +93,13 @@ node 'testagent.example.org' {
 
     'nginx':
     ;
+
+    'dasz::snips::systemd':
+      grub_timeout => 0;
   }
 }
-node 'monitor.example.org' {
 
+node 'monitor.example.org' {
   class {
     'dasz::defaults':
       location             => vagrant,
@@ -122,6 +128,9 @@ node 'monitor.example.org' {
 
     'munin::cgi':
     ;
+
+    'dasz::snips::systemd':
+      grub_timeout => 0;
   }
 }
 
