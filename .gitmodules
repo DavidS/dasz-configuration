@@ -97,3 +97,6 @@
 [submodule "modules/nginx"]
 	path = modules/nginx
 	url = ../puppet-nginx.git
+[submodule "modules/bind"]
+	path = modules/bind
+	url = ../puppet-bind.git

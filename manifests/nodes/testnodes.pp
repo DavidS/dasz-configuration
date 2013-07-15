@@ -96,6 +96,9 @@ node 'testagent.example.org' {
 
     'dasz::snips::systemd':
       grub_timeout => 0;
+
+    'bind':
+    ;
   }
 }
 
