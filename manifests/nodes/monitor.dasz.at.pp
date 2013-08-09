@@ -27,8 +27,23 @@ node 'monitor.dasz.at' {
     tag     => "munin_host_${munin::magic_tag}",
   }
 
+  file {
+    "/var/www/munin":
+      ensure => symlink,
+      target => '/var/cache/munin/www/';
+
+    "/etc/apache2/conf.d/munin.conf":
+      ensure  => present,
+      content => template('dasz/munin/apache.conf.erb');
+  }
+
   # collect manual nagios definitions (currently only windows hosts)
   File <<| tag == 'nagios_host_' |>>
+
+  package { "nagios3":
+    ensure => present,
+    notify => Service['nagios3'];
+  }
 
   file { "/etc/nagios3/conf.d/windows.cfg":
     ensure  => present,
@@ -38,6 +53,7 @@ node 'monitor.dasz.at' {
     group   => root,
     notify  => Service['nagios3'];
   }
+
   service { 'nagios3':
     ensure => running,
     enable => true,

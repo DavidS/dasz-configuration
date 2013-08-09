@@ -1,0 +1,42 @@
+# Enable this for template generation
+
+Alias /munin /var/cache/munin/www
+<Directory /var/cache/munin/www>
+	Order allow,deny
+	Allow from localhost 127.0.0.0/8 ::1
+	Allow from 10.0.0.0/8
+	Options None
+
+	<IfModule mod_expires.c>
+	    ExpiresActive On
+	    ExpiresDefault M310
+	</IfModule>
+
+</Directory>
+
+ScriptAlias /munin-cgi/munin-cgi-graph /usr/lib/munin/cgi/munin-cgi-graph
+<Location /munin-cgi/munin-cgi-graph>
+	Order allow,deny
+	Allow from localhost 127.0.0.0/8 ::1
+	Allow from 10.0.0.0/8
+	<IfModule mod_fcgid.c>
+	    SetHandler fcgid-script
+	</IfModule>
+	<IfModule !mod_fcgid.c>
+	    SetHandler cgi-script
+	</IfModule>
+</Location>
+
+ScriptAlias /munin-cgi/munin-cgi-html /usr/lib/munin/cgi/munin-cgi-html
+<Location /munin-cgi/munin-cgi-html>
+	Order allow,deny
+	Allow from localhost 127.0.0.0/8 ::1
+	Allow from 10.0.0.0/8
+	<IfModule mod_fcgid.c>
+	    SetHandler fcgid-script
+	</IfModule>
+	<IfModule !mod_fcgid.c>
+	    SetHandler cgi-script
+	</IfModule>
+</Location>
+
