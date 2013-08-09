@@ -27,14 +27,13 @@ node 'monitor.dasz.at' {
     tag     => "munin_host_${munin::magic_tag}",
   }
 
-  file {
-    "/var/www/munin":
-      ensure => symlink,
-      target => '/var/cache/munin/www/';
-
-    "/etc/apache2/conf.d/munin.conf":
-      ensure  => present,
-      content => template('dasz/munin/apache.conf.erb');
+  file { "/etc/apache2/conf.d/munin.conf":
+    ensure  => present,
+    content => template('dasz/munin/apache.conf.erb'),
+    mode    => 0644,
+    owner   => root,
+    group   => root,
+    notify  => Service['apache'];
   }
 
   # collect manual nagios definitions (currently only windows hosts)
