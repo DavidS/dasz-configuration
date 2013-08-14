@@ -14,6 +14,9 @@ node 'monitor.dasz.at' {
 
     'munin::cgi':
     ;
+
+    'apache':
+    ;
   }
 
   # manually configured server
@@ -27,14 +30,7 @@ node 'monitor.dasz.at' {
     tag     => "munin_host_${munin::magic_tag}",
   }
 
-  file { "/etc/apache2/conf.d/munin.conf":
-    ensure  => present,
-    content => template('dasz/munin/apache.conf.erb'),
-    mode    => 0644,
-    owner   => root,
-    group   => root,
-    notify  => Service['apache'];
-  }
+  apache::dotconf { "munin": content => template('dasz/munin/apache.conf.erb'); }
 
   # collect manual nagios definitions (currently only windows hosts)
   File <<| tag == 'nagios_host_' |>>
