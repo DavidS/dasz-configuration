@@ -1,8 +1,5 @@
 [zetbox_exceptions_ini50]
 user root
 env.PGUSER ini50
-env.PGCLUSTER 8.4/localhost:5444
-
-[zetbox_*]
-user postgres
+env.PGCLUSTER 8.4/db-server:5444
 
