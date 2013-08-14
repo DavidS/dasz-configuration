@@ -87,7 +87,7 @@ class dasz::defaults (
 
     @@file { "/var/lib/puppet/modules/ssmtp/domains/${::fqdn}":
       ensure  => present,
-      content => "root: root@dasz.at\nbackuppc: root@dasz.at\nnagios: root@dasz.at\n",
+      content => "root: root@dasz.at\nbackuppc: root@dasz.at\nnagios: root@dasz.at\njenkins: root@dasz.at\nmonitor: root@dasz.at\n",
       mode    => 0644,
       owner   => root,
       group   => root,
