@@ -21,4 +21,7 @@ node 'kvmhost2.dasz.at' {
     groups     => ['libvirt'],
     require    => Package['libvirt'];
   }
+
+  package { "autossh": ensure => installed }
+
 }

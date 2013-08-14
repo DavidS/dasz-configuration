@@ -39,7 +39,7 @@ node 'monitor.dasz.at' {
   # collect manual nagios definitions (currently only windows hosts)
   File <<| tag == 'nagios_host_' |>>
 
-  package { "nagios3":
+  package { ["nagios3", "nagios-nrpe-plugin"]:
     ensure => present,
     notify => Service['nagios3'];
   }
