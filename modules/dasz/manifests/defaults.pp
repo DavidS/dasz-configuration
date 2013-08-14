@@ -141,7 +141,7 @@ class dasz::defaults (
       address       => $primary_ip,
       port          => $munin_port,
       version       => $::lsbdistcodename ? {
-        'squeeze' => '2.0.6-4~bpo60+1',
+        'squeeze' => '2.0.6-4+deb7u1~bpo60+1',
         default   => 'present',
       } ;
     }
