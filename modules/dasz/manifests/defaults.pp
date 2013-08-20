@@ -210,6 +210,7 @@ class dasz::defaults (
   apt::repository { "${distro}-base":
     url        => $location ? {
       'hetzner' => "http://mirror.hetzner.de/debian/packages",
+      'tech21'  => "http://kvmhost.dasz:3142/debian",
       default   => 'http://http.debian.net/debian',
     },
     distro     => $distro,
@@ -224,14 +225,19 @@ class dasz::defaults (
       "${distro}-backports":
         url        => $distro ? {
           'squeeze' => 'http://backports.debian.org/debian-backports/',
-          default   => 'http://http.debian.net/debian',
-        },
+          default   => $location ? {
+            'tech21' => "http://kvmhost.dasz:3142/debian",
+            default  => 'http://http.debian.net/debian',
+          } },
         distro     => "${distro}-backports",
         repository => "main",
         src_repo   => false;
 
       "${distro}-security":
-        url        => "http://security.debian.org/",
+        url        => $location ? {
+          'tech21' => "http://kvmhost.dasz:3142/security",
+          default  => "http://security.debian.org/",
+        },
         distro     => "${distro}/updates",
         repository => "main",
         src_repo   => false;
@@ -253,6 +259,9 @@ class dasz::defaults (
         ;
     }
   }
+
+  sudo::directive { "backuppc": content => 'abackup ALL=(ALL) NOPASSWD: /usr/bin/rsync --server --sender --numeric-ids --perms --owner --group --devices --links --times --block-size=2048 --recursive -D *'
+    ; }
 }
 
 define smart () {
