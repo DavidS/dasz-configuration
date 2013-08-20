@@ -176,7 +176,7 @@ path_map = debian ftp.at.debian.org/debian ; security security.debian.org/
 # are deprecated (but will still be honoured, if set). IPv6 addresses can now be
 # added directly to allowed_hosts and denied_hosts along with IPv4 addresses.
 #
-#allowed_hosts = *
+allowed_hosts = 10.0.0.0/8
 #denied_hosts = 
 
 # Only allow HTTPS/SSL proxy CONNECT to hosts or IPs which match an item in this
@@ -197,7 +197,7 @@ path_map = debian ftp.at.debian.org/debian ; security security.debian.org/
 #
 #allowed_locations = ftp.uni-kl.de, ftp.nerim.net, debian.tu-bs.de/debian
 #allowed_locations = ftp.debian.org, PATH_MAP
-#allowed_locations = PATH_MAP
+allowed_locations = PATH_MAP
 
 # List of Ubuntu release names used to expand UBUNTU_RELEASE_NAMES in
 # installer_files_regexp (see below). This is required to allow the Ubuntu
@@ -217,7 +217,7 @@ path_map = debian ftp.at.debian.org/debian ; security security.debian.org/
 # Generating reports is very fast even with many thousands of logfile lines, so
 # you can safely turn this on without creating much additional system load.
 #
-#generate_reports = 1
+generate_reports = 1
 
 # Apt-cacher can clean up its cache directory every 24 hours if you set this
 # directive to 1. Cleaning the cache can take some time to run (generally in the
@@ -225,7 +225,7 @@ path_map = debian ftp.at.debian.org/debian ; security security.debian.org/
 # in any existing 'Packages' lists. This has the effect of deleting packages
 # that have been superseded by an updated 'Packages' list.
 #
-#clean_cache = 1
+clean_cache = 1
 
 ### INTERNALS ###
 
