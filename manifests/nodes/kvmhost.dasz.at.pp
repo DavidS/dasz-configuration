@@ -9,7 +9,10 @@ node 'kvmhost.dasz.at' {
     ;
   }
 
-  nginx::vhost { 'kvmhost': docroot => '/srv/debian'; }
+  nginx::vhost { 'kvmhost':
+    docroot    => '/srv/debian',
+    groupowner => 'adm';
+  }
 
   package { ["apt-cacher", "reprepro"]: ensure => installed; }
 
