@@ -1,0 +1,18 @@
+[Unit]
+Description=Jenkins Slave Agent
+
+[Service]
+User=slave
+WorkingDirectory=/var/lib/jenkins_slave
+ExecStart=/usr/bin/java -jar slave.jar -jnlpUrl http://jenkins:8080/computer/kvmhost/slave-agent.jnlp
+
+# extended features
+RestartSec=1
+Restart=always
+
+# security lock-down
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
