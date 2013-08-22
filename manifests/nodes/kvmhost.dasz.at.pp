@@ -53,7 +53,8 @@ node 'kvmhost.dasz.at' {
     home   => '/var/lib/jenkins_slave';
   }
 
-  service { "jenkins_slave":
+  service { "jenkins_slave.service":
+    provider  => systemd,
     ensure    => running,
     enable    => true,
     require   => User['slave'],
