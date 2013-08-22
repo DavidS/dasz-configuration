@@ -9,12 +9,18 @@ node 'kvmhost.dasz.at' {
     ;
   }
 
+  apt::repository { "zetbox":
+    url        => "http://kvmhost.dasz/debian",
+    distro     => zetbox,
+    repository => "main";
+  }
+
   nginx::vhost { 'kvmhost':
     docroot    => '/srv/debian',
     groupowner => 'adm';
   }
 
-  package { ["apt-cacher", "reprepro"]: ensure => installed; }
+  package { ["apt-cacher", "reprepro", "mono-complete"]: ensure => installed; }
 
   file {
     "/etc/default/apt-cacher":
