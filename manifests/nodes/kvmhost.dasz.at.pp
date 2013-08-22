@@ -24,6 +24,14 @@ node 'kvmhost.dasz.at' {
     "/etc/apt-cacher/apt-cacher.conf":
       source => "puppet:///modules/dasz/apt-cacher/apt-cacher.conf.tech21",
       notify => Service['apt-cacher'];
+
+    [
+      "/srv/debian/conf",
+      "/srv/debian/incoming"]:
+      ensure => directory,
+      owner  => root,
+      group  => adm,
+      mode   => 0775;
   }
 
   service { 'apt-cacher':
