@@ -1,11 +1,17 @@
 node 'kvmhost.dasz.at' {
-  class { 'dasz::defaults':
-    location          => tech21,
-    munin_smart_disks => ['sda', 'sdb'],
-    force_nullmailer  => true;
+  class {
+    'dasz::defaults':
+      location          => tech21,
+      munin_smart_disks => ['sda', 'sdb'],
+      force_nullmailer  => true;
+
+    'nginx':
+    ;
   }
 
-  package { "apt-cacher": ensure => installed; }
+  nginx::vhost { 'default': docroot => '/srv/debian'; }
+
+  package { ["apt-cacher", "reprepro"]: ensure => installed; }
 
   file {
     "/etc/default/apt-cacher":
