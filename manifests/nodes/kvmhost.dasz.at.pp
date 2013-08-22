@@ -61,6 +61,12 @@ node 'kvmhost.dasz.at' {
     subscribe => File['/etc/systemd/system/jenkins_slave.service'];
   }
 
+  # import certificates from mozilla
+  exec { "mozroots --import --sync":
+    refreshonly => true,
+    subscribe   => Package['mono-complete'];
+  }
+
   # zetbox package mirror
   package { "reprepro": ensure => installed; }
 
