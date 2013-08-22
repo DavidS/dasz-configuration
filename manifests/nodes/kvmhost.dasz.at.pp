@@ -40,9 +40,9 @@ node 'kvmhost.dasz.at' {
       group  => nogroup,
       mode   => 0700;
 
-    '/var/lib/jenkins_slave/.config/NuGet/NuGet.config':
+    '/var/lib/jenkins_slave/.config/NuGet/NuGet.Config':
       ensure  => present,
-      content => template("dasz/jenkins/NuGet.config.erb"),
+      content => template("dasz/jenkins/NuGet.Config.erb"),
       owner   => slave,
       group   => nogroup,
       mode    => 0600;
