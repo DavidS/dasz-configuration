@@ -13,7 +13,7 @@ ca dasz-ca/keys/ca.crt
 dh dasz-ca/keys/dh4096.pem
 cert dasz-ca/keys/<%= @fqdn %>.crt
 key dasz-ca/keys/<%= @fqdn %>.key
-crl-verify dasz-ca/keys/crl.pem
+crl-verify dasz-ca/crl.pem
 remote-cert-tls client
 
 # set to 3 for production
