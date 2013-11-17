@@ -29,7 +29,7 @@ define site::ovpn_keys () {
       notify => Class['openvpn'];
 
     # the crl needs to be accessible to the running openvpn daemon, so we copy it out of the sealed keys directory.
-    "/etc/openvpn/${name}-ca/crl.pem":
+    "/etc/openvpn/${name}-ca-crl.pem":
       ensure => present,
       source => "/etc/openvpn/${name}-ca/keys/crl.pem",
       mode   => '0644',

@@ -12,7 +12,7 @@ dh maria-ca/keys/dh4096.pem
 ca maria-ca/keys/ca.crt
 cert maria-ca/keys/<%= @fqdn %>.crt
 key maria-ca/keys/<%= @fqdn %>.key
-crl-verify maria-ca/crl.pem
+crl-verify maria-ca-crl.pem
 
 keepalive 10 120
 
