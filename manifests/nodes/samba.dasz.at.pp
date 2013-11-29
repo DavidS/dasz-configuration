@@ -40,5 +40,34 @@ node 'samba.dasz.at' {
       mode   => 0644,
       owner  => root,
       group  => root;
+
+    [
+      "/media/backup1",
+      "/media/backup2",
+      "/media/backup3"]:
+      ensure => directory;
+  }
+
+  mount {
+    "/media/backup1":
+      ensure  => defined,
+      atboot  => false,
+      device  => "LABEL=backup1",
+      fstype  => "ext3",
+      options => "relatime";
+
+    "/media/backup2":
+      ensure  => defined,
+      atboot  => false,
+      device  => "LABEL=backup2",
+      fstype  => "ext3",
+      options => "relatime";
+
+    "/media/backup3":
+      ensure  => defined,
+      atboot  => false,
+      device  => "LABEL=backup3",
+      fstype  => "ext3",
+      options => "relatime";
   }
 }
