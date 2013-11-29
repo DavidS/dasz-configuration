@@ -112,6 +112,14 @@ class dasz::defaults (
       mode    => 0644,
       owner   => root,
       group   => root;
+
+    [
+      "/root/bin",
+      "/root/tmp"]:
+      ensure => directory,
+      mode   => 0755,
+      owner  => root,
+      group  => root;
   }
 
   if $puppet_agent {
