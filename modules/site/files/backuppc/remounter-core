@@ -1,0 +1,94 @@
+#!/bin/bash
+
+disk=$1
+dev=/media/$1
+lock=/var/lock/remounter.lock
+
+dotlockfile -p -l $lock || die "cannot lock"
+
+export TERM=linux
+setterm -reset
+setterm -powersave off -blank 0
+
+tmptxt=/root/tmp/remounter.$$.txt
+tmpwav=/root/tmp/remounter.$$.wav
+
+function say() {
+	echo "$*"
+	echo "$*" | tee $tmptxt | logger -t bpc$$
+  	text2wave -f 44000 < $tmptxt > $tmpwav
+	alsaplayer $tmpwav > /dev/null
+	cat /dev/null > $tmpwav
+}
+
+function die() {
+	say "$@"
+	say "exiting"
+	unlock
+	exit 1
+}
+
+function unlock() {
+	dotlockfile -p -u $lock | logger -t bpcdtl$$
+}
+
+function diskNumber() {
+	logger -t mounts$$ < /proc/mounts
+	sed -n -e '\|/media/backup|{s/.*backup\(.\).*/\1/ p}' < /proc/mounts
+}
+
+function execute() {
+	echo "$@" | logger -t bpc$$
+	"$@"
+}
+
+#remember mounted disk
+number=$(diskNumber)
+
+if [ -n "$number" ] ; then
+
+		  say "Recognized new disk $disk"
+		  /etc/init.d/backuppc stop || die "cannot stop backup"
+
+		  sleep 3
+
+		  umount /var/lib/backuppc || die "backup still running"
+
+		  say "backup system stopped."
+
+		  umount /media/backup1 \
+			  || umount /media/backup2 \
+			  || umount /media/backup3 \
+			  || die "cannot unmount disk"
+
+		  # at least one disk was unmounted => good
+		  # another disk could be still mounted, due to short circuiting
+		  # => bad => retry
+
+		  umount /media/backup1
+		  umount /media/backup2
+		  umount /media/backup3
+
+		  while [ $(lsusb | grep "Seagate RSS LLC" | wc -l) -gt 1 ]; do
+			  say "please remove disk number $number"
+			  sleep 1;
+		  done
+fi
+
+say "checking file system"
+fsck $dev || die "file system check failed"
+say "file system check finished."
+
+mount $dev || die "cannot mount device"
+mount --bind $dev /var/lib/backuppc || die "cannot mount backup volume"
+
+say "new disk $disk mounted"
+
+/etc/init.d/backuppc start || die "failed starting backup p c"
+
+say "backup system up and running."
+
+rm -f $tmptxt $tmpwav
+killall fbi || true
+
+unlock

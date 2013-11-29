@@ -1,0 +1,9 @@
+# backup1
+ACTION=="add", ENV{ID_FS_USAGE}=="filesystem", ENV{ID_FS_LABEL_ENC}=="backup1", RUN+="/root/bin/remounter backup1"
+
+# backup2
+ACTION=="add", ENV{ID_FS_USAGE}=="filesystem", ENV{ID_FS_LABEL_ENC}=="backup2", RUN+="/root/bin/remounter backup2"
+
+# backup3
+ACTION=="add", ENV{ID_FS_USAGE}=="filesystem", ENV{ID_FS_LABEL_ENC}=="backup3", RUN+="/root/bin/remounter backup3"
+

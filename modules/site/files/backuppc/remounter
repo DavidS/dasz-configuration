@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+echo "started with args [" "$@" "]" | logger -t handler$$
+echo "sending remounter into background" | logger -t handler$$
+
+openvt -sw -- /root/bin/remounter-core "$@" &
+
+echo "quitting" | logger -t handler$$
+

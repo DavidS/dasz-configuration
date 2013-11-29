@@ -19,4 +19,26 @@ node 'samba.dasz.at' {
     ensure => 'running',
     enable => true;
   }
+
+  package { 'festival': ensure => installed; }
+
+  file {
+    "/root/bin/remounter":
+      source => "puppet:///modules/site/backuppc/remounter",
+      mode   => 0755,
+      owner  => root,
+      group  => root;
+
+    "/root/bin/remounter-core":
+      source => "puppet:///modules/site/backuppc/remounter-core",
+      mode   => 0755,
+      owner  => root,
+      group  => root;
+
+    "/etc/udev/rules.d/99-backup.rules":
+      source => "puppet:///modules/site/backuppc/udev.rules",
+      mode   => 0644,
+      owner  => root,
+      group  => root;
+  }
 }
