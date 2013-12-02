@@ -66,20 +66,20 @@ node 'backup.dasz.at' {
       atboot  => false,
       device  => "LABEL=backup1",
       fstype  => "ext3",
-      options => "relatime";
+      options => "noauto,relatime";
 
     "/media/backup2":
       ensure  => defined,
       atboot  => false,
       device  => "LABEL=backup2",
       fstype  => "ext3",
-      options => "relatime";
+      options => "noauto,relatime";
 
     "/media/backup3":
       ensure  => defined,
       atboot  => false,
       device  => "LABEL=backup3",
       fstype  => "ext3",
-      options => "relatime";
+      options => "noauto,relatime";
   }
 }
