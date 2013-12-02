@@ -8,11 +8,20 @@ node 'samba.dasz.at' {
 
   package { 'backuppc': ensure => installed; }
 
-  file { "/etc/backuppc":
-    source  => "puppet:///secrets/backuppc",
-    recurse => true,
-    require => Package['backuppc'],
-    notify  => Service['backuppc'];
+  file {
+    "/etc/backuppc":
+      source  => "puppet:///secrets/backuppc",
+      recurse => true,
+      require => Package['backuppc'],
+      notify  => Service['backuppc'];
+
+    "/etc/backuppc/ssh/id_rsa":
+      source  => "puppet:///secrets/backuppc/ssh/id_rsa",
+      mode    => 0600,
+      owner   => backuppc,
+      group   => backuppc,
+      require => Package['backuppc'],
+      notify  => Service['backuppc'];
   }
 
   service { 'backuppc':
