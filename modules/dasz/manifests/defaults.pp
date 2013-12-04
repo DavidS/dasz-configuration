@@ -153,20 +153,20 @@ class dasz::defaults (
         default   => 'present',
       } ;
     }
+
+    munin::plugin {
+      # only works if testing and unstable sources are configured
+      'apt':
+        ensure => absent;
+
+      'apt_all':
+        path           => '/usr/share/munin/plugins/apt_all.fixed',
+        source         => 'puppet:///modules/dasz/munin/apt_all.fixed',
+        config_content => "[apt_all]\nuser root\nenv.releases ${distro}\n";
+    }
+
+    smart { $munin_smart_disks: }
   }
-
-  munin::plugin {
-    # only works if testing and unstable sources are configured
-    'apt':
-      ensure => absent;
-
-    'apt_all':
-      path           => '/usr/share/munin/plugins/apt_all.fixed',
-      source         => 'puppet:///modules/dasz/munin/apt_all.fixed',
-      config_content => "[apt_all]\nuser root\nenv.releases ${distro}\n";
-  }
-
-  smart { $munin_smart_disks: }
 
   # replace default cronjob to set proper environment vars in cronjob
   file { '/etc/cron.d/munin-node':
