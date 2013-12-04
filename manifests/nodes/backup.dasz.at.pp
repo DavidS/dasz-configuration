@@ -9,6 +9,10 @@ node 'backup.dasz.at' {
     ;
   }
 
+  ##################################################################
+  # #  BACKUP  #####################################################
+  ##################################################################
+
   package { 'backuppc': ensure => installed; }
 
   file {
@@ -81,5 +85,33 @@ node 'backup.dasz.at' {
       device  => "LABEL=backup3",
       fstype  => "ext3",
       options => "noauto,relatime";
+  }
+
+  ##################################################################
+  # #  SHOWSLIDE  ##################################################
+  ##################################################################
+  file {
+    "/root/bin/showslide":
+      source => "puppet:///modules/site/showslide",
+      mode   => 0755,
+      owner  => root,
+      group  => root;
+
+    "/etc/systemd/system/showslide.service":
+      source => "puppet:///modules/site/showslide.service",
+      mode   => 0644,
+      owner  => root,
+      group  => root;
+
+    "/srv/images":
+      ensure => directory;
+  }
+
+  package { "fbi": ensure => installed; }
+
+  service { "showslide.service":
+    ensure    => running,
+    enable    => true,
+    subscribe => [File["/root/bin/showslide", "/etc/systemd/system/showslide.service"], Package["fbi"]];
   }
 }

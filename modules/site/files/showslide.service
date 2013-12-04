@@ -1,0 +1,10 @@
+[Unit]
+Description=Display images on a framebuffer console
+
+[Service]
+ExecStart=/root/bin/showslide
+Type=simple
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
