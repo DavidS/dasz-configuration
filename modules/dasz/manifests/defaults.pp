@@ -200,7 +200,8 @@ class dasz::defaults (
       "mtr-tiny",
       "etckeeper",
       "smartmontools",
-      "popularity-contest"]:
+      "popularity-contest",
+      "bash-completion"]:
       ensure => installed;
 
     [
