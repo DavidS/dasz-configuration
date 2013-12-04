@@ -5,6 +5,8 @@ Description=Display images on a framebuffer console
 ExecStart=/root/bin/showslide
 Type=simple
 StandardOutput=null
+Restart=always
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target
