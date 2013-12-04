@@ -112,6 +112,7 @@ node 'backup.dasz.at' {
   service { "showslide.service":
     ensure    => running,
     enable    => true,
+    provider  => systemd,
     subscribe => [File["/root/bin/showslide", "/etc/systemd/system/showslide.service"], Package["fbi"]];
   }
 }
