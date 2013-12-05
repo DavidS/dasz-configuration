@@ -206,7 +206,6 @@ class dasz::defaults (
 
     [
       "vim-tiny",
-      "nano",
       "apt-listchanges"]:
       ensure => absent;
   }
