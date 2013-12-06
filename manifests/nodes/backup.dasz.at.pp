@@ -64,6 +64,11 @@ node 'backup.dasz.at' {
       ensure => directory;
   }
 
+  sudo::directive{
+    "backuppc-local":
+      content => "backuppc ALL=(ALL) NOPASSWD: /usr/bin/env LC_ALL=C /bin/tar -c -v -f - -C *\n",
+  }
+
   mount {
     "/media/backup1":
       ensure  => defined,
