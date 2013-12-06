@@ -13,7 +13,16 @@ node 'backup.dasz.at' {
   # #  BACKUP  #####################################################
   ##################################################################
 
-  package { 'backuppc': ensure => installed; }
+  package {
+    'backuppc':
+      ensure => installed;
+
+    # ensure that those are purged, because the locate.db contains /var/lib/backuppc, which nobody wants!
+    [
+      "locate",
+      "mlocate"]:
+      ensure => purged;
+  }
 
   file {
     "/etc/backuppc":
@@ -64,10 +73,7 @@ node 'backup.dasz.at' {
       ensure => directory;
   }
 
-  sudo::directive{
-    "backuppc-local":
-      content => "backuppc ALL=(ALL) NOPASSWD: /usr/bin/env LC_ALL=C /bin/tar -c -v -f - -C *\n",
-  }
+  sudo::directive { "backuppc-local": content => "backuppc ALL=(ALL) NOPASSWD: /usr/bin/env LC_ALL=C /bin/tar -c -v -f - -C *\n", }
 
   mount {
     "/media/backup1":
