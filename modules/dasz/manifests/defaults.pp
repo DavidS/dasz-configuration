@@ -215,6 +215,12 @@ class dasz::defaults (
     line => 'MAILTO=""';
   }
 
+  $apt_key = $distro ? {
+    'lenny'   => '55BE302B',
+    'squeeze' => 'B98321F9',
+    'wheezy'  => '65FFB764',
+  }
+
   apt::repository { "${distro}-base":
     url        => $location ? {
       'hetzner' => "http://mirror.hetzner.de/debian/packages",
@@ -224,7 +230,7 @@ class dasz::defaults (
     distro     => $distro,
     repository => "main",
     src_repo   => false,
-    key        => "55BE302B";
+    key        => $apt_key;
   }
 
   # testing and unstable do not have backports or security repos
