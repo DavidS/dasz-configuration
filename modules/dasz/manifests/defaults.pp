@@ -218,7 +218,7 @@ class dasz::defaults (
   $apt_key = $distro ? {
     'lenny'   => '55BE302B',
     'squeeze' => 'B98321F9',
-    'wheezy'  => '65FFB764',
+    default   => '65FFB764', # wheezy
   }
 
   apt::repository { "${distro}-base":
