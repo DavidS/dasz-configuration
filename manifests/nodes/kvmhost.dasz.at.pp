@@ -62,7 +62,7 @@ node 'kvmhost.dasz.at' {
   }
 
   # import certificates from mozilla
-  exec { "mozroots --import --sync":
+  exec { "/usr/bin/mozroots --import --sync":
     refreshonly => true,
     subscribe   => Package['mono-complete'];
   }
