@@ -9,8 +9,9 @@ class dasz::defaults (
   $apt_dater_manager    = false,
   $apt_dater_key        = '',
   $apt_dater_secret_key = '',
-  $ssh_address          = '*',
-  $ssh_port             = 22, # can be used on non-public sshds to reduce ssh bruteforce spamming, or avoid conflicts on shared IPs
+  $ssh_address          = '0.0.0.0',
+  $ssh_port             = 22,
+  # can be used on non-public sshds to reduce ssh bruteforce spamming, or avoid conflicts on shared IPs
   $admin_users          = true,
   $force_nullmailer     = false) {
   case $::virtual {
@@ -60,10 +61,12 @@ class dasz::defaults (
     ;
 
     "openssh":
-      address           => $ssh_address,
       port              => $ssh_port,
       template          => "openssh/sshd_config-${::lsbdistcodename}.erb",
-      exchange_hostkeys => true;
+      exchange_hostkeys => true,
+      options           => {
+        'ListenAddress' => $ssh_address
+      };
 
     "rsyslog":
       template => 'dasz/rsyslog.conf.erb';
@@ -125,7 +128,8 @@ class dasz::defaults (
   if $puppet_agent {
     class { "puppet":
       mode            => 'client',
-      server          => 'puppetmaster.dasz.at', # can be configured more globally
+      server          => 'puppetmaster.dasz.at',
+      # can be configured more globally
       runmode         => 'cron',
       prerun_command  => '/etc/puppet/etckeeper-commit-pre',
       postrun_command => '/etc/puppet/etckeeper-commit-post',
