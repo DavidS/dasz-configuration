@@ -99,6 +99,11 @@ node 'testagent.example.org' {
     'bind':
     ;
   }
+
+  hosting::customer { 'dasz':
+    admin_user     => 'david-dasz',
+    admin_fullname => 'David Schmitt',
+  }
 }
 
 node 'monitor.example.org' {

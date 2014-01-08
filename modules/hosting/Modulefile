@@ -1,0 +1,11 @@
+name    'dasz-hosting'
+version '0.1.0'
+source 'https://github.com/DavidS/dasz-configuration'
+author 'David Schmitt <david@dasz.at>'
+license 'MIT'
+summary 'A simple hosting solution for mail and web'
+description ''
+project_page 'https://github.com/DavidS/dasz-configuration'
+
+## Add dependencies, if any:
+# dependency 'username/name', '>= 1.2.0'

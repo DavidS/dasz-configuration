@@ -1,11 +1,3 @@
-# placeholder
-define hosting::customer ($type) {
-  file { "/data/srv/${name}":
-    ensure => directory,
-    noop   => true;
-  }
-}
-
 node 'hosting3.edv-bus.at' {
   class {
     'dasz::defaults':
