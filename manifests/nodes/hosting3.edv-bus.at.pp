@@ -11,4 +11,5 @@ node 'hosting3.edv-bus.at' {
   }
 
   create_resources("hosting::customer", loadyaml("/srv/puppet/secrets/hosting/customers.yaml"))
+  create_resources("hosting::domain", loadyaml("/srv/puppet/secrets/hosting/domains.yaml"))
 }

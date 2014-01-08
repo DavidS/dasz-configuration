@@ -100,9 +100,23 @@ node 'testagent.example.org' {
     ;
   }
 
-  hosting::customer { 'dasz':
-    admin_user     => 'david-dasz',
-    admin_fullname => 'David Schmitt',
+  $customers = {
+    'dasz' => {
+      admin_user     => 'david-dasz',
+      admin_fullname => 'David Schmitt',
+    }
+  }
+
+  create_resources(hosting::customer, $customers)
+
+  hosting::domain {
+    'dasz.at':
+      customer          => 'dasz',
+      all_customer_data => $customers;
+
+    'zetbox.at':
+      customer          => 'dasz',
+      all_customer_data => $customers;
   }
 }
 
