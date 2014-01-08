@@ -1,5 +1,5 @@
 # placeholder
-define hosting::customer () {
+define hosting::customer ($type) {
   file { "/data/srv/${name}":
     ensure => directory,
     noop   => true;
