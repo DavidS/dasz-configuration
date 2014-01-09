@@ -85,10 +85,11 @@ node 'testagent.example.org' {
       force_nullmailer     => true;
 
     "puppet":
-      mode    => 'client',
-      server  => 'puppetmaster.example.org',
-      runmode => 'cron',
-      require => Class['dasz::defaults'];
+      mode       => 'client',
+      server     => 'puppetmaster.example.org',
+      runmode    => 'cron',
+      audit_only => true,
+      require    => Class['dasz::defaults'];
 
     'nginx':
     ;

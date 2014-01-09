@@ -1,0 +1,27 @@
+worker_processes 4;
+master_process on;
+daemon off;
+pid <%= @base_dir %>/run/nginx.pid;
+error_log <%= @base_dir %>/log/error.log;
+
+events {
+	worker_connections 768;
+}
+
+http {
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
+
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	gzip on;
+	gzip_disable "msie6";
+
+	include <%= @base_dir %>/etc/nginx/conf.d/*.conf;
+	include <%= @base_dir %>/etc/nginx/sites-enabled/*;
+	access_log <%= @base_dir %>/log/access.log;
+}

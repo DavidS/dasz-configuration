@@ -9,39 +9,53 @@
 #
 # type is a documentation flag
 define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
+  include hosting
+
   $customer = $name
   $base_dir = "/srv/${customer}"
   $admin_group = "${customer}_admins"
-  $app_user = "${customer}_apps"
-  $app_group = "${customer}_apps"
+  $all_group = "${customer}_all"
+  $app_user = "${customer}_app"
 
-  group { [$admin_group, $app_group]: ensure => present }
+  group { [$admin_group, $all_group]: ensure => present }
 
   user {
     $admin_user:
       gid        => $admin_group,
       comment    => $admin_fullname,
       home       => "${base_dir}/home/${admin_user}",
-      managehome => true;
+      managehome => true,
+      groups     => [$all_group];
 
     $app_user:
-      gid        => $app_group,
-      comment    => "${admin_fullname} (App)",
-      home       => "${base_dir}/www",
-      managehome => false,
+      gid        => $admin_group,
+      comment    => "${admin_fullname}",
+      home       => "${base_dir}/apps",
+      managehome => true,
+      groups     => [$all_group],
   }
 
   file {
-    [
-      $base_dir,
-      "${base_dir}/home"]:
+    $base_dir:
       ensure => directory,
-      mode   => 0751,
-      owner  => root,
-      group  => $admin_group;
+      mode   => 2751,
+      owner  => $admin_user,
+      group  => $all_group;
 
+    # directories accessible to all
+    ["${base_dir}/home"]:
+      ensure => directory,
+      mode   => 2750,
+      owner  => $admin_user,
+      group  => $all_group;
+
+    # admin only directories
     [
       "${base_dir}/home/${admin_user}",
+      "${base_dir}/etc",
+      "${base_dir}/etc/nginx",
+      "${base_dir}/etc/nginx/conf.d",
+      "${base_dir}/etc/nginx/sites-enabled",
       "${base_dir}/backups",
       "${base_dir}/mail",
       "${base_dir}/ssl",
@@ -51,5 +65,83 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
       mode   => 2750,
       owner  => $admin_user,
       group  => $admin_group;
+
+    # app directories
+    ["${base_dir}/log",]:
+      ensure => directory,
+      mode   => 2770,
+      owner  => $app_user,
+      group  => $admin_group;
+
+    # app directories, need to be o+x to allow access to nginx.sock
+    ["${base_dir}/run",]:
+      ensure => directory,
+      mode   => 2771,
+      owner  => $app_user,
+      group  => $admin_group;
+
+    # the app user's home contains the systemd user config
+    [
+      "${base_dir}/apps",
+      "${base_dir}/apps/.config",
+      "${base_dir}/apps/.config/systemd",
+      "${base_dir}/apps/.config/systemd/user",
+      "${base_dir}/apps/.config/systemd/user/default.target.wants",
+      ]:
+      ensure => directory,
+      mode   => 2750,
+      owner  => $app_user,
+      group  => $admin_group;
+
+    "${base_dir}/apps/.config/systemd/user/default.target.wants/nginx.service":
+      ensure => symlink,
+      target => "${base_dir}/apps/.config/systemd/user/nginx.service",
+      before => Service["user@${app_user}.service"];
+
+    "${base_dir}/apps/.config/systemd/user/default.target":
+      ensure  => present,
+      source  => 'puppet:///modules/hosting/default.target',
+      replace => false,
+      mode    => 0660,
+      owner   => $admin_user,
+      group   => $admin_group,
+      before  => Service["user@${app_user}.service"];
+
+    "${base_dir}/apps/.config/systemd/user/nginx.service":
+      ensure  => present,
+      content => template('hosting/nginx.service.erb'),
+      #      replace => false,
+      mode    => 0660,
+      owner   => $admin_user,
+      group   => $admin_group,
+      before  => Service["user@${app_user}.service"];
+
+    "${base_dir}/etc/nginx/nginx.conf":
+      content => template("hosting/nginx.conf.erb"),
+      mode    => 0660,
+      owner   => $admin_user,
+      group   => $admin_group,
+      before  => Service["user@${app_user}.service"];
+  }
+
+  exec { "hosting::${customer}::enable-apps-linger":
+    command => "/bin/systemd-loginctl enable-linger ${app_user}",
+    unless  => "/bin/systemd-loginctl show-user ${app_user}",
+    require => User[$app_user];
+  }
+
+  # enable user@ service manually as systemd cannot do so (bug?)
+  file { "/etc/systemd/system/multi-user.target.wants/user@${app_user}.service":
+    ensure => symlink,
+    target => '/lib/systemd/system/user@.service',
+    before => Service["user@${app_user}.service"],
+    notify => Exec["systemd-reload"];
+  }
+
+  service { "user@${app_user}.service":
+    ensure    => running,
+    provider  => systemd,
+    require   => [Exec["hosting::${customer}::enable-apps-linger"], File["${base_dir}/apps/.config/systemd/user/default.target"]],
+    subscribe => Exec["systemd-reload"];
   }
 }

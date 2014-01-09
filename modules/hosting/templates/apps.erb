@@ -1,0 +1,18 @@
+# This is the application list for <%= @domain %>
+#
+# records are comma separated values:
+# type,name,location[,flags]
+# type: {static|php5|mono|redirect}
+#       static: serve files from <%= @base_dir %>/www/<%= @domain %>/$name
+#               use the special "static,*,*" to serve all subdomains from the directory with the corresponding name
+#       php5: serve files from <%= @base_dir %>/apps/$name with php5-fpm
+#       mono: serve files from <%= @base_dir %>/apps/$name with mono-fcgi
+#       redirect: redirect all requests for http://<%= @domain %>/$name to $location
+# name: directory where the application can be found
+# location: URL path to access it (e.g. "/foo" for http://<%= @domain %>/foo)
+# flags: [forcessl]
+#       forcessl: redirects all http accesses to https
+#
+
+# default: serve everything statically from <%= @base_dir %>/www/<%= @domain %>/$subdomain ('_' for none)
+static,*,*

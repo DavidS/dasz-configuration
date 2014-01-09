@@ -1,0 +1,16 @@
+[Unit]
+Description=The nginx HTTP and reverse proxy server
+
+[Service]
+Type=simple
+PIDFile=<%= @base_dir %>/run/nginx.pid
+ExecStartPre=/usr/sbin/nginx -c <%= @base_dir %>/etc/nginx/nginx.conf -t
+ExecStart=/usr/sbin/nginx -c <%= @base_dir %>/etc/nginx/nginx.conf
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+# nginx doesn't clean up after itself
+ExecStopPost=/bin/rm -f <%= @base_dir %>/run/nginx.pid <%= @base_dir %>/run/nginx.sock
+# not possible as non-root user: PrivateTmp=true
+
+[Install]
+WantedBy=default.target
