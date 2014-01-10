@@ -119,6 +119,15 @@ node 'testagent.example.org' {
       customer          => 'dasz',
       all_customer_data => $customers;
   }
+
+  hosting::nginx_user_snip { "@@test@@":
+    domain     => 'dasz.at',
+    customer   => 'dasz',
+    admin_user => $customers['dasz']['admin_user'],
+    type       => 'mono',
+    local_name => 'testapp_name',
+    location   => '/testapp_loc'
+  }
 }
 
 node 'monitor.example.org' {

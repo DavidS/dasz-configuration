@@ -1,0 +1,15 @@
+[Unit]
+Description=FastCGI mono process for <%= @local_name %>
+
+[Service]
+WorkingDirectory=<%= @base_dir %>/apps/<%= @local_name %>
+# make socket accessible for admin group members
+UMask=007
+ExecStart=/usr/bin/fastcgi-mono-server4 /socket=unix:<%= @base_dir %>/run/<%= @local_name %>.sock /applications=<%= @location %>:. /printlog=True /loglevels=Standard
+
+# extended features
+RestartSec=1
+Restart=always
+
+[Install]
+WantedBy=default.target
