@@ -93,24 +93,10 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
       owner  => $app_user,
       group  => $admin_group;
 
-    "${base_dir}/apps/.config/systemd/user/default.target.wants/nginx.service":
-      ensure => symlink,
-      target => "${base_dir}/apps/.config/systemd/user/nginx.service",
-      before => Service["user@${app_user}.service"];
-
     "${base_dir}/apps/.config/systemd/user/default.target":
       ensure  => present,
       source  => 'puppet:///modules/hosting/default.target',
       replace => false,
-      mode    => 0660,
-      owner   => $admin_user,
-      group   => $admin_group,
-      before  => Service["user@${app_user}.service"];
-
-    "${base_dir}/apps/.config/systemd/user/nginx.service":
-      ensure  => present,
-      content => template('hosting/nginx.service.erb'),
-      #      replace => false,
       mode    => 0660,
       owner   => $admin_user,
       group   => $admin_group,
@@ -122,6 +108,16 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
       owner   => $admin_user,
       group   => $admin_group,
       before  => Service["user@${app_user}.service"];
+  }
+
+  hosting::customer_service { "${customer}::nginx":
+    base_dir        => $base_dir,
+    app_user        => $app_user,
+    admin_user      => $admin_user,
+    admin_group     => $admin_group,
+    service_name    => 'nginx',
+    service_content => template('hosting/nginx.service.erb'),
+    enable          => true,
   }
 
   exec { "hosting::${customer}::enable-apps-linger":
