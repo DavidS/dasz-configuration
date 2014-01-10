@@ -4,15 +4,39 @@
 # type,name,location[,flags]
 # type: {static|php5|mono|redirect}
 #       static: serve files from <%= @base_dir %>/www/<%= @domain %>/$name
-#               use the special "static,*,*" to serve all subdomains from the directory with the corresponding name
 #       php5: serve files from <%= @base_dir %>/apps/$name with php5-fpm
 #       mono: serve files from <%= @base_dir %>/apps/$name with mono-fcgi
-#       redirect: redirect all requests for http://<%= @domain %>/$name to $location
+#       redirect: redirect all requests under http://<%= @domain %>/$name... to $location...
 # name: directory where the application can be found
 # location: URL path to access it (e.g. "/foo" for http://<%= @domain %>/foo)
 # flags: [forcessl]
 #       forcessl: redirects all http accesses to https
 #
+# When nothing is specified for a location, http://<%= @domain %>/ is served
+# statically from <%= @base_dir %>/www/<%= @domain %>/_ and 
+# http://blah.<%= @domain %>/ is served from <%= @base_dir %>/www/<%= @domain %>/blah.
 
-# default: serve everything statically from <%= @base_dir %>/www/<%= @domain %>/$subdomain ('_' for none)
-static,*,*
+# more complex setup:
+#   * redirect http://<%= @domain %>/ to http://www.<%= @domain %>/
+#   * serve wordpress from http://www.<%= @domain %>/
+#   * serve a mono app from http://www.<%= @domain %>/shop/
+#   * serve other static content from http://blubb.<%= @domain %>/
+#
+# www.dasz.at.apps:
+# > mono,TheShop,/shop,forcessl
+# > php5,wordpress,/
+# dasz.at.apps:
+# > redirect,/,http://www.<%= @domain %>/
+# > static,*,*
+# 
+# The wordpress will be loaded from <%= @base_dir %>/apps/wordpress, the mono
+# application from <%= @base_dir %>/apps/TheShop, content for blubb can be put
+# into <%= @base_dir %>/www/<%= @domain %>/blubb as usual.
+
+
+###############################################################################
+# Put configuration here.
+#
+# Reminder: locations without configuration are served from <%= @base_dir %>/www/<%= @domain %>/...
+
+

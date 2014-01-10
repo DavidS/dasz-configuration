@@ -35,6 +35,21 @@ class hosting {
   #      notify => Exec['systemd-reload'];
   #  }
 
+  # use mono3
+  apt::repository { "zetbox":
+    url        => "http://kvmhost.dasz/debian",
+    distro     => zetbox,
+    repository => "main";
+  }
+
+  package { ["mono-complete", "mono-fastcgi-server"]: ensure => installed; }
+
+  # import certificates from mozilla
+  exec { "/usr/bin/mozroots --import --sync":
+    refreshonly => true,
+    subscribe   => Package['mono-complete'];
+  }
+
   exec { 'systemd-reload':
     command     => '/bin/systemctl --system daemon-reload',
     refreshonly => true;

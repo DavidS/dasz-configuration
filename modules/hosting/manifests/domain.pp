@@ -16,6 +16,12 @@ define hosting::domain ($customer, $all_customer_data) {
       owner   => $admin_user,
       group   => $admin_group;
 
+    "${base_dir}/etc/nginx/${domain}":
+      ensure => directory,
+      mode   => 02770,
+      owner  => $admin_user,
+      group  => $admin_group;
+
     "${base_dir}/www/${domain}":
       ensure => directory,
       mode   => 02770,
@@ -29,6 +35,7 @@ define hosting::domain ($customer, $all_customer_data) {
       owner   => $admin_user,
       group   => $admin_group;
 
+    # add global configuration
     "/etc/nginx/sites-enabled/${domain}":
       content => template("hosting/nginx.frontend-site.erb"),
       notify  => Service['nginx'];
