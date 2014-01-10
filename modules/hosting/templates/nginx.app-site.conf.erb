@@ -1,0 +1,13 @@
+server {
+	listen unix:<%= @base_dir %>/run/nginx.sock;
+	server_name <%= @domain %>;
+	root <%= @base_dir %>/www/<%= @basedomain %>/<%= @subdomain == '' ? '_' : @subdomain %>;
+
+	index index.html index.htm;
+
+	include <%= @base_dir %>/etc/nginx/<%= @domain %>/*.conf;
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+}

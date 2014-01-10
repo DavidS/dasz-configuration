@@ -9,7 +9,7 @@ define hosting::domain ($customer, $all_customer_data) {
   $app_group = "${customer}_app"
 
   file {
-    "${base_dir}/etc/nginx/sites-enabled/${domain}":
+    "${base_dir}/etc/nginx/sites-enabled/${domain}_others":
       content => template("hosting/nginx.default-site.erb"),
       mode    => 0664,
       #      replace => false,

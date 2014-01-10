@@ -1,21 +1,13 @@
 server {
 	listen unix:<%= @base_dir %>/run/nginx.sock;
-	server_name <%= @domain %> *.<%= @domain %>;
-
-	if ($host ~* ^([^.]+)\.<%= @domain %>$) {
-		set $auto_subdomain $1;
-	}
-	if ($host ~* ^<%= @domain %>$) {
-		set $auto_subdomain _;
-	}
-	root <%= @base_dir %>/www/<%= @domain %>/$auto_subdomain;
+	server_name ~^(?<subdomain>[^/]*).<%= @domain %>$;
+	root <%= @base_dir %>/www/<%= @domain %>/$subdomain;
 
 	index index.html index.htm;
 
-	include <%= @base_dir %>/etc/nginx/<%= @domain %>/*.conf;
+	# include <%= @base_dir %>/etc/nginx/<%= @domain %>/*.conf;
 
 	location / {
 		try_files $uri $uri/ =404;
 	}
 }
-

@@ -120,13 +120,31 @@ node 'testagent.example.org' {
       all_customer_data => $customers;
   }
 
-  hosting::nginx_user_snip { "@@test@@":
-    domain     => 'dasz.at',
-    customer   => 'dasz',
-    admin_user => $customers['dasz']['admin_user'],
-    type       => 'mono',
-    local_name => 'testapp_name',
-    location   => '/testapp_loc'
+  hosting::nginx_user_snip {
+    "@@test1@@":
+      basedomain => 'dasz.at',
+      customer   => 'dasz',
+      admin_user => $customers['dasz']['admin_user'],
+      type       => 'mono',
+      local_name => 'testapp_name',
+      location   => '/testapp_loc';
+
+    "@@test2@@":
+      basedomain => 'dasz.at',
+      subdomain  => 'foo',
+      customer   => 'dasz',
+      admin_user => $customers['dasz']['admin_user'],
+      type       => 'mono',
+      local_name => 'testapp_name',
+      location   => '/foo_testapp_loc';
+    #    "@@test3@@":
+    #      basedomain => 'dasz.at',
+    #      subdomain  => 'www',
+    #      customer   => 'dasz',
+    #      admin_user => $customers['dasz']['admin_user'],
+    #      type       => 'php5',
+    #      local_name => 'php_appname',
+    #      location   => '/phpapp_loc';
   }
 }
 
