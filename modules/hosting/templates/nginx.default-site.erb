@@ -2,26 +2,20 @@ server {
 	listen unix:<%= @base_dir %>/run/nginx.sock;
 	server_name <%= @domain %> *.<%= @domain %>;
 
-	root <%= @base_dir %>/www/<%= @domain %>;
-
-	index index.html index.htm;
-
-	include <%= @base_dir %>/etc/nginx/<%= @domain %>/*.conf;
-
-	location / {
-		try_files $uri $uri/ /index.html;
-	}
-
-	# redirect static content in subdomains
 	if ($host ~* ^([^.]+)\.<%= @domain %>$) {
 		set $auto_subdomain $1;
 	}
 	if ($host ~* ^<%= @domain %>$) {
 		set $auto_subdomain _;
 	}
-	if (-d /srv/dasz/www/<%= @domain %>/$auto_subdomain) {
-		rewrite ^(.*)$ /$auto_subdomain$uri;
-		break;
+	root <%= @base_dir %>/www/<%= @domain %>/$auto_subdomain;
+
+	index index.html index.htm;
+
+	include <%= @base_dir %>/etc/nginx/<%= @domain %>/*.conf;
+
+	location / {
+		try_files $uri $uri/ =404;
 	}
 }
 
