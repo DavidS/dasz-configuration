@@ -54,4 +54,11 @@ class hosting {
     command     => '/bin/systemctl --system daemon-reload',
     refreshonly => true;
   }
+
+  file { "/etc/nginx/php5-fpm_params":
+    source => "puppet:///modules/hosting/nginx.php5-fpm_params",
+    mode   => 0644,
+    owner  => root,
+    group  => root;
+  }
 }

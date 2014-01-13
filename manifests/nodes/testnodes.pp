@@ -137,14 +137,15 @@ node 'testagent.example.org' {
       type       => 'mono',
       local_name => 'testapp_name',
       location   => '/foo_testapp_loc';
-    #    "@@test3@@":
-    #      basedomain => 'dasz.at',
-    #      subdomain  => 'www',
-    #      customer   => 'dasz',
-    #      admin_user => $customers['dasz']['admin_user'],
-    #      type       => 'php5',
-    #      local_name => 'php_appname',
-    #      location   => '/phpapp_loc';
+
+    "@@test3@@":
+      basedomain => 'dasz.at',
+      subdomain  => 'www',
+      customer   => 'dasz',
+      admin_user => $customers['dasz']['admin_user'],
+      type       => 'php5',
+      local_name => 'php_appname',
+      location   => '/phpapp_loc';
   }
 }
 
