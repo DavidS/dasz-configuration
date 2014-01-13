@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use String::Util 'trim';
 
 my $customer = "<%= @customer %>";
 my $admin_user = "<%= @admin_user %>";
@@ -34,7 +35,7 @@ for my $domain_config (glob("${apps_dir}/*.apps")) {
 			print STDERR "$domain_config:$.:$_ failed to match ^.*,.*,.*,.*(,.*)?/\n";
 			next;
 		}
-		my ($subdomain, $type, $name, $location, $flags) = ($1, $2, $3, $4, $6 || '');
+		my ($subdomain, $type, $name, $location, $flags) = (trim($1), trim($2), trim($3), trim($4), trim($6 || ''));
 
 		print STDERR "$domain_config:$.:[$_] => [$subdomain] [$type] [$name] [$location] [$flags]\n" if $debug;
 
