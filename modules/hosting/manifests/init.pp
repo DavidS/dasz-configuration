@@ -20,7 +20,17 @@ class hosting {
     repository => "main";
   }
 
-  package { ["mono-complete", "mono-fastcgi-server", "policykit-1"]: ensure => installed; }
+  package {
+    [
+      "mono-complete",
+      "mono-fastcgi-server",
+      ]:
+      ensure => installed;
+
+    "policykit-1":
+      ensure => installed,
+      notify => Exec['dbus-restart']
+  }
 
   # import certificates from mozilla
   exec { "/usr/bin/mozroots --import --sync":
@@ -28,9 +38,14 @@ class hosting {
     subscribe   => Package['mono-complete'];
   }
 
-  exec { 'systemd-reload':
-    command     => '/bin/systemctl --system daemon-reload',
-    refreshonly => true;
+  exec {
+    'systemd-reload':
+      command     => '/bin/systemctl --system daemon-reload',
+      refreshonly => true;
+
+    'dbus-restart':
+      command     => '/bin/systemctl restart dbus.service',
+      refreshonly => true;
   }
 
   file {

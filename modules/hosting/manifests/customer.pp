@@ -132,7 +132,7 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
   exec { "hosting::${customer}::enable-apps-linger":
     command => "/bin/systemd-loginctl enable-linger ${app_user}",
     unless  => "/bin/systemd-loginctl show-user ${app_user}",
-    require => User[$app_user];
+    require => [User[$app_user], Exec['dbus-restart']];
   }
 
   # enable user@ service manually as systemd cannot do so (bug?)
