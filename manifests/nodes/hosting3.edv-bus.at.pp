@@ -1,8 +1,9 @@
 node 'hosting3.edv-bus.at' {
   class {
     'dasz::defaults':
-      location => hetzner,
-      ssh_port => 2200; # do not collide with hosting ssh
+      location    => hetzner,
+      admin_users => false,
+      ssh_port    => 2200; # do not collide with hosting ssh
 
 
 
@@ -10,6 +11,11 @@ node 'hosting3.edv-bus.at' {
     ;
   }
 
-  create_resources("hosting::customer", loadyaml("/srv/puppet/secrets/hosting/customers.yaml"))
-  create_resources("hosting::domain", loadyaml("/srv/puppet/secrets/hosting/domains.yaml"))
+  $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")
+
+  create_resources("hosting::customer", $customers)
+  create_resources("hosting::domain", loadyaml("/srv/puppet/secrets/hosting/domains.yaml"), {
+    all_customer_data => $customers
+  }
+  )
 }
