@@ -49,7 +49,8 @@ class hosting {
   }
 
   vcsrepo { "/var/lib/hosting/dasz-configuration":
-    ensure   => latest,
+    ensure   => present,
+    revision => master,
     provider => git,
     source   => "https://github.com/DavidS/dasz-configuration.git",
     owner    => root,
