@@ -20,7 +20,7 @@ class hosting {
     repository => "main";
   }
 
-  package { ["mono-complete", "mono-fastcgi-server"]: ensure => installed; }
+  package { ["mono-complete", "mono-fastcgi-server", "policykit-1"]: ensure => installed; }
 
   # import certificates from mozilla
   exec { "/usr/bin/mozroots --import --sync":

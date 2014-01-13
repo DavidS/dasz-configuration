@@ -69,6 +69,7 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
 
     "${base_dir}/home/${admin_user}/bin/update-apps":
       content => template("hosting/update-apps.erb"),
+      replace => false,
       mode    => 0750,
       owner   => $admin_user,
       group   => $admin_group;
@@ -111,6 +112,7 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
 
     "${base_dir}/etc/nginx/nginx.conf":
       content => template("hosting/nginx.conf.erb"),
+      replace => false,
       mode    => 0660,
       owner   => $admin_user,
       group   => $admin_group,

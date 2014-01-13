@@ -13,11 +13,11 @@ define hosting::customer_service (
   $service_file_name = "${base_dir}/apps/.config/systemd/user/${service_name}.service"
 
   file { $service_file_name:
-    ensure => present,
-    #      replace => false,
-    mode   => 0660,
-    owner  => $admin_user,
-    group  => $admin_group
+    ensure  => present,
+    replace => false,
+    mode    => 0660,
+    owner   => $admin_user,
+    group   => $admin_group
   }
 
   if ($service_source != undef) {

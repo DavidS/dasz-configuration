@@ -11,8 +11,8 @@ define hosting::domain ($customer, $all_customer_data) {
   file {
     "${base_dir}/etc/nginx/sites-enabled/${domain}_others":
       content => template("hosting/nginx.default-site.erb"),
+      replace => false,
       mode    => 0664,
-      #      replace => false,
       owner   => $admin_user,
       group   => $admin_group;
 
@@ -30,25 +30,19 @@ define hosting::domain ($customer, $all_customer_data) {
 
     "${base_dir}/apps/${domain}.apps":
       content => template("hosting/apps.erb"),
+      replace => false,
       mode    => 0664,
-      #      replace => false,
       owner   => $admin_user,
       group   => $admin_group;
 
     # add global configuration
     "/etc/nginx/sites-enabled/${domain}":
       content => template("hosting/nginx.frontend-site.erb"),
-      notify  => Service['nginx'];
+      notify  => Service['nginx'],
+      mode    => 0644,
+      owner   => root,
+      group   => root;
   }
-
-  # #TODO: add services
-  # nginx
-  # See http://publications.jbfavre.org/web/nginx-vhosts-automatiques-avec-SSL-et-authentification.en
-  # this can also be used to replace vhosts with app sockets
-  # if (-e /srv/${customer}/www/${domain}/${app_subdomain}.socket) { ... }
-
-  # php-fpm
-  # default service for files
 
   # exim routing
   # according to config in /srv/${customer}/mail/${domain}
