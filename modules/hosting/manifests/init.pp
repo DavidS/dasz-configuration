@@ -35,10 +35,11 @@ class hosting {
 
   file {
     "/etc/nginx/php5-fpm_params":
-      source => "puppet:///modules/hosting/nginx.php5-fpm_params",
-      mode   => 0644,
-      owner  => root,
-      group  => root;
+      source  => "puppet:///modules/hosting/nginx.php5-fpm_params",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      require => Class['nginx'];
 
     "/var/lib/hosting":
       ensure => directory,
