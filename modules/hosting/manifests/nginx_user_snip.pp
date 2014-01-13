@@ -1,7 +1,17 @@
 # some resources here have to be defined()-protected since they can be shared between
 # multiple snips
-define hosting::nginx_user_snip ($basedomain, $customer, $admin_user, $type, $local_name, $location, $subdomain = '', $flags = '') {
+define hosting::nginx_user_snip (
+  $basedomain,
+  $customer,
+  $admin_user,
+  $type,
+  $local_name,
+  $location,
+  $subdomain = '',
+  $forcessl  = false) {
   validate_re($type, 'static|php5|mono|redirect')
+  validate_bool($forcessl)
+
   $domain = $subdomain ? {
     ''      => $basedomain,
     default => "${subdomain}.${basedomain}"
@@ -13,6 +23,10 @@ define hosting::nginx_user_snip ($basedomain, $customer, $admin_user, $type, $lo
   $location_as_filename = inline_template("<%= @location.gsub(/[^a-zA-Z0-9]/, '_') %>")
   $nginx_config_dir = "${base_dir}/etc/nginx/${domain}"
   $nginx_domain_config = "${base_dir}/etc/nginx/sites-enabled/${domain}.conf"
+
+  if ($forcessl) {
+    fail("forcessl: not yet implemented")
+  }
 
   if (!defined(File[$nginx_config_dir])) {
     file { $nginx_config_dir:
