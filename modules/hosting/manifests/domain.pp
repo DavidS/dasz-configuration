@@ -38,10 +38,11 @@ define hosting::domain ($customer, $all_customer_data) {
     # add global configuration
     "/etc/nginx/sites-enabled/${domain}":
       content => template("hosting/nginx.frontend-site.erb"),
-      notify  => Service['nginx'],
       mode    => 0644,
       owner   => root,
-      group   => root;
+      group   => root,
+      require => Package['nginx'],
+      notify  => Service['nginx'];
   }
 
   # exim routing
