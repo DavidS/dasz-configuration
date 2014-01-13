@@ -14,6 +14,12 @@ class dasz::defaults (
   # can be used on non-public sshds to reduce ssh bruteforce spamming, or avoid conflicts on shared IPs
   $admin_users          = true,
   $force_nullmailer     = false) {
+  validate_bool($puppet_agent)
+  validate_bool($munin_node)
+  validate_bool($apt_dater_manager)
+  validate_bool($admin_users)
+  validate_bool($force_nullmailer)
+
   case $::virtual {
     'vserver' : {
       # only remove the package. See https://github.com/example42/puppet-ntp/issues/20
@@ -121,7 +127,6 @@ class dasz::defaults (
       mode    => 0644,
       owner   => root,
       group   => root;
-
 
     [
       "/root/bin",
