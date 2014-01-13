@@ -19,6 +19,15 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
 
   group { [$admin_group, $all_group]: ensure => present }
 
+  exec {
+    "hosting::${customer}::useradd::workaround":
+      command => "/bin/mkdir ${base_dir}",
+      creates => $base_dir;
+
+    "hosting::${customer}::useradd::home_workaround":
+      command => "/bin/mkdir ${base_dir}/home",
+      creates => "${base_dir}/home";
+  } ->
   user {
     $admin_user:
       gid        => $admin_group,
