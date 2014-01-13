@@ -11,6 +11,8 @@
 # Sample Usage:
 #
 class hosting {
+  include nginx
+
   # use mono3
   apt::repository { "zetbox":
     url        => "http://kvmhost.dasz/debian",
