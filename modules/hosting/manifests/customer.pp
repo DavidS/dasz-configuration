@@ -89,7 +89,7 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
       "${base_dir}/apps/.config/systemd/user/default.target.wants",
       ]:
       ensure => directory,
-      mode   => 2750,
+      mode   => 2770,
       owner  => $app_user,
       group  => $admin_group;
 
