@@ -116,6 +116,13 @@ class dasz::defaults (
       owner   => root,
       group   => root;
 
+    "/etc/profile.d/home-bin.sh":
+      content => template('dasz/home-bin.sh.erb'),
+      mode    => 0644,
+      owner   => root,
+      group   => root;
+
+
     [
       "/root/bin",
       "/root/tmp"]:
