@@ -52,6 +52,7 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
     # admin only directories
     [
       "${base_dir}/home/${admin_user}",
+      "${base_dir}/home/${admin_user}/bin",
       "${base_dir}/etc",
       "${base_dir}/etc/nginx",
       "${base_dir}/etc/nginx/conf.d",
@@ -65,6 +66,12 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
       mode   => 2750,
       owner  => $admin_user,
       group  => $admin_group;
+
+    "${base_dir}/home/${admin_user}/bin/update-apps":
+      content => template("hosting/update-apps.erb"),
+      mode    => 0750,
+      owner   => $admin_user,
+      group   => $admin_group;
 
     # app directories
     ["${base_dir}/log",]:

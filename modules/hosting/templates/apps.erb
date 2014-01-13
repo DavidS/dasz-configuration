@@ -1,7 +1,10 @@
 # This is the application list for <%= @domain %>
 #
 # records are comma separated values:
-# type,name,location[,flags]
+# subdomain,type,name,location[,flags]
+#
+# subdomain: the domain-prefix to use, may be empty to specify the bare domain
+#       for http://blah.<%= @domain %>/, "blah" is the subdomain
 # type: {static|php5|mono|redirect}
 #       static: serve files from <%= @base_dir %>/www/<%= @domain %>/$name
 #       php5: serve files from <%= @base_dir %>/apps/$name with php5-fpm

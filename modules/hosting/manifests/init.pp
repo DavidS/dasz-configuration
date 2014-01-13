@@ -55,10 +55,25 @@ class hosting {
     refreshonly => true;
   }
 
-  file { "/etc/nginx/php5-fpm_params":
-    source => "puppet:///modules/hosting/nginx.php5-fpm_params",
-    mode   => 0644,
-    owner  => root,
-    group  => root;
+  file {
+    "/etc/nginx/php5-fpm_params":
+      source => "puppet:///modules/hosting/nginx.php5-fpm_params",
+      mode   => 0644,
+      owner  => root,
+      group  => root;
+
+    "/var/lib/hosting":
+      ensure => directory,
+      mode   => 0755,
+      owner  => root,
+      group  => root;
+  }
+
+  vcsrepo { "/var/lib/hosting/dasz-configuration":
+    ensure   => latest,
+    provider => git,
+    source   => "https://github.com/DavidS/dasz-configuration.git",
+    owner    => root,
+    group    => root;
   }
 }
