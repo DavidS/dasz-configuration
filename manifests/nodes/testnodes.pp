@@ -91,20 +91,19 @@ node 'testagent.example.org' {
       audit_only => true,
       require    => Class['dasz::defaults'];
 
-    'nginx':
-    ;
-
     'dasz::snips::systemd':
       grub_timeout => 0;
-
-    'bind':
-    ;
   }
 
   $customers = {
-    'dasz' => {
+    'dasz'         => {
       admin_user     => 'david-dasz',
       admin_fullname => 'David Schmitt',
+    }
+    ,
+    'example'      => {
+      admin_user     => 'example',
+      admin_fullname => 'John Doe',
     }
   }
 
@@ -117,6 +116,18 @@ node 'testagent.example.org' {
 
     'zetbox.at':
       customer          => 'dasz',
+      all_customer_data => $customers;
+
+    'example.com':
+      customer          => 'example',
+      all_customer_data => $customers;
+
+    'example.org':
+      customer          => 'example',
+      all_customer_data => $customers;
+
+    'very-long-subdomain.of.example.net':
+      customer          => 'example',
       all_customer_data => $customers;
   }
 
