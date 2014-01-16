@@ -11,7 +11,7 @@
 # Sample Usage:
 #
 class hosting {
-  include nginx
+  class { 'nginx': template => 'hosting/nginx.frontend.conf.erb' }
 
   # use mono3
   apt::repository { "zetbox":
