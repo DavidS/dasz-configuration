@@ -12,6 +12,29 @@ node 'kvmhost.dasz.at' {
     ;
   }
 
+  # misc
+  package { "vagrant": ensure => installed; }
+
+  apt::repository {
+    "experimental-src":
+      url        => "http://kvmhost.dasz:3142/debian",
+      distro     => experimental,
+      repository => "main",
+      src_repo   => true;
+
+    "wheezy-src":
+      url        => "http://kvmhost.dasz:3142/debian",
+      distro     => wheezy,
+      repository => "main",
+      src_repo   => true;
+
+    "jessie-src":
+      url        => "http://kvmhost.dasz:3142/debian",
+      distro     => jessie,
+      repository => "main",
+      src_repo   => true;
+  }
+
   # use mono3
   apt::repository { "zetbox":
     url        => "http://kvmhost.dasz/debian",
