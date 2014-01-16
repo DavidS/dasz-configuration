@@ -35,7 +35,7 @@ node 'kvmhost.dasz.at' {
       src_repo   => true;
   }
 
-  sudo::directive { "jenkins-cowbuilder": content => "Cmnd_Alias COWBUILDER /usr/sbin/cowbuilder *\nDefaults!COWBUILDER setenv\nslave ALL=(ALL) NOPASSWD: COWBUILDER\n", }
+  sudo::directive { "jenkins-cowbuilder": content => "slave ALL=(ALL) NOPASSWD: SETENV: /usr/sbin/cowbuilder *\n", }
 
   # use mono3
   apt::repository { "zetbox":
