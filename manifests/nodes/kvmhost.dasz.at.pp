@@ -13,7 +13,7 @@ node 'kvmhost.dasz.at' {
   }
 
   # misc
-  package { "vagrant": ensure => installed; }
+  package { ["vagrant", "gem2deb"]: ensure => installed; }
 
   apt::repository {
     "experimental-src":
@@ -34,6 +34,8 @@ node 'kvmhost.dasz.at' {
       repository => "main",
       src_repo   => true;
   }
+
+  sudo::directive { "jenkins-cowbuilder": content => "slave ALL=(ALL) NOPASSWD: /usr/sbin/cowbuilder *\n", }
 
   # use mono3
   apt::repository { "zetbox":
