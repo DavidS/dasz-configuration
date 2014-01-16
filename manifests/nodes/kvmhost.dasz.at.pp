@@ -68,6 +68,7 @@ node 'kvmhost.dasz.at' {
   }
 
   # zetbox package mirror
+  # see /srv/debian/README for details
   package { "reprepro": ensure => installed; }
 
   nginx::vhost { 'kvmhost':
@@ -99,5 +100,35 @@ node 'kvmhost.dasz.at' {
     ensure  => running,
     enable  => true,
     require => Package['apt-cacher'];
+  }
+
+  # preliminary cowbuilder support
+  package { "cowbuilder": ensure => installed; }
+
+  $debian_mirror = 'kvmhost.dasz:3142'
+  $basedir = '/var/cache/pbuilder'
+
+  $dist = 'wheezy'
+  $arch = 'amd64'
+
+  file { # cache dir for dist/arch
+    "${basedir}/${dist}-${arch}":
+      ensure  => directory,
+      mode    => 0755,
+      owner   => root,
+      group   => root,
+      require => Package["cowbuilder"];
+
+    "/etc/pbuilderrc":
+      content => template("dasz/jenkins/pbuilderrc.erb"),
+      mode    => 0644,
+      owner   => root,
+      group   => root;
+  }
+
+  exec { "cowbuilder create ${dist}-${arch}":
+    command => "/usr/sbin/cowbuilder --create --basepath /var/cache/pbuilder/${dist}-${arch}/base.cow --distribution ${dist} --debootstrapopts --arch --debootstrapopts ${arch}",
+    require => [File["${basedir}/${dist}-${arch}"], File["/etc/pbuilderrc"]],
+    creates => "${basedir}/${dist}-${arch}/base.cow";
   }
 }
