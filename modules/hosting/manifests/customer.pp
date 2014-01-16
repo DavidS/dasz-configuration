@@ -120,7 +120,7 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
       before  => Service["user@${app_user}.service"];
 
     "${base_dir}/etc/nginx/nginx.conf":
-      content => template("hosting/nginx.conf.erb"),
+      content => template("hosting/nginx.customer.conf.erb"),
       replace => false,
       mode    => 0660,
       owner   => $admin_user,
