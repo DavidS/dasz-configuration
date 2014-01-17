@@ -17,7 +17,8 @@ class hosting {
   apt::repository { "zetbox":
     url        => "http://office.dasz.at/debian",
     distro     => zetbox,
-    repository => "main";
+    repository => "main",
+    trusted    => yes;
   }
 
   package {
