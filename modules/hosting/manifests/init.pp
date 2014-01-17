@@ -15,7 +15,7 @@ class hosting {
 
   # use mono3
   apt::repository { "zetbox":
-    url        => "http://kvmhost.dasz/debian",
+    url        => "http://office.dasz.at/debian",
     distro     => zetbox,
     repository => "main";
   }

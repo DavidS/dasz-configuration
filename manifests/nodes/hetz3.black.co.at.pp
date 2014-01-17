@@ -103,6 +103,10 @@ node 'hetz3.black.co.at' {
     'monitor':
       ip     => '10.0.0.217',
       notify => Service['nginx'];
+
+    'kvmhost':
+      ip     => '10.0.0.191',
+      notify => Service['nginx'];
   }
 
   file {

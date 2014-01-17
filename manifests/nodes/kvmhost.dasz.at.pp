@@ -98,6 +98,7 @@ node 'kvmhost.dasz.at' {
 
   nginx::vhost { 'kvmhost':
     docroot    => '/srv/debian',
+    template   => "site/${::fqdn}/nginx.kvmhost-vhost.conf.erb",
     groupowner => 'adm';
   }
 
