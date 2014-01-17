@@ -21,7 +21,7 @@ server {
 ##########################################################################
 
 	location /debian {
-		proxy_pass https://kvmhost/debian;
+		proxy_pass http://kvmhost/debian;
 		proxy_set_header Host kvmhost.dasz;
 	}
 }
@@ -170,7 +170,7 @@ server {
 ##########################################################################
 
 	location /debian {
-		proxy_pass https://kvmhost/debian;
+		proxy_pass http://kvmhost/debian;
 		proxy_set_header Host kvmhost.dasz;
 	}
 
