@@ -15,6 +15,15 @@ server {
 	location ~* ^/fogbugz {
 		rewrite ^ https://office.dasz.at/FogBugz/ permanent;
 	}
+
+##########################################################################
+########  debian packages  ###############################################
+##########################################################################
+
+	location /debian {
+		proxy_pass https://kvmhost/debian;
+		proxy_set_header Host kvmhost.dasz;
+	}
 }
 
 upstream fw_schmidg {
