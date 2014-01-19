@@ -42,11 +42,13 @@ class hosting {
   exec {
     'systemd-reload':
       command     => '/bin/systemctl --system daemon-reload',
-      refreshonly => true;
+      refreshonly => true,
+      require     => Package['systemd'];
 
     'dbus-restart':
       command     => '/bin/systemctl restart dbus.service',
-      refreshonly => true;
+      refreshonly => true,
+      require     => Package['systemd'];
   }
 
   file {

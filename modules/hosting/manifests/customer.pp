@@ -19,14 +19,9 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
 
   group { [$admin_group, $all_group]: ensure => present }
 
-  exec {
-    "hosting::${customer}::useradd::workaround":
-      command => "/bin/mkdir ${base_dir}",
-      creates => $base_dir;
-
-    "hosting::${customer}::useradd::home_workaround":
-      command => "/bin/mkdir ${base_dir}/home",
-      creates => "${base_dir}/home";
+  exec { "hosting::${customer}::useradd::home_workaround":
+    command => "/bin/mkdir -p ${base_dir}/home",
+    creates => "${base_dir}/home";
   } ->
   user {
     $admin_user:
@@ -141,15 +136,16 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
   exec { "hosting::${customer}::enable-apps-linger":
     command => "/bin/systemd-loginctl enable-linger ${app_user}",
     unless  => "/bin/systemd-loginctl show-user ${app_user}",
-    require => [User[$app_user], Exec['dbus-restart']];
+    require => [User[$app_user], Exec['dbus-restart'], Package['systemd']];
   }
 
   # enable user@ service manually as systemd cannot do so (bug?)
   file { "/etc/systemd/system/multi-user.target.wants/user@${app_user}.service":
-    ensure => symlink,
-    target => '/lib/systemd/system/user@.service',
-    before => Service["user@${app_user}.service"],
-    notify => Exec["systemd-reload"];
+    ensure  => symlink,
+    target  => '/lib/systemd/system/user@.service',
+    before  => Service["user@${app_user}.service"],
+    require => Package['systemd'],
+    notify  => Exec["systemd-reload"];
   }
 
   service { "user@${app_user}.service":
