@@ -11,13 +11,16 @@
 # Sample Usage:
 #
 class hosting {
+  include dasz::defaults
+
   class { 'nginx': template => 'hosting/nginx.frontend.conf.erb' }
 
   # use mono3
   apt::repository { "zetbox":
-    url        => $location ? {
+    url        => $dasz::defaults::location ? {
       'hetzner' => "http://office.dasz.at/debian",
       'tech21'  => "http://kvmhost.dasz/debian",
+      'vagrant' => "http://kvmhost.dasz/debian",
       default   => "http://office.dasz.at/debian",
     },
     distro     => zetbox,
