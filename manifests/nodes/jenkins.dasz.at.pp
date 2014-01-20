@@ -22,7 +22,7 @@ node 'jenkins.dasz.at' {
   }
 
   # required for the zetbox_ plugins
-  package { "libwww-perl": ensure => installed }
+  # package { "libwww-perl": ensure => installed }
 
   jenkins_zetbox_snip {
     'dasz-prod':
