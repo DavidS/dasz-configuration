@@ -32,19 +32,23 @@ define hosting::customer (
   }
   )
 
+  create_resources("hosting::pobox", $users, {
+    gid       => $all_group,
+    base_dir  => $base_dir,
+    all_group => $all_group
+  }
+  )
+
+  # add the admin group to the admin user
+  Pobox[$admin_user] {
+    groups +> [$admin_group] }
+
   group { [$admin_group, $all_group]: ensure => present }
 
   exec { "hosting::${customer}::useradd::home_workaround":
     command => "/bin/mkdir -p ${base_dir}/home",
     creates => "${base_dir}/home";
   } -> User <| |>
-
-  pobox { $admin_user:
-    gid       => $admin_group,
-    comment   => $admin_fullname,
-    base_dir  => $base_dir,
-    all_group => $all_group
-  }
 
   user { $app_user:
     gid        => $admin_group,
@@ -53,13 +57,6 @@ define hosting::customer (
     managehome => true,
     groups     => [$all_group],
   }
-
-  create_resources("hosting::pobox", $users, {
-    gid       => $all_group,
-    base_dir  => $base_dir,
-    all_group => $all_group
-  }
-  )
 
   file {
     $base_dir:

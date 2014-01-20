@@ -100,10 +100,16 @@ node 'testagent.example.org' {
       admin_user     => 'david-dasz',
       admin_fullname => 'David Schmitt',
       users          => {
-        dasz1          => {
+        dasz1   => {
           uid     => 1666,
           comment => "Testuser",
         }
+        ,
+        david-dasz => {
+          uid     => 1003,
+          comment => "Test admin",
+        }
+        ,
       }
       ,
       domains        => {
@@ -119,6 +125,12 @@ node 'testagent.example.org' {
     'example'      => {
       admin_user     => 'example',
       admin_fullname => 'John Doe',
+      users          => {
+        example        => {
+          comment        => "test admin user",
+        }
+      }
+      ,
       domains        => {
         'example.com' => {
         }
