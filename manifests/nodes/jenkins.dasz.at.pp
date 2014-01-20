@@ -27,9 +27,8 @@ node 'jenkins.dasz.at' {
 
     'zetbox_zetbox-nh':
       url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
-
-    'zetbox_zetbox-ef':
-      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
+    #    'zetbox_zetbox-ef':
+    #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
   }
 
   package { 'postgresql-client-8.4': ensure => present; }
