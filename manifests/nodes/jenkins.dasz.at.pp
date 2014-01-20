@@ -21,6 +21,10 @@ node 'jenkins.dasz.at' {
       source        => 'puppet:///modules/dasz/munin/zetbox_exceptions_',
       config_source => 'puppet:///modules/dasz/munin/zetbox_exceptions_ini50';
 
+    'zetbox_dasz-prod':
+      source         => 'puppet:///modules/site/zetbox/munin.zetbox_',
+      config_content => "[zetbox_zetbox]\nenv.PERFMON_URL https://office.dasz.at/dasz/PerfMon.facade\n\n";
+
     'zetbox_zetbox-nh':
       source         => 'puppet:///modules/site/zetbox/munin.zetbox_',
       config_content => "[zetbox_zetbox]\nenv.PERFMON_URL http://jenkins:7007/zetbox/develop/PerfMon.facade\n\n";
