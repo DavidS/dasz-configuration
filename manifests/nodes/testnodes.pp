@@ -105,37 +105,35 @@ node 'testagent.example.org' {
           comment => "Testuser",
         }
       }
+      ,
+      domains        => {
+        'dasz.at'   => {
+        }
+        ,
+        'zetbox.at' => {
+        }
+        ,
+      }
     }
     ,
     'example'      => {
       admin_user     => 'example',
       admin_fullname => 'John Doe',
+      domains        => {
+        'example.com' => {
+        }
+        ,
+        'example.org' => {
+        }
+        ,
+        'very-long-subdomain.of.example.net' => {
+        }
+        ,
+      }
     }
   }
 
   create_resources(hosting::customer, $customers)
-
-  hosting::domain {
-    'dasz.at':
-      customer          => 'dasz',
-      all_customer_data => $customers;
-
-    'zetbox.at':
-      customer          => 'dasz',
-      all_customer_data => $customers;
-
-    'example.com':
-      customer          => 'example',
-      all_customer_data => $customers;
-
-    'example.org':
-      customer          => 'example',
-      all_customer_data => $customers;
-
-    'very-long-subdomain.of.example.net':
-      customer          => 'example',
-      all_customer_data => $customers;
-  }
 
   hosting::nginx_user_snip {
     "@@test1@@":

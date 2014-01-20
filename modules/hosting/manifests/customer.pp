@@ -14,7 +14,8 @@ define hosting::customer (
   $type  = 'none',
   $users = {
   }
-) {
+  ,
+  $domains,) {
   include hosting
 
   $customer = $name
@@ -22,6 +23,14 @@ define hosting::customer (
   $admin_group = "${customer}_admins"
   $all_group = "${customer}_all"
   $app_user = "${customer}_app"
+
+  create_resources("hosting::domain", $domains, {
+    admin_user  => $admin_user,
+    base_dir    => $base_dir,
+    admin_group => $admin_group,
+    app_user    => $app_user,
+  }
+  )
 
   group { [$admin_group, $all_group]: ensure => present }
 
