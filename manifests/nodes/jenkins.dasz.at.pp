@@ -21,11 +21,14 @@ node 'jenkins.dasz.at' {
     config_source => 'puppet:///modules/dasz/munin/zetbox_exceptions_ini50';
   }
 
+  # required for the zetbox_ plugins
+  package { "libwww-perl": ensure => installed }
+
   jenkins_zetbox_snip {
-    'zetbox_dasz-prod':
+    'dasz-prod':
       url => "https://office.dasz.at/dasz/PerfMon.facade";
 
-    'zetbox_zetbox-nh':
+    'zetbox-nh':
       url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
     #    'zetbox_zetbox-ef':
     #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
@@ -35,8 +38,13 @@ node 'jenkins.dasz.at' {
 }
 
 define jenkins_zetbox_snip ($url) {
-  munin::plugin { $name:
-    source         => 'puppet:///modules/site/zetbox/munin.zetbox_',
-    config_content => "[${name}]\nenv.PERFMON_URL ${url}\n\n";
+  munin::plugin {
+    "zetbox_${name}":
+      source         => 'puppet:///modules/site/zetbox/munin.zetbox_',
+      config_content => "[zetbox_${name}]\nenv.PERFMON_URL ${url}\n\n";
+
+    "zetbox_details_${name}":
+      source         => 'puppet:///modules/site/zetbox/munin.zetbox_details_',
+      config_content => "[zetbox_details_${name}]\nenv.PERFMON_URL ${url}\n\n";
   }
 }

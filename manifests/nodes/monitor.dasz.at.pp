@@ -32,6 +32,13 @@ node 'monitor.dasz.at' {
 
   apache::dotconf { "munin": content => template('dasz/munin/apache.conf.erb'); }
 
+  file { "/etc/munin/munin-conf.d/graph_width.conf":
+    content => "graph_width 600\n",
+    mode    => 0644,
+    owner   => root,
+    group   => root;
+  }
+
   # collect manual nagios definitions (currently only windows hosts)
   File <<| tag == 'nagios_host_' |>>
 

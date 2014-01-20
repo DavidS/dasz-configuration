@@ -100,7 +100,7 @@ node 'testagent.example.org' {
       admin_user     => 'david-dasz',
       admin_fullname => 'David Schmitt',
       users          => {
-        dasz1   => {
+        dasz1      => {
           uid     => 1666,
           comment => "Testuser",
         }
@@ -230,7 +230,7 @@ node 'monitor.example.org' {
       runmode => 'cron',
       require => Class['dasz::defaults'];
 
-    'apache':
+    'nginx':
     ;
 
     'munin':
@@ -241,11 +241,76 @@ node 'monitor.example.org' {
       include_dir_purge => true,
       graph_strategy    => cgi;
 
-    'munin::cgi':
+    'munin::cgi_systemd':
     ;
 
     'dasz::snips::systemd':
       grub_timeout => 0;
+  }
+
+  file {
+    "/etc/munin/munin-conf.d/update_rate.conf":
+      content => "update_rate 60\n",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      notify  => Service["munin-fastcgi.service"];
+
+    "/etc/munin/munin-conf.d/graph_width.conf":
+      content => "graph_width 600\n",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      notify  => Service["munin-fastcgi.service"];
+
+    "/etc/nginx/conf.d/server_name_redirect.conf":
+      content => "server_name_in_redirect off;\n",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      notify  => Service["nginx"];
+
+    "/etc/nginx/sites-enabled/default":
+      content => "
+server {
+        root /usr/share/nginx/www;
+        index index.html index.htm;
+
+        server_name localhost;
+
+        location /munin {
+                alias /var/cache/munin/www;
+        }
+        location /munin/static/ {
+                alias /etc/munin/static/;
+                expires modified +1w;
+        }
+        location ^~ /munin-cgi/munin-cgi-graph/ {
+                fastcgi_split_path_info ^(/munin-cgi/munin-cgi-graph)(.*);
+                fastcgi_param PATH_INFO \$fastcgi_path_info;
+                fastcgi_pass unix:/var/run/munin/fcgi-graph.sock;
+                include fastcgi_params;
+        }
+
+}
+",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      notify  => Service["nginx"];
+  }
+
+  # required for the zetbox_ plugins
+  package { "libwww-perl": ensure => installed }
+
+  jenkins_zetbox_snip {
+    'dasz-prod':
+      url => "https://office.dasz.at/dasz/PerfMon.facade";
+
+    'zetbox-nh':
+      url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
+    #    'zetbox_zetbox-ef':
+    #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
   }
 }
 
