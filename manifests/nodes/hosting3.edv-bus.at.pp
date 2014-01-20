@@ -12,10 +12,5 @@ node 'hosting3.edv-bus.at' {
   }
 
   $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")
-
   create_resources("hosting::customer", $customers)
-  create_resources("hosting::domain", loadyaml("/srv/puppet/secrets/hosting/domains.yaml"), {
-    all_customer_data => $customers
-  }
-  )
 }
