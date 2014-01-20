@@ -16,9 +16,18 @@ node 'jenkins.dasz.at' {
     key_url    => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key';
   }
 
-  munin::plugin { 'zetbox_exceptions_ini50':
-    source        => 'puppet:///modules/dasz/munin/zetbox_exceptions_',
-    config_source => 'puppet:///modules/dasz/munin/zetbox_exceptions_ini50';
+  munin::plugin {
+    'zetbox_exceptions_ini50':
+      source        => 'puppet:///modules/dasz/munin/zetbox_exceptions_',
+      config_source => 'puppet:///modules/dasz/munin/zetbox_exceptions_ini50';
+
+    'zetbox_zetbox-nh':
+      source         => 'puppet:///modules/site/zetbox/munin.zetbox_',
+      config_content => "[zetbox_zetbox]\nenv.PERFMON_URL http://jenkins:7007/zetbox/develop/PerfMon.facade\n\n";
+
+    'zetbox_zetbox-ef':
+      source         => 'puppet:///modules/site/zetbox/munin.zetbox_',
+      config_content => "[zetbox_zetbox]\nenv.PERFMON_URL http://build01-win7/jenkins/zetbox-develop/PerfMon.facade\n\n";
   }
 
   package { 'postgresql-client-8.4': ensure => present; }
