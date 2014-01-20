@@ -13,7 +13,7 @@ define dasz::zetbox::monitor_fake_host ($folder) {
     mode    => $munin::config_file_mode,
     owner   => $munin::config_file_owner,
     group   => $munin::config_file_group,
-    content => template($munin::template_host),
+    content => template("dasz/zetbox/fake_host.erb"),
     tag     => "munin_host_${munin::magic_tag}",
   }
 }

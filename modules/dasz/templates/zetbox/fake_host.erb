@@ -1,0 +1,6 @@
+# File Managed by Puppet - fake host for zetbox monitoring proxy
+
+[<%= @folder_prefix %><%= @name %>]
+    address <%= scope.lookupvar('munin::address') %>
+    port <%= scope.lookupvar('munin::port') %>
+    use_node_name no
