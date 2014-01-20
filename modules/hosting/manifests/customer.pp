@@ -8,7 +8,13 @@
 # Normal users can only read and write their respective home directories
 #
 # type is a documentation flag
-define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
+define hosting::customer (
+  $admin_user,
+  $admin_fullname,
+  $type  = 'none',
+  $users = {
+  }
+) {
   include hosting
 
   $customer = $name
@@ -22,22 +28,29 @@ define hosting::customer ($admin_user, $admin_fullname, $type = 'none') {
   exec { "hosting::${customer}::useradd::home_workaround":
     command => "/bin/mkdir -p ${base_dir}/home",
     creates => "${base_dir}/home";
-  } ->
-  user {
-    $admin_user:
-      gid        => $admin_group,
-      comment    => $admin_fullname,
-      home       => "${base_dir}/home/${admin_user}",
-      managehome => true,
-      groups     => [$all_group];
+  } -> User <| |>
 
-    $app_user:
-      gid        => $admin_group,
-      comment    => "${admin_fullname}",
-      home       => "${base_dir}/apps",
-      managehome => true,
-      groups     => [$all_group],
+  pobox { $admin_user:
+    gid       => $admin_group,
+    comment   => $admin_fullname,
+    base_dir  => $base_dir,
+    all_group => $all_group
   }
+
+  user { $app_user:
+    gid        => $admin_group,
+    comment    => "${admin_fullname}",
+    home       => "${base_dir}/apps",
+    managehome => true,
+    groups     => [$all_group],
+  }
+
+  create_resources("hosting::pobox", $users, {
+    gid       => $all_group,
+    base_dir  => $base_dir,
+    all_group => $all_group
+  }
+  )
 
   file {
     $base_dir:

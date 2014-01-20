@@ -99,6 +99,12 @@ node 'testagent.example.org' {
     'dasz'         => {
       admin_user     => 'david-dasz',
       admin_fullname => 'David Schmitt',
+      users          => {
+        dasz1          => {
+          uid     => 1666,
+          comment => "Testuser",
+        }
+      }
     }
     ,
     'example'      => {
