@@ -303,14 +303,20 @@ server {
   # required for the zetbox_ plugins
   package { "libwww-perl": ensure => installed }
 
-  jenkins_zetbox_snip {
+  dasz::zetbox::monitor {
     'dasz-prod':
-      url => "https://office.dasz.at/dasz/PerfMon.facade";
+      url       => "https://office.dasz.at/dasz/PerfMon.facade",
+      fake_host => 'office.dasz.at';
 
     'zetbox-nh':
       url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
     #    'zetbox_zetbox-ef':
     #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
+  }
+
+  dasz::zetbox::monitor_fake_host {
+    'office.dasz.at':
+      folder => 'Tech21';
   }
 }
 

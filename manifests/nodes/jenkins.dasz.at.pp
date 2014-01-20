@@ -24,31 +24,11 @@ node 'jenkins.dasz.at' {
   # required for the zetbox_ plugins
   # package { "libwww-perl": ensure => installed }
 
-  jenkins_zetbox_snip {
-    'dasz-prod':
-      url => "https://office.dasz.at/dasz/PerfMon.facade";
-
-    'zetbox-nh':
-      url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
-    #    'zetbox_zetbox-ef':
-    #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
+  dasz::zetbox::monitor { 'zetbox-nh':
+    url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
+  #    'zetbox_zetbox-ef':
+  #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
   }
 
   package { 'postgresql-client-8.4': ensure => present; }
-}
-
-define jenkins_zetbox_snip ($url) {
-  munin::plugin {
-    "zetbox_${name}":
-      source         => 'puppet:///modules/site/zetbox/munin.zetbox_',
-      config_content => "[zetbox_${name}]\nenv.PERFMON_URL ${url}\n\n";
-
-    "zetbox_queries_${name}":
-      source         => 'puppet:///modules/site/zetbox/munin.zetbox_queries_',
-      config_content => "[zetbox_queries_${name}]\nenv.PERFMON_URL ${url}\n\n";
-
-    "zetbox_calls_${name}":
-      source         => 'puppet:///modules/site/zetbox/munin.zetbox_calls_',
-      config_content => "[zetbox_calls_${name}]\nenv.PERFMON_URL ${url}\n\n";
-  }
 }
