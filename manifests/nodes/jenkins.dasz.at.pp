@@ -43,8 +43,12 @@ define jenkins_zetbox_snip ($url) {
       source         => 'puppet:///modules/site/zetbox/munin.zetbox_',
       config_content => "[zetbox_${name}]\nenv.PERFMON_URL ${url}\n\n";
 
-    "zetbox_details_${name}":
-      source         => 'puppet:///modules/site/zetbox/munin.zetbox_details_',
-      config_content => "[zetbox_details_${name}]\nenv.PERFMON_URL ${url}\n\n";
+    "zetbox_queries_${name}":
+      source         => 'puppet:///modules/site/zetbox/munin.zetbox_queries_',
+      config_content => "[zetbox_queries_${name}]\nenv.PERFMON_URL ${url}\n\n";
+
+    "zetbox_calls_${name}":
+      source         => 'puppet:///modules/site/zetbox/munin.zetbox_calls_',
+      config_content => "[zetbox_calls_${name}]\nenv.PERFMON_URL ${url}\n\n";
   }
 }

@@ -63,7 +63,7 @@ my %graphs = (
 
 if ( defined($ARGV[0]) ) {
     if ( $ARGV[0] eq "config" ) {
-        print "graph_title zetbox api calls: $instance\n";
+        print "graph_title zetbox total facade calls: $instance\n";
         print "graph_args --base 1000 -l 0\n";
         print "graph_vlabel calls/s\n";
         print "graph_category zetbox\n";
