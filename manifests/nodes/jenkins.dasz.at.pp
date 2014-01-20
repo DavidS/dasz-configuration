@@ -24,11 +24,19 @@ node 'jenkins.dasz.at' {
   # required for the zetbox_ plugins
   # package { "libwww-perl": ensure => installed }
 
-  dasz::zetbox::monitor { 'zetbox-nh':
-    url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
-  #    'zetbox_zetbox-ef':
-  #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
+  dasz::zetbox::monitor {
+    'zetbox-nh':
+      url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
+
+    #    'zetbox_zetbox-ef':
+    #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
+
+    'ini50':
+      url       => "http://db-server/PerfMon.facade",
+      fake_host => 'db-server-monitor';
   }
+
+  dasz::zetbox::monitor_fake_host { 'db-server-monitor': folder => 'Initiative50'; }
 
   package { 'postgresql-client-8.4': ensure => present; }
 }

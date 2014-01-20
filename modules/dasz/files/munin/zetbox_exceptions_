@@ -18,6 +18,7 @@ if [ "$1" = "config" ]; then
         echo 'graph_category zetbox'
         echo 'graph_period minute'
         echo 'graph_order total' $(psql "$db" --tuples-only --no-align -wc "$SQL")
+        [ -n "$FAKE_HOST" ] && echo "host_name $FAKE_HOST"
         echo 'total.label total'
         echo 'total.draw LINE'
         echo 'total.min 0'

@@ -61,21 +61,10 @@ node 'monitor.dasz.at' {
     enable => true,
   }
 
-  dasz::zetbox::monitor {
-    'dasz-prod':
-      url       => "https://office.dasz.at/dasz/PerfMon.facade",
-      fake_host => 'srv2008-monitor';
-
-    'ini50':
-      url       => "http://db-server/PerfMon.facade",
-      fake_host => 'db-server-monitor';
+  dasz::zetbox::monitor { 'dasz-prod':
+    url       => "https://office.dasz.at/dasz/PerfMon.facade",
+    fake_host => 'srv2008-monitor';
   }
 
-  dasz::zetbox::monitor_fake_host {
-    'srv2008-monitor':
-      folder => 'Tech21';
-
-    'db-server-monitor':
-      folder => 'Initiative50';
-  }
+  dasz::zetbox::monitor_fake_host { 'srv2008-monitor': folder => 'Tech21'; }
 }
