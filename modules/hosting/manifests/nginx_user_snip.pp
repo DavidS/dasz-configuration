@@ -22,7 +22,7 @@ define hosting::nginx_user_snip (
 
   $location_as_filename = inline_template("<%= @location.gsub(/[^a-zA-Z0-9]/, '_') %>")
   $nginx_config_dir = "${base_dir}/etc/nginx/${domain}"
-  $nginx_domain_config = "${base_dir}/etc/nginx/sites-enabled/${domain}.conf"
+  $nginx_domain_config = "${base_dir}/etc/nginx/sites-enabled/50-${domain}.conf"
 
   if ($forcessl) {
     fail("forcessl: not yet implemented")
@@ -31,7 +31,7 @@ define hosting::nginx_user_snip (
   if (!defined(File[$nginx_config_dir])) {
     file { $nginx_config_dir:
       ensure => directory,
-      mode   => 0770,
+      mode   => 02770,
       owner  => $admin_user,
       group  => $admin_group;
     }

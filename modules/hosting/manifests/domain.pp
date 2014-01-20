@@ -1,26 +1,15 @@
-define hosting::domain ($customer, $all_customer_data) {
+define hosting::domain ($admin_user, $base_dir, $admin_group, $app_user) {
   include hosting
 
   $domain = $name
-  $admin_user = $all_customer_data[$customer]['admin_user']
-  $base_dir = "/srv/${customer}"
-  $admin_group = "${customer}_admins"
-  $app_user = "${customer}_app"
-  $app_group = "${customer}_app"
 
   file {
-    "${base_dir}/etc/nginx/sites-enabled/${domain}_others":
+    "${base_dir}/etc/nginx/sites-enabled/99-${domain}_others.conf":
       content => template("hosting/nginx.default-site.erb"),
       replace => false,
       mode    => 0664,
       owner   => $admin_user,
       group   => $admin_group;
-
-    "${base_dir}/etc/nginx/${domain}":
-      ensure => directory,
-      mode   => 02770,
-      owner  => $admin_user,
-      group  => $admin_group;
 
     "${base_dir}/www/${domain}":
       ensure => directory,
@@ -36,13 +25,23 @@ define hosting::domain ($customer, $all_customer_data) {
       group   => $admin_group;
 
     # add global configuration
-    "/etc/nginx/sites-enabled/${domain}":
+    "/etc/nginx/sites-enabled/99-${domain}.conf":
       content => template("hosting/nginx.frontend-site.erb"),
       mode    => 0644,
       owner   => root,
       group   => root,
       require => Package['nginx'],
       notify  => Service['nginx'];
+  }
+
+  # avoid overlap with nginx_user_snip
+  if (!defined(File["${base_dir}/etc/nginx/${domain}"])) {
+    file { "${base_dir}/etc/nginx/${domain}":
+      ensure => directory,
+      mode   => 02770,
+      owner  => $admin_user,
+      group  => $admin_group;
+    }
   }
 
   # exim routing
