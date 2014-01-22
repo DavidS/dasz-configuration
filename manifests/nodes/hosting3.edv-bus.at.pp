@@ -9,6 +9,13 @@ node 'hosting3.edv-bus.at' {
 
     'dasz::snips::systemd':
     ;
+
+    'hosting':
+      primary_ns_name   => 'ns1.edv-bus.at',
+      secondary_ns_name => 'ns2.edv-bus.at',
+      primary_mx_name   => 'mail.edv-bus.at',
+      hosting_ipaddress => $::ipaddress,
+      hostmaster        => 'hostmaster.edv-bus.at',
   }
 
   $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")
