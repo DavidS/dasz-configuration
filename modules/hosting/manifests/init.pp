@@ -13,7 +13,13 @@
 class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_ipaddress, $hostmaster,) {
   include dasz::defaults, bind, concat::setup
 
-  class { 'nginx': template => 'hosting/nginx.frontend.conf.erb' }
+  if (!defined(Package['git'])) {
+    package { git: ensure => installed }
+  }
+
+  class { 'nginx':
+    template => 'hosting/nginx.frontend.conf.erb'
+  }
 
   # use mono3
   apt::repository { "zetbox":
@@ -92,6 +98,7 @@ class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_
     provider => git,
     source   => "https://github.com/DavidS/dasz-configuration.git",
     owner    => root,
-    group    => root;
+    group    => root,
+    require  => Package['git'];
   }
 }
