@@ -218,7 +218,8 @@ class dasz::defaults (
       "smartmontools",
       "popularity-contest",
       "bash-completion",
-      "dnsutils"]:
+      "dnsutils",
+      "whois"]:
       ensure => installed;
 
     [
