@@ -2,13 +2,19 @@
 
 use strict;
 use warnings;
-use String::Util 'trim';
 
 my $customer = "<%= @customer %>";
 my $admin_user = "<%= @admin_user %>";
 my $debug = 0;
 
 ####################################################
+
+sub trim($) {
+	my $str = shift;
+	$str =~ s/^\s+//;
+	$str =~ s/\s+$//;
+	return $str;
+}
 
 my $base_dir = "/srv/${customer}";
 my $apps_dir = "${base_dir}/apps";
