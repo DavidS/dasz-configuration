@@ -38,7 +38,7 @@ my %data;
 
 foreach my $key (grep /\/.*GetList(Of)?Duration:/, split /\r\n/, $counters) {
     $key =~ /^(.*)\/(.*)Duration: (\d*)$/;
-    my ($class, $call, $count) = ($1, $2, int($3));
+    my ($class, $call, $count) = ($1, $2, int($3) / 1000);
     $call = 'GetList';
     $data{clean_fieldname("${call}_${class}")} += $count;
 }

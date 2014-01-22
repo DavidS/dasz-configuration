@@ -105,7 +105,7 @@ for (split /\r\n/, $counters) {
     next if /\/|AvgDuration/;
     next unless /Duration/;
     /^(.*): (\d*)$/;
-    $data{$1} = int($2) * 1000;
+    $data{$1} = int($2) / 1000;
 }
 for my $key (keys %data) {
     print "$key.value $data{$key}\n";
