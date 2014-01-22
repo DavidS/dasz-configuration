@@ -3,11 +3,11 @@
 
 =head1 NAME
 
-zetbox_ - Munin plugin to monitor the performance of a zetbox instance
+zetbox_facade_calls_ - Munin plugin to monitor the number of facade calls on a zetbox instance
 
 =head1 CONFIGURATION
 
-Link the plugin as zetbox_INSTANCENAME and set PERFMON_URL in the environment via plugins-conf.d
+Link the plugin as zetbox_facade_calls_INSTANCENAME and set PERFMON_URL in the environment via plugins-conf.d
 
 =head1 VERSION
 
@@ -29,7 +29,7 @@ use File::Basename;
 use LWP::Simple;
 use Munin::Plugin;
 
-basename($0) =~ /^zetbox_(.*)$/;
+basename($0) =~ /^zetbox_facade_calls_(.*)$/;
 my $instance = $1;
 
 my %graphs = (

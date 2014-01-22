@@ -16,14 +16,6 @@ node 'jenkins.dasz.at' {
     key_url    => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key';
   }
 
-  munin::plugin { 'zetbox_exceptions_ini50':
-    source        => 'puppet:///modules/dasz/munin/zetbox_exceptions_',
-    config_source => 'puppet:///modules/dasz/munin/zetbox_exceptions_ini50';
-  }
-
-  # required for the zetbox_ plugins
-  # package { "libwww-perl": ensure => installed }
-
   dasz::zetbox::monitor {
     'zetbox-nh':
       url => "http://jenkins:7007/zetbox/develop/PerfMon.facade";
@@ -34,6 +26,13 @@ node 'jenkins.dasz.at' {
     'ini50':
       url       => "http://db-server/PerfMon.facade",
       fake_host => 'db-server-monitor';
+  }
+
+  dasz::zetbox::monitor_exceptions { 'ini50':
+    user      => 'root',
+    pguser    => 'ini50',
+    pgcluster => '8.4/db-server:5444',
+    fake_host => 'db-server-monitor';
   }
 
   dasz::zetbox::monitor_fake_host { 'db-server-monitor': folder => 'Initiative50'; }

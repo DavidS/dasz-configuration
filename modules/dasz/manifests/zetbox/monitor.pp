@@ -12,16 +12,28 @@ define dasz::zetbox::monitor ($url, $fake_host = '') {
   }
 
   munin::plugin {
-    "zetbox_${name}":
-      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_',
-      config_content => "[zetbox_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
+    "zetbox_facade_calls_${name}":
+      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_facade_calls_',
+      config_content => "[zetbox_facade_calls_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
 
-    "zetbox_queries_${name}":
-      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_queries_',
-      config_content => "[zetbox_queries_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
+    "zetbox_facade_cls_calls_${name}":
+      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_facade_cls_calls_',
+      config_content => "[zetbox_facade_cls_calls_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
 
-    "zetbox_calls_${name}":
-      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_calls_',
-      config_content => "[zetbox_calls_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
+    "zetbox_facade_cls_duration_${name}":
+      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_facade_cls_duration_',
+      config_content => "[zetbox_facade_cls_duration_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
+
+    "zetbox_facade_duration_${name}":
+      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_facade_duration_',
+      config_content => "[zetbox_facade_duration_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
+
+    "zetbox_queries_cls_calls_${name}":
+      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_queries_cls_calls_',
+      config_content => "[zetbox_queries_cls_calls_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
+
+    "zetbox_queries_cls_duration_${name}":
+      source         => 'puppet:///modules/dasz/zetbox/munin.zetbox_queries_cls_duration_',
+      config_content => "[zetbox_queries_cls_duration_${name}]\nenv.PERFMON_URL ${url}\n${host_config}\n";
   }
 }

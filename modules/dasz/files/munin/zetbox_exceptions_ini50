@@ -1,5 +1,0 @@
-[zetbox_exceptions_ini50]
-user root
-env.PGUSER ini50
-env.PGCLUSTER 8.4/db-server:5444
-env.FAKE_HOST db-server-monitor
