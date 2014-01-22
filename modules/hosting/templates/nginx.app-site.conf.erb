@@ -6,8 +6,4 @@ server {
 	index index.html index.htm;
 
 	include <%= @base_dir %>/etc/nginx/<%= @domain %>/*.conf;
-
-	location / {
-		try_files $uri $uri/ =404;
-	}
 }
