@@ -95,56 +95,36 @@ node 'testagent.example.org' {
       grub_timeout => 0;
   }
 
-  $customers = {
-    'dasz'         => {
-      admin_user     => 'david-dasz',
-      admin_fullname => 'David Schmitt',
-      users          => {
-        dasz1      => {
-          uid     => 1666,
-          comment => "Testuser",
-        }
-        ,
-        david-dasz => {
-          uid     => 1003,
-          comment => "Test admin",
-        }
-        ,
-      }
-      ,
-      domains        => {
-        'dasz.at'   => {
-        }
-        ,
-        'zetbox.at' => {
-        }
-        ,
-      }
-    }
-    ,
-    'example'      => {
-      admin_user     => 'example',
-      admin_fullname => 'John Doe',
-      users          => {
-        example        => {
-          comment        => "test admin user",
-        }
-      }
-      ,
-      domains        => {
-        'example.com' => {
-        }
-        ,
-        'example.org' => {
-        }
-        ,
-        'very-long-subdomain.of.example.net' => {
-        }
-        ,
-      }
-    }
-  }
+  $customers = parseyaml('
+---
+dasz:
+  type: owner
+  admin_user: david-dasz
+  admin_fullname: David Schmitt
+  domains:
+    dasz.at: {}
+    zetbox.at: {}
+  users:
+    david-dasz:
+      uid: 1003
+      comment: "Test Admin"
+    dasz1:
+      uid: 1666
+      comment: Testuser
 
+example:
+  type: customer
+  admin_user: example
+  admin_fullname: John Doe
+  domains:
+    example.com: {}
+    example.org: {}
+    very-long-subdomain.of.example.net: {}
+  users:
+    example:
+      comment: "Test Admin User"
+
+')
   create_resources(hosting::customer, $customers)
 
   hosting::nginx_user_snip {
@@ -314,10 +294,7 @@ server {
     #      url => "http://build01-win7/jenkins/zetbox-develop/PerfMon.facade";
   }
 
-  dasz::zetbox::monitor_fake_host {
-    'office.dasz.at':
-      folder => 'Tech21';
-  }
+  dasz::zetbox::monitor_fake_host { 'office.dasz.at': folder => 'Tech21'; }
 }
 
 # use
