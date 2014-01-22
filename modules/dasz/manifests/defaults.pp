@@ -218,7 +218,6 @@ class dasz::defaults (
       "smartmontools",
       "popularity-contest",
       "bash-completion",
-      "dnsutils",
       "whois"]:
       ensure => installed;
 
@@ -226,6 +225,10 @@ class dasz::defaults (
       "vim-tiny",
       "apt-listchanges"]:
       ensure => absent;
+  }
+
+  if (!defined(Package["dnsutils"])) {
+    package { 'dnsutils': ensure => installed; }
   }
 
   file_line { 'popcon_http_only':
