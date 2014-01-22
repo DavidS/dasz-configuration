@@ -217,7 +217,8 @@ class dasz::defaults (
       "etckeeper",
       "smartmontools",
       "popularity-contest",
-      "bash-completion"]:
+      "bash-completion",
+      "dnsutils"]:
       ensure => installed;
 
     [
