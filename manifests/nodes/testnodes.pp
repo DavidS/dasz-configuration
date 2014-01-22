@@ -141,30 +141,30 @@ example:
 
   hosting::nginx_user_snip {
     "@@test1@@":
-      basedomain => 'dasz.at',
-      customer   => 'dasz',
-      admin_user => $customers['dasz']['admin_user'],
-      type       => 'mono',
-      local_name => 'testapp_name',
-      location   => '/testapp_loc';
+      admin_user  => $customers['dasz']['admin_user'],
+      customer    => 'dasz',
+      type        => 'mono',
+      basedomain  => 'dasz.at',
+      url_path    => '/testapp_loc',
+      destination => 'testapp_name';
 
     "@@test2@@":
-      basedomain => 'dasz.at',
-      subdomain  => 'foo',
-      customer   => 'dasz',
-      admin_user => $customers['dasz']['admin_user'],
-      type       => 'mono',
-      local_name => 'testapp_name',
-      location   => '/foo_testapp_loc';
+      customer    => 'dasz',
+      admin_user  => $customers['dasz']['admin_user'],
+      subdomain   => 'foo',
+      basedomain  => 'dasz.at',
+      type        => 'mono',
+      url_path    => '/foo_testapp_loc',
+      destination => 'testapp_name';
 
     "@@test3@@":
-      basedomain => 'dasz.at',
-      subdomain  => 'www',
-      customer   => 'dasz',
-      admin_user => $customers['dasz']['admin_user'],
-      type       => 'php5',
-      local_name => 'php_appname',
-      location   => '/phpapp_loc';
+      customer    => 'dasz',
+      admin_user  => $customers['dasz']['admin_user'],
+      subdomain   => 'www',
+      basedomain  => 'dasz.at',
+      url_path    => '/phpapp_loc',
+      type        => 'php5',
+      destination => 'php_appname';
   }
 
   # testing cowbuilding mono3

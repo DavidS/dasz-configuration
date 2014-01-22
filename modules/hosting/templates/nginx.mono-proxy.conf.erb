@@ -1,6 +1,6 @@
-location <%= @location %> {
+location <%= @url_path %> {
 	index index.html index.htm default.aspx Default.aspx;
 	fastcgi_index Default.aspx;
-	fastcgi_pass unix:<%= @base_dir %>/run/<%= @local_name %>.sock;
+	fastcgi_pass unix:<%= @base_dir %>/run/<%= @destination %>.sock;
 	include /etc/nginx/fastcgi_params;
 }

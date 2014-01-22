@@ -1,13 +1,13 @@
 # some resources here have to be defined()-protected since they can be shared between
 # multiple snips
 define hosting::nginx_user_snip (
-  $basedomain,
-  $customer,
   $admin_user,
-  $type,
-  $local_name,
-  $location,
+  $customer,
   $subdomain = '',
+  $basedomain,
+  $url_path,
+  $type,
+  $destination,
   $forcessl  = false) {
   validate_re($type, 'static|php5|mono|redirect')
   validate_bool($forcessl)
@@ -20,7 +20,7 @@ define hosting::nginx_user_snip (
   $admin_group = "${customer}_admins"
   $app_user = "${customer}_app"
 
-  $location_as_filename = inline_template("<%= @location.gsub(/[^a-zA-Z0-9]/, '_') %>")
+  $url_path_as_filename = inline_template("<%= @url_path.gsub(/[^a-zA-Z0-9]/, '_') %>")
   $nginx_config_dir = "${base_dir}/etc/nginx/${domain}"
   $nginx_domain_config = "${base_dir}/etc/nginx/sites-enabled/50-${domain}.conf"
 
@@ -54,18 +54,18 @@ define hosting::nginx_user_snip (
       $nginx_config_content = template("hosting/nginx.mono-proxy.conf.erb")
 
       # configure fastcgi-mono-server4 instance
-      if (!defined(Hosting::Customer_service["${customer}::${local_name}"])) {
-        hosting::customer_service { "${customer}::${local_name}":
+      if (!defined(Hosting::Customer_service["${customer}::${destination}"])) {
+        hosting::customer_service { "${customer}::${destination}":
           base_dir        => $base_dir,
           app_user        => $app_user,
           admin_user      => $admin_user,
           admin_group     => $admin_group,
-          service_name    => $local_name,
+          service_name    => $destination,
           service_content => template("hosting/mono-fcgi.service.erb"),
           enable          => true,
         }
 
-        file { "${base_dir}/etc/mono-${local_name}":
+        file { "${base_dir}/etc/mono-${destination}":
           ensure => directory,
           mode   => 0770,
           owner  => $admin_user,
@@ -73,7 +73,7 @@ define hosting::nginx_user_snip (
         }
       }
 
-      file { "${base_dir}/etc/mono-${local_name}/${domain}.${location_as_filename}.webapp":
+      file { "${base_dir}/etc/mono-${destination}/${domain}.${url_path_as_filename}.webapp":
         content => template('hosting/mono.webapp.erb'),
         replace => false,
         mode    => 0660,
@@ -86,25 +86,25 @@ define hosting::nginx_user_snip (
       $nginx_config_content = template("hosting/nginx.php5-proxy.conf.erb")
 
       # configure php5-fcgi/fpm instance
-      if (!defined(Hosting::Customer_service["${customer}::${local_name}"])) {
-        hosting::customer_service { "${customer}::${local_name}":
+      if (!defined(Hosting::Customer_service["${customer}::${destination}"])) {
+        hosting::customer_service { "${customer}::${destination}":
           base_dir        => $base_dir,
           app_user        => $app_user,
           admin_user      => $admin_user,
           admin_group     => $admin_group,
-          service_name    => $local_name,
+          service_name    => $destination,
           service_content => template("hosting/php5-fpm.service.erb"),
           enable          => true,
         }
 
         file {
-          "${base_dir}/etc/php5-${local_name}":
+          "${base_dir}/etc/php5-${destination}":
             ensure => directory,
             mode   => 0750,
             owner  => $admin_user,
             group  => $admin_group;
 
-          "${base_dir}/etc/php5-${local_name}/php-fpm.conf":
+          "${base_dir}/etc/php5-${destination}/php-fpm.conf":
             content => template("hosting/php5-fpm.conf.erb"),
             replace => false,
             mode    => 0640,
@@ -122,7 +122,7 @@ define hosting::nginx_user_snip (
   }
 
   # configure nginx with chosen content
-  file { "${nginx_config_dir}/${location_as_filename}.conf":
+  file { "${nginx_config_dir}/${url_path_as_filename}.conf":
     content => $nginx_config_content,
     replace => false,
     mode    => 0660,

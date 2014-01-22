@@ -1,11 +1,11 @@
 [Unit]
-Description=FastCGI mono process for <%= @local_name %>
+Description=FastCGI mono process for <%= @destination %>
 
 [Service]
-WorkingDirectory=<%= @base_dir %>/apps/<%= @local_name %>
+WorkingDirectory=<%= @base_dir %>/apps/<%= @destination %>
 # make socket accessible for admin group members
 UMask=007
-ExecStart=/usr/bin/fastcgi-mono-server4 /socket=unix:<%= @base_dir %>/run/<%= @local_name %>.sock /appconfigdir=<%= @base_dir %>/etc/mono-<%= @local_name %> /printlog=True /loglevels=Standard
+ExecStart=/usr/bin/fastcgi-mono-server4 /socket=unix:<%= @base_dir %>/run/<%= @destination %>.sock /appconfigdir=<%= @base_dir %>/etc/mono-<%= @destination %> /printlog=True /loglevels=Standard
 
 # extended features
 RestartSec=1

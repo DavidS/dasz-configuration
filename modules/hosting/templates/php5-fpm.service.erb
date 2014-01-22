@@ -1,14 +1,14 @@
 [Unit]
-Description=FastCGI PHP5 process for <%= @local_name %>
+Description=FastCGI PHP5 process for <%= @destination %>
 
 [Service]
-WorkingDirectory=<%= @base_dir %>/apps/<%= @local_name %>
+WorkingDirectory=<%= @base_dir %>/apps/<%= @destination %>
 # make socket accessible for admin group members
 UMask=007
-ExecStartPre=/usr/sbin/php5-fpm --fpm-config <%= @base_dir %>/etc/php5-<%= @local_name %>/php-fpm.conf --test
-ExecStart=/usr/sbin/php5-fpm --fpm-config <%= @base_dir %>/etc/php5-<%= @local_name %>/php-fpm.conf
+ExecStartPre=/usr/sbin/php5-fpm --fpm-config <%= @base_dir %>/etc/php5-<%= @destination %>/php-fpm.conf --test
+ExecStart=/usr/sbin/php5-fpm --fpm-config <%= @base_dir %>/etc/php5-<%= @destination %>/php-fpm.conf
 
-PIDFile=<%= @base_dir %>/run/php5-fpm-<%= @local_name %>.pid
+PIDFile=<%= @base_dir %>/run/php5-fpm-<%= @destination %>.pid
 
 # extended features
 RestartSec=1

@@ -1,13 +1,13 @@
-location <%= @location %> {
-	root <%= @base_dir %>/apps/<%= @local_name %>;
+location <%= @url_path %> {
+	root <%= @base_dir %>/apps/<%= @destination %>;
 
 	location ~ [^/]\.php(/|$) {
-		fastcgi_split_path_info ^<%= @location %>(.+?\.php)(/.*)?$;
+		fastcgi_split_path_info ^<%= @url_path %>(.+?\.php)(/.*)?$;
 		if (!-f $document_root$fastcgi_script_name) {
 			return 404;
 		}
 
-		fastcgi_pass unix:<%= @base_dir %>/run/php5-fpm-<%= @local_name %>.sock;
+		fastcgi_pass unix:<%= @base_dir %>/run/php5-fpm-<%= @destination %>.sock;
 		fastcgi_index index.php;
 		include /etc/nginx/php5-fpm_params;
 	}

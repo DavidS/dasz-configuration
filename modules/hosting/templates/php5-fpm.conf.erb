@@ -1,8 +1,8 @@
 ; For details, please see /etc/php5/fpm/php-fpm.conf
 
 [global]
-pid = <%= @base_dir %>/run/php5-fpm-<%= @local_name %>.pid
-error_log = <%= @base_dir %>/log/php5-fpm-<%= @local_name %>.log
+pid = <%= @base_dir %>/run/php5-fpm-<%= @destination %>.pid
+error_log = <%= @base_dir %>/log/php5-fpm-<%= @destination %>.log
 
 daemonize = no
 
@@ -10,7 +10,7 @@ daemonize = no
 
 [<%= @local_name %>]
 
-listen = <%= @base_dir %>/run/php5-fpm-<%= @local_name %>.sock
+listen = <%= @base_dir %>/run/php5-fpm-<%= @destination %>.sock
 
 user = <%= @app_user %> 
 
