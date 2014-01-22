@@ -1,5 +1,15 @@
-define hosting::domain ($admin_user, $base_dir, $admin_group, $app_user) {
-  include hosting
+define hosting::domain (
+  $admin_user,
+  $base_dir,
+  $admin_group,
+  $app_user,
+  $primary_ns_name   = $hosting::primary_ns_name,
+  $secondary_ns_name = $hosting::secondary_ns_name,
+  $primary_mx_name   = $hosting::primary_mx_name,
+  $hosting_ipaddress = $hosting::hosting_ipaddress,
+  $hostmaster        = $hosting::hostmaster,
+  $serial) {
+  include hosting, concat::setup
 
   $domain = $name
 
@@ -32,6 +42,14 @@ define hosting::domain ($admin_user, $base_dir, $admin_group, $app_user) {
       group   => root,
       require => Package['nginx'],
       notify  => Service['nginx'];
+
+    "/etc/bind/hosting_zones/${domain}.zone":
+      content => template("hosting/bind.default-zone.erb"),
+      mode    => 0640,
+      owner   => root,
+      group   => bind,
+      before  => Concat["/etc/bind/named.conf.local"],
+      notify  => Class['bind::service'];
   }
 
   # avoid overlap with nginx_user_snip
@@ -48,5 +66,9 @@ define hosting::domain ($admin_user, $base_dir, $admin_group, $app_user) {
   # according to config in /srv/${customer}/mail/${domain}
 
   # bind zone config
-  # Needs to fetch data from somewhere (hash?)
+  concat::fragment { $domain:
+    target  => "/etc/bind/named.conf.local",
+    content => "\nzone \"${domain}\" { type master; file \"/etc/bind/hosting_zones/${domain}.zone\"};\n",
+    order   => 50,
+  }
 }

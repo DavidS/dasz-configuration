@@ -10,8 +10,8 @@
 #
 # Sample Usage:
 #
-class hosting {
-  include dasz::defaults
+class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_ipaddress, $hostmaster,) {
+  include dasz::defaults, bind, concat::setup
 
   class { 'nginx': template => 'hosting/nginx.frontend.conf.erb' }
 
@@ -71,6 +71,19 @@ class hosting {
       mode   => 0755,
       owner  => root,
       group  => root;
+
+    "/etc/bind/hosting_zones":
+      ensure => directory,
+      mode   => 0750,
+      owner  => root,
+      group  => bind;
+  }
+
+  concat { "/etc/bind/named.conf.local":
+    mode   => 644,
+    owner  => root,
+    group  => root,
+    notify => Class['bind::service'];
   }
 
   vcsrepo { "/var/lib/hosting/dasz-configuration":

@@ -93,6 +93,13 @@ node 'testagent.example.org' {
 
     'dasz::snips::systemd':
       grub_timeout => 0;
+
+    'hosting':
+      primary_ns_name   => 'ns1.example.net',
+      secondary_ns_name => 'ns2.example.net',
+      primary_mx_name   => 'mail.example.net',
+      hosting_ipaddress => $::ipaddress,
+      hostmaster        => 'hostmaster.example.net',
   }
 
   $customers = parseyaml('
@@ -102,8 +109,10 @@ dasz:
   admin_user: david-dasz
   admin_fullname: David Schmitt
   domains:
-    dasz.at: {}
-    zetbox.at: {}
+    dasz.at:
+      serial: 2014012200
+    zetbox.at:
+      serial: 2014012200
   users:
     david-dasz:
       uid: 1003
@@ -117,9 +126,12 @@ example:
   admin_user: example
   admin_fullname: John Doe
   domains:
-    example.com: {}
-    example.org: {}
-    very-long-subdomain.of.example.net: {}
+    example.com:
+      serial: 2014012200
+    example.org:
+      serial: 2014012200
+    very-long-subdomain.of.example.net:
+      serial: 2014012200
   users:
     example:
       comment: "Test Admin User"
