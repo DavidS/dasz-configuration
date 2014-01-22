@@ -94,7 +94,7 @@ class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_
 
   vcsrepo { "/var/lib/hosting/dasz-configuration":
     ensure   => present,
-    revision => master,
+    revision => 'origin/master',
     provider => git,
     source   => "https://github.com/DavidS/dasz-configuration.git",
     owner    => root,
