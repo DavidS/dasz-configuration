@@ -15,6 +15,11 @@ http {
 	keepalive_timeout 65;
 	types_hash_max_size 2048;
 
+	# support more vhosts than the default config
+	# 32 seems to be way to small for even moderate number of sites
+	# while running on kvm seems to provide it as default size
+	server_names_hash_bucket_size 64;
+
 	include /etc/nginx/mime.types;
 	default_type application/octet-stream;
 
