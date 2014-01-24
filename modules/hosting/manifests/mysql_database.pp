@@ -1,4 +1,4 @@
-define hosting::mysql_database ($customer, $base_dir, $app_user, $password = "TESTPASSWORD") {
+define hosting::mysql_database ($customer, $base_dir, $app_user, $password) {
   $private_cnf = "${base_dir}/apps/.my.${name}.cnf"
 
   mysql::grant { $name:

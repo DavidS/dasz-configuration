@@ -1,4 +1,4 @@
-define hosting::pg_database ($customer, $base_dir, $app_user, $password = "TESTPASSWORD") {
+define hosting::pg_database ($customer, $base_dir, $app_user, $password) {
   postgresql::dbcreate { $name:
     role     => $app_user,
     encoding => 'UTF-8',
