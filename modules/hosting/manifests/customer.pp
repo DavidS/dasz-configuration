@@ -41,18 +41,26 @@ define hosting::customer (
 
   hosting::mysql_database {
     $customer:
-      customer => $customer;
+      customer => $customer,
+      base_dir => $base_dir,
+      app_user => $app_user;
 
     $mysql_databases:
-      customer => $customer;
+      customer => $customer,
+      base_dir => $base_dir,
+      app_user => $app_user;
   }
 
   hosting::pg_database {
     $customer:
-      customer => $customer;
+      customer => $customer,
+      base_dir => $base_dir,
+      app_user => $app_user;
 
     $pg_databases:
-      customer => $customer;
+      customer => $customer,
+      base_dir => $base_dir,
+      app_user => $app_user;
   }
 
   # add the admin group to the admin user
@@ -96,7 +104,6 @@ define hosting::customer (
       "${base_dir}/etc/nginx",
       "${base_dir}/etc/nginx/conf.d",
       "${base_dir}/etc/nginx/sites-enabled",
-      "${base_dir}/backups",
       "${base_dir}/mail",
       "${base_dir}/ssl",
       "${base_dir}/www",
@@ -114,7 +121,10 @@ define hosting::customer (
       group   => $admin_group;
 
     # app directories
-    ["${base_dir}/log",]:
+    [
+      "${base_dir}/backups",
+      "${base_dir}/log",
+      ]:
       ensure => directory,
       mode   => 2770,
       owner  => $app_user,
