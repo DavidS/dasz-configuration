@@ -38,6 +38,11 @@ class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_
     [
       "mono-complete",
       "mono-fastcgi-server",
+      "php5-fpm",
+      "php5-gd",
+      "php5-mysql",
+      "php5-pgsql",
+      "php5-sqlite",
       ]:
       ensure => installed;
 
