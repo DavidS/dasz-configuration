@@ -14,8 +14,8 @@ define hosting::customer (
   $type            = 'none',
   $users,
   $domains,
-  $mysql_databases = [],
-  $pg_databases    = [],) {
+  $mysql_databases = 'none',
+  $pg_databases    = 'none',) {
   include hosting, postgresql, mysql
 
   $customer = $name
@@ -39,28 +39,34 @@ define hosting::customer (
   }
   )
 
-  hosting::mysql_database {
-    $customer:
-      customer => $customer,
-      base_dir => $base_dir,
-      app_user => $app_user;
-
-    $mysql_databases:
-      customer => $customer,
-      base_dir => $base_dir,
-      app_user => $app_user;
+  hosting::mysql_database { $customer:
+    customer => $customer,
+    base_dir => $base_dir,
+    app_user => $app_user;
   }
 
-  hosting::pg_database {
-    $customer:
+  if (is_hash($mysql_databases)) {
+    create_resources("hosting::mysql_database", $mysql_databases, {
       customer => $customer,
       base_dir => $base_dir,
-      app_user => $app_user;
+      app_user => $app_user
+    }
+    )
+  }
 
-    $pg_databases:
+  hosting::pg_database { $customer:
+    customer => $customer,
+    base_dir => $base_dir,
+    app_user => $app_user;
+  }
+
+  if (is_hash($pg_databases)) {
+    create_resources("hosting::pg_database", $pg_databases, {
       customer => $customer,
       base_dir => $base_dir,
-      app_user => $app_user;
+      app_user => $app_user
+    }
+    )
   }
 
   # add the admin group to the admin user
