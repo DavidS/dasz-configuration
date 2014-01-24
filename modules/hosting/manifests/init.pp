@@ -81,17 +81,19 @@ class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_
       group  => root;
 
     "/etc/bind/hosting_zones":
-      ensure => directory,
-      mode   => 0750,
-      owner  => root,
-      group  => bind;
+      ensure  => directory,
+      mode    => 0750,
+      owner   => root,
+      group   => bind,
+      require => Class['bind::installation'];
   }
 
   concat { "/etc/bind/named.conf.local":
-    mode   => 644,
-    owner  => root,
-    group  => root,
-    notify => Class['bind::service'];
+    mode    => 644,
+    owner   => root,
+    group   => root,
+    require => Class['bind::installation'],
+    notify  => Class['bind::service'];
   }
 
   vcsrepo { "/var/lib/hosting/dasz-configuration":
