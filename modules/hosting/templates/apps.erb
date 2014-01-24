@@ -26,9 +26,9 @@
 #   * serve other static content from http://blubb.<%= @domain %>/
 #
 # dasz.at.apps:
-# > www,mono,/shop,TheShop,forcessl
-# > www,php5,/,wordpress
-# > ,redirect,/,http://www.<%= @domain %>/
+# > www,/shop,mono,TheShop,forcessl
+# > www,/,php5,wordpress
+# > ,/,redirect,http://www.<%= @domain %>/
 # 
 # The wordpress will be loaded from <%= @base_dir %>/apps/wordpress, the mono
 # application from <%= @base_dir %>/apps/TheShop, content for blubb can be put

@@ -41,13 +41,13 @@ for my $domain_config (glob("${apps_dir}/*.apps")) {
 			print STDERR "$domain_config:$.:$_ failed to match ^.*,.*,.*,.*(,.*)?/\n";
 			next;
 		}
-		my ($subdomain, $path, $name, $dest, $flags) = (trim($1), trim($2), trim($3), trim($4), trim($6 || ''));
+		my ($subdomain, $path, $type, $dest, $flags) = (trim($1), trim($2), trim($3), trim($4), trim($6 || ''));
 
-		print STDERR "$domain_config:$.:[$_] => [$subdomain] [$path] [$name] [$dest] [$flags]\n" if $debug;
+		print STDERR "$domain_config:$.:[$_] => [$subdomain] [$path] [$type] [$dest] [$flags]\n" if $debug;
 
 		$output .= <<PUPPET;
 hosting::nginx_user_snip {
-  "$subdomain/$domain$dest":
+  "$subdomain/$domain${path}::$dest":
     customer    => '$customer',
     admin_user  => 'david-dasz',
                 
