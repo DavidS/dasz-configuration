@@ -14,6 +14,7 @@ define hosting::customer (
   $type            = 'none',
   $users,
   $domains,
+  $db_password,
   $mysql_databases = 'none',
   $pg_databases    = 'none',) {
   include hosting, postgresql, mysql
@@ -42,14 +43,16 @@ define hosting::customer (
   hosting::mysql_database { $customer:
     customer => $customer,
     base_dir => $base_dir,
-    app_user => $app_user;
+    app_user => $app_user,
+    password => $db_password;
   }
 
   if (is_hash($mysql_databases)) {
     create_resources("hosting::mysql_database", $mysql_databases, {
       customer => $customer,
       base_dir => $base_dir,
-      app_user => $app_user
+      app_user => $app_user,
+      password => $db_password
     }
     )
   }
@@ -57,14 +60,16 @@ define hosting::customer (
   hosting::pg_database { $customer:
     customer => $customer,
     base_dir => $base_dir,
-    app_user => $app_user;
+    app_user => $app_user,
+    password => $db_password;
   }
 
   if (is_hash($pg_databases)) {
     create_resources("hosting::pg_database", $pg_databases, {
       customer => $customer,
       base_dir => $base_dir,
-      app_user => $app_user
+      app_user => $app_user,
+      password => $db_password
     }
     )
   }

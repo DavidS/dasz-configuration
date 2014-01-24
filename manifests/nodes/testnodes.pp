@@ -108,6 +108,7 @@ dasz:
   type: owner
   admin_user: david-dasz
   admin_fullname: David Schmitt
+  db_password: default_db
   domains:
     dasz.at:
       serial: 2014012200
@@ -130,6 +131,7 @@ example:
   type: customer
   admin_user: example
   admin_fullname: John Doe
+  db_password: default_db
   domains:
     example.com:
       serial: 2014012200
