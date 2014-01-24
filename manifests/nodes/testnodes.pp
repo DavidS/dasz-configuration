@@ -121,8 +121,10 @@ dasz:
       uid: 1666
       comment: Testuser
   mysql_databases:
-    - dasz_wordpress
-    - dasz_teststuff
+    dasz_wordpress:
+      password: foo
+    dasz_teststuff:
+      password: foo
 
 example:
   type: customer
@@ -139,7 +141,8 @@ example:
     example:
       comment: "Test Admin User"
   pg_databases:
-    - example_project
+    example_project:
+      password: foo
 
 ')
   create_resources(hosting::customer, $customers)
