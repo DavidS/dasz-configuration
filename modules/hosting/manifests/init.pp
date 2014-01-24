@@ -56,11 +56,13 @@ class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_
     'systemd-reload':
       command     => '/bin/systemctl --system daemon-reload',
       refreshonly => true,
+      onlyif      => '/bin/systemctl > /dev/null',
       require     => Package['systemd'];
 
     'dbus-restart':
       command     => '/bin/systemctl restart dbus.service',
       refreshonly => true,
+      onlyif      => '/bin/systemctl > /dev/null',
       require     => Package['systemd'];
   }
 

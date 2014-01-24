@@ -154,6 +154,7 @@ define hosting::customer (
 
   exec { "hosting::${customer}::enable-apps-linger":
     command => "/bin/systemd-loginctl enable-linger ${app_user}",
+    onlyif  => "/bin/systemctl > /dev/null",
     unless  => "/bin/systemd-loginctl show-user ${app_user}",
     require => [User[$app_user], Exec['dbus-restart'], Package['systemd']];
   }
