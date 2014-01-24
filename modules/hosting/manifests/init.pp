@@ -11,7 +11,7 @@
 # Sample Usage:
 #
 class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_ipaddress, $hostmaster,) {
-  include dasz::defaults, bind, concat::setup
+  include dasz::defaults, bind, concat::setup, postgresql, mysql
 
   if (!defined(Package['git'])) {
     package { git: ensure => installed }
@@ -26,7 +26,7 @@ class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_
     url        => $dasz::defaults::location ? {
       'hetzner' => "http://office.dasz.at/debian",
       'tech21'  => "http://kvmhost.dasz/debian",
-      'vagrant' => "http://kvmhost.dasz/debian",
+     # 'vagrant' => "http://kvmhost.dasz/debian",
       default   => "http://office.dasz.at/debian",
     },
     distro     => zetbox,

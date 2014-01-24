@@ -11,12 +11,12 @@
 define hosting::customer (
   $admin_user,
   $admin_fullname,
-  $type  = 'none',
-  $users = {
-  }
-  ,
-  $domains,) {
-  include hosting
+  $type            = 'none',
+  $users,
+  $domains,
+  $mysql_databases = [],
+  $pg_databases    = [],) {
+  include hosting, postgresql, mysql
 
   $customer = $name
   $base_dir = "/srv/${customer}"
@@ -38,6 +38,22 @@ define hosting::customer (
     all_group => $all_group
   }
   )
+
+  hosting::mysql_database {
+    $customer:
+      customer => $customer;
+
+    $mysql_databases:
+      customer => $customer;
+  }
+
+  hosting::pg_database {
+    $customer:
+      customer => $customer;
+
+    $pg_databases:
+      customer => $customer;
+  }
 
   # add the admin group to the admin user
   Pobox[$admin_user] {
