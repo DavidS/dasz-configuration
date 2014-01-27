@@ -17,6 +17,9 @@ node 'monitor.dasz.at' {
 
     'apache':
     ;
+
+    'dasz::snips::systemd':
+    ;
   }
 
   # manually configured server
