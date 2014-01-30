@@ -30,6 +30,9 @@ class hosting (
 
     'dovecot':
     ;
+
+    'exim':
+    ;
   }
 
   package { ["dovecot-managesieved", "dovecot-sieve"]:
