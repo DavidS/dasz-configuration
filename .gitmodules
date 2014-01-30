@@ -100,3 +100,6 @@
 [submodule "modules/bind"]
 	path = modules/bind
 	url = ../puppet-bind.git
+[submodule "modules/dovecot"]
+	path = modules/dovecot
+	url = ../puppet-dovecot.git
