@@ -4,9 +4,7 @@ server {
 	server_name <%= @domain %> *.<%= @domain %>;
 
 	location / {
-		proxy_pass       http://unix:<%= @base_dir %>/run/nginx.sock:;
-		proxy_set_header Host      $host;
-		proxy_set_header X-Real-IP $remote_addr;
+		proxy_pass http://unix:<%= @base_dir %>/run/nginx.sock:;
+		include    /etc/nginx/customer_proxy_params;
 	}
 }
-

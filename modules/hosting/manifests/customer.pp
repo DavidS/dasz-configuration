@@ -14,6 +14,8 @@ define hosting::customer (
   $type            = 'none',
   $users,
   $domains,
+  $certs           = 'none',
+  $cert_base_path  = 'puppet:///secrets/',
   $db_password,
   $mysql_databases = 'none',
   $pg_databases    = 'none',) {
@@ -70,6 +72,13 @@ define hosting::customer (
       base_dir => $base_dir,
       app_user => $app_user,
       password => $db_password
+    }
+    )
+  }
+
+  if (is_hash($certs)) {
+    create_resources("hosting::cert", $certs, {
+      base_path => $cert_base_path,
     }
     )
   }

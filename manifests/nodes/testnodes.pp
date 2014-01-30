@@ -113,6 +113,12 @@ dasz:
       serial: 2014012200
     zetbox.at:
       serial: 2014012200
+  certs:
+    dasz.at:
+      ca: thawte
+      cn_aliases:
+        - "*.dasz.at"
+        - office.dasz.at
   users:
     david-dasz:
       uid: 1003
@@ -144,9 +150,15 @@ example:
   pg_databases:
     example_project:
       password: foo
+  certs:
+    example.com:
+      ca: self
 
 ')
-  create_resources(hosting::customer, $customers)
+  create_resources(hosting::customer, $customers, {
+    cert_base_path => 'puppet:///modules/site/testdata'
+  }
+  )
 
   hosting::nginx_user_snip {
     "@@test1@@":

@@ -18,6 +18,13 @@ http {
         # while running on kvm seems to provide it as default size
         server_names_hash_bucket_size 64;
 
+        # 10m cache ~~ 40k sessions 
+        ssl_session_cache   shared:SSL:10m;
+        ssl_session_timeout 10m;
+
+        # compatability for IIS applications, see also customer_proxy_params
+        map $scheme $msiis  { http off; https on; }
+
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
 

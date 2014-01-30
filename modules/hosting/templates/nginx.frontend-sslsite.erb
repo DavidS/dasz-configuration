@@ -1,0 +1,14 @@
+server {
+	listen *:443 ssl;
+
+	server_name <%= [@name, @cn_aliases].flatten.join " " %>;
+
+	ssl_certificate     /etc/ssl/www/<%= @name %>.crt.pem;
+	ssl_certificate_key /etc/ssl/www/<%= @name %>.key.pem;
+
+	location / {
+		proxy_pass http://unix:<%= @base_dir %>/run/nginx.sock:;
+		include	   /etc/nginx/customer_proxy_params;
+	}
+}
+

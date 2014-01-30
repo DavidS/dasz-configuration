@@ -73,11 +73,18 @@ class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_
 
   file {
     "/etc/nginx/php5-fpm_params":
-      source  => "puppet:///modules/hosting/nginx.php5-fpm_params",
-      mode    => 0644,
-      owner   => root,
-      group   => root,
-      require => Class['nginx'];
+      source => "puppet:///modules/hosting/nginx.php5-fpm_params",
+      mode   => 0644,
+      owner  => root,
+      group  => root,
+      notify => Service['nginx'];
+
+    "/etc/nginx/customer_proxy_params":
+      source => "puppet:///modules/hosting/nginx.customer_proxy_params",
+      mode   => 0644,
+      owner  => root,
+      group  => root,
+      notify => Service['nginx'];
 
     "/var/lib/hosting":
       ensure => directory,
@@ -91,6 +98,12 @@ class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_
       owner   => root,
       group   => bind,
       require => Class['bind::installation'];
+
+    "/etc/ssl/www":
+      ensure => directory,
+      mode   => 0710,
+      owner  => root,
+      group  => www-data;
   }
 
   concat { "/etc/bind/named.conf.local":
