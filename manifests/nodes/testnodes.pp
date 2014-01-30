@@ -85,11 +85,10 @@ node 'testagent.example.org' {
       force_nullmailer     => true;
 
     "puppet":
-      mode       => 'client',
-      server     => 'puppetmaster.example.org',
-      runmode    => 'cron',
-      audit_only => true,
-      require    => Class['dasz::defaults'];
+      mode    => 'client',
+      server  => 'puppetmaster.example.org',
+      runmode => 'manual',
+      require => Class['dasz::defaults'];
 
     'dasz::snips::systemd':
       grub_timeout => 0;
