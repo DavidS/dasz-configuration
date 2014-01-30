@@ -106,3 +106,6 @@
 [submodule "modules/exim"]
 	path = modules/exim
 	url = ../puppet-exim.git
+[submodule "modules/exiscan"]
+	path = modules/exiscan
+	url = ../puppet-exiscan.git

@@ -101,7 +101,17 @@ node 'testagent.example.org' {
       hosting_ipaddress => $::ipaddress,
       hostmaster        => 'hostmaster.example.net',
       cert_base_path    => 'puppet:///modules/site/testdata';
+
+    'exiscan::spamassassin':
+      bayes_sql_dsn      => "DBI:Pg:dbname=spamassassin",
+      bayes_sql_username => "spamassassin",
+      bayes_sql_password => "blashlhbas";
+
+    'exiscan::spamassassin_db':
+      db_username => "spamassassin",
+      db_password => "blashlhbas";
   }
+  Class['exiscan::spamassassin_db'] -> Class['exiscan::spamassassin']
 
   $customers = parseyaml('
 ---
