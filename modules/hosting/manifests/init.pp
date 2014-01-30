@@ -10,15 +10,57 @@
 #
 # Sample Usage:
 #
-class hosting ($primary_ns_name, $secondary_ns_name, $primary_mx_name, $hosting_ipaddress, $hostmaster,) {
+class hosting (
+  $primary_fqdn   = $::fqdn,
+  $primary_ns_name,
+  $secondary_ns_name,
+  $primary_mx_name,
+  $hosting_ipaddress,
+  $hostmaster,
+  $cert_base_path = 'puppet:///secrets') {
   include dasz::defaults, bind, concat::setup, postgresql, mysql
 
   if (!defined(Package['git'])) {
     package { git: ensure => installed }
   }
 
-  class { 'nginx':
-    template => 'hosting/nginx.frontend.conf.erb'
+  class {
+    'nginx':
+      template => 'hosting/nginx.frontend.conf.erb';
+
+    'dovecot':
+    ;
+  }
+
+  package { ["dovecot-managesieved", "dovecot-sieve"]:
+    ensure => installed,
+    notify => Service['dovecot'];
+  }
+
+  file {
+    "${dovecot::config_dir}/dovecot.pem":
+      source  => "${cert_base_path}/ssl/${primary_fqdn}/cert.pem",
+      mode    => 0644,
+      owner   => $dovecot::config_file_owner,
+      group   => $dovecot::config_file_group,
+      require => Package[$dovecot::package],
+      notify  => Service['dovecot'];
+
+    "${dovecot::config_dir}/private/dovecot.pem":
+      source  => "${cert_base_path}/ssl/${primary_fqdn}/privkey.pem",
+      mode    => 0600,
+      owner   => $dovecot::config_file_owner,
+      group   => $dovecot::config_file_group,
+      require => Package[$dovecot::package],
+      notify  => Service['dovecot'];
+
+    "${dovecot::config_dir}/local.conf":
+      source  => "puppet:///modules/hosting/dovecot.local.conf",
+      mode    => 0644,
+      owner   => $dovecot::config_file_owner,
+      group   => $dovecot::config_file_group,
+      require => Package[$dovecot::package],
+      notify  => Service['dovecot'];
   }
 
   # use mono3

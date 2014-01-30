@@ -94,11 +94,13 @@ node 'testagent.example.org' {
       grub_timeout => 0;
 
     'hosting':
+      primary_fqdn      => 'dasz.at',
       primary_ns_name   => 'ns1.example.net',
       secondary_ns_name => 'ns2.example.net',
       primary_mx_name   => 'mail.example.net',
       hosting_ipaddress => $::ipaddress,
       hostmaster        => 'hostmaster.example.net',
+      cert_base_path    => 'puppet:///modules/site/testdata';
   }
 
   $customers = parseyaml('
