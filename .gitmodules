@@ -103,3 +103,6 @@
 [submodule "modules/dovecot"]
 	path = modules/dovecot
 	url = ../puppet-dovecot.git
+[submodule "modules/exim"]
+	path = modules/exim
+	url = ../puppet-exim.git
