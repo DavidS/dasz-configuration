@@ -218,6 +218,7 @@ class dasz::defaults (
       "smartmontools",
       "popularity-contest",
       "bash-completion",
+      "pwgen",
       "whois"]:
       ensure => installed;
 
