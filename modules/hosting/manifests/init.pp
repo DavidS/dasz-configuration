@@ -122,18 +122,20 @@ class hosting (
 
   file {
     "/etc/nginx/php5-fpm_params":
-      source => "puppet:///modules/hosting/nginx.php5-fpm_params",
-      mode   => 0644,
-      owner  => root,
-      group  => root,
-      notify => Service['nginx'];
+      source  => "puppet:///modules/hosting/nginx.php5-fpm_params",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      require => Package['nginx'],
+      notify  => Service['nginx'];
 
     "/etc/nginx/customer_proxy_params":
-      source => "puppet:///modules/hosting/nginx.customer_proxy_params",
-      mode   => 0644,
-      owner  => root,
-      group  => root,
-      notify => Service['nginx'];
+      source  => "puppet:///modules/hosting/nginx.customer_proxy_params",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      require => Package['nginx'],
+      notify  => Service['nginx'];
 
     "/var/lib/hosting":
       ensure => directory,
