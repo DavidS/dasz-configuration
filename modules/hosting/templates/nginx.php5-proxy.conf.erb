@@ -2,7 +2,7 @@ location <%= @url_path %> {
 	root <%= @base_dir %>/apps/<%= @destination %>;
 
 	location ~ [^/]\.php(/|$) {
-		fastcgi_split_path_info ^<%= @url_path.sub(/\//,'') %>(.+?\.php)(/.*)?$;
+		fastcgi_split_path_info ^<%= @url_path.sub(/\/$/,'') %>(.+?\.php)(/.*)?$;
 		if (!-f $document_root$fastcgi_script_name) {
 			return 404;
 		}
