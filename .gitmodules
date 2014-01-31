@@ -109,3 +109,6 @@
 [submodule "modules/exiscan"]
 	path = modules/exiscan
 	url = ../puppet-exiscan.git
+[submodule "modules/roundcube"]
+	path = modules/roundcube
+	url = ../puppet-roundcube.git

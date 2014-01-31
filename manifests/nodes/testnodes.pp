@@ -94,13 +94,14 @@ node 'testagent.example.org' {
       grub_timeout => 0;
 
     'hosting':
-      primary_fqdn      => 'dasz.at',
-      primary_ns_name   => 'ns1.example.net',
-      secondary_ns_name => 'ns2.example.net',
-      primary_mx_name   => 'mail.example.net',
-      hosting_ipaddress => $::ipaddress,
-      hostmaster        => 'hostmaster.example.net',
-      cert_base_path    => 'puppet:///modules/site/testdata';
+      primary_fqdn          => 'dasz.at',
+      primary_ns_name       => 'ns1.example.net',
+      secondary_ns_name     => 'ns2.example.net',
+      primary_mx_name       => 'mail.example.net',
+      hosting_ipaddress     => $::ipaddress,
+      hostmaster            => 'hostmaster.example.net',
+      cert_base_path        => 'puppet:///modules/site/testdata',
+      roundcube_db_password => 'phauXee9ochuunge';
 
     'exiscan::spamassassin':
       bayes_sql_dsn      => "DBI:Pg:dbname=spamassassin",
@@ -112,6 +113,26 @@ node 'testagent.example.org' {
       db_password => "blashlhbas";
   }
   Class['exiscan::spamassassin_db'] -> Class['exiscan::spamassassin']
+
+  $url_path = '/webmail'
+  $fpm_socket = '/var/run/php5-fpm.sock'
+  $root = '/var/lib/roundcube'
+
+  file {
+    "/etc/nginx/roundcube_params":
+      content => template("roundcube/nginx.php5-proxy.conf.erb"),
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      notify  => Service["nginx"];
+
+    "/etc/nginx/sites-enabled/50-webmail.conf":
+      content => template("site/testagent/hosting.nginx.webmail.conf.erb"),
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      notify  => Service["nginx"];
+  }
 
   $customers = parseyaml('
 ---

@@ -17,7 +17,8 @@ class hosting (
   $primary_mx_name,
   $hosting_ipaddress,
   $hostmaster,
-  $cert_base_path = 'puppet:///secrets') {
+  $cert_base_path = 'puppet:///secrets',
+  $roundcube_db_password) {
   include dasz::defaults, bind, concat::setup, postgresql, mysql
 
   if (!defined(Package['git'])) {
@@ -33,6 +34,9 @@ class hosting (
 
     'exim':
     ;
+
+    'roundcube':
+      db_password => $roundcube_db_password;
   }
 
   package { ["dovecot-managesieved", "dovecot-sieve"]:
