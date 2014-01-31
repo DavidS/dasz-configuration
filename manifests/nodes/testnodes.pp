@@ -124,14 +124,16 @@ node 'testagent.example.org' {
       mode    => 0644,
       owner   => root,
       group   => root,
-      notify  => Service["nginx"];
+      require => Package['nginx'],
+      notify  => Service['nginx'];
 
     "/etc/nginx/sites-enabled/50-webmail.conf":
       content => template("site/testagent/hosting.nginx.webmail.conf.erb"),
       mode    => 0644,
       owner   => root,
       group   => root,
-      notify  => Service["nginx"];
+      require => Package['nginx'],
+      notify  => Service['nginx'];
   }
 
   $customers = parseyaml('
