@@ -39,6 +39,9 @@ class hosting (
       db_password => $roundcube_db_password;
   }
 
+  # installing roundcube before php5-fpm pulls in apache
+  Class["roundcube"] -> Package["php5-fpm"]
+
   package { ["dovecot-managesieved", "dovecot-sieve"]:
     ensure => installed,
     notify => Service['dovecot'];
