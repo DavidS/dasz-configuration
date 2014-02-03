@@ -18,7 +18,7 @@ class hosting (
   $hosting_ipaddress,
   $hostmaster,
   $cert_base_path = 'puppet:///secrets',
-  $roundcube_db_password) {
+  $roundcube_db_password,) {
   include dasz::defaults, bind, concat::setup, postgresql, mysql
 
   if (!defined(Package['git'])) {
@@ -32,8 +32,16 @@ class hosting (
     'dovecot':
     ;
 
-    'exim':
-    ;
+    'exiscan':
+      sa_bayes_sql_local    => true,
+      sa_bayes_sql_dsn      => "DBI:Pg:dbname=spamassassin",
+      sa_bayes_sql_username => 'debian-spamd',
+      exim_source_dir       => "puppet:///modules/hosting/exim",
+      other_hostnames       => [$::fqdn, "+virtual_domains"],
+      relay_domains         => ["@mx_any/ignore=+localhosts", "+virtual_domains"],
+      greylist_local        => true,
+      greylist_dsn          => 'servers=(/var/run/postgresql/.s.PGSQL.5432)/greylist/Debian-exim',
+      greylist_sql_username => 'Debian-exim';
 
     'roundcube':
       db_password => $roundcube_db_password;

@@ -102,17 +102,7 @@ node 'testagent.example.org' {
       hostmaster            => 'hostmaster.example.net',
       cert_base_path        => 'puppet:///modules/site/testdata',
       roundcube_db_password => 'phauXee9ochuunge';
-
-    'exiscan::spamassassin':
-      bayes_sql_dsn      => "DBI:Pg:dbname=spamassassin",
-      bayes_sql_username => "spamassassin",
-      bayes_sql_password => "blashlhbas";
-
-    'exiscan::spamassassin_db':
-      db_username => "spamassassin",
-      db_password => "blashlhbas";
   }
-  Class['exiscan::spamassassin_db'] -> Class['exiscan::spamassassin']
 
   $url_path = '/webmail'
   $fpm_socket = '/var/run/php5-fpm.sock'
@@ -163,9 +153,9 @@ dasz:
       comment: Testuser
   mysql_databases:
     dasz_wordpress:
-      password: foo
+      password: default_db
     dasz_teststuff:
-      password: foo
+      password: default_db
 
 example:
   type: customer
