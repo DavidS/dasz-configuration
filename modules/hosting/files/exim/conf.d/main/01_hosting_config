@@ -1,1 +1,7 @@
-domainlist virtual_domains = test 
+# a list of all customer's domains we want to accept mail for
+# this includes all subdomains; TLDs (see partial1) could be matched if a
+# marker file exists for them, but since the data is under our control, that
+# should not happen
+#
+# exclude primary_hostname here to allow local delivery
+domainlist virtual_domains = !$primary_hostname : partial1()dsearch;/etc/exim4/virtual_domains_to_customer

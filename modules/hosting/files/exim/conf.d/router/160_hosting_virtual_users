@@ -1,0 +1,24 @@
+# This router uses the configured virtual hosting domains and aliases to route
+# to the actual mailboxes
+
+virtual_users:
+	debug_print = "R: virtual_users for $local_part@$domain"
+	driver = redirect
+	domains = +virtual_domains
+	data = \
+		${lookup{$local_part}lsearch*@{\
+			${lookup {$domain} partial1()dsearch {/etc/exim4/virtual_domains_to_customer}\
+				{${lookup {$value} lsearch* {/etc/exim4/virtual_domains_to_customer/$value}}/$domain}\
+				fail\
+			}\
+		}}
+
+	qualify_preserve_domain
+
+	# Allow and handle all addresses of the form alias+parameter@domain
+	local_part_suffix_optional
+	local_part_suffix = +*
+
+	# do the right thing
+	allow_fail
+	allow_defer
