@@ -40,7 +40,8 @@ class hosting (
   }
 
   # installing roundcube before php5-fpm pulls in apache
-  Class["roundcube"] -> Package["php5-fpm"]
+  Package["php5-fpm"] -> Class["roundcube"]
+  Class["nginx"] -> Class["roundcube"]
 
   package { ["dovecot-managesieved", "dovecot-sieve"]:
     ensure => installed,
