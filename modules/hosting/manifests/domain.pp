@@ -8,7 +8,8 @@ define hosting::domain (
   $primary_mx_name   = $hosting::primary_mx_name,
   $hosting_ipaddress = $hosting::hosting_ipaddress,
   $hostmaster        = $hosting::hostmaster,
-  $serial) {
+  $serial,
+  $additional_rrs    = []) {
   include hosting
 
   $domain = $name

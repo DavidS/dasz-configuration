@@ -136,6 +136,9 @@ dasz:
   domains:
     dasz.at:
       serial: 2014012200
+      additional_rrs:
+        - "ns1  A 192.168.50.50"
+        - "ns2  A 10.0.2.15"
     zetbox.at:
       serial: 2014012200
   certs:

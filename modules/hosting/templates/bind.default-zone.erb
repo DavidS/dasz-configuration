@@ -9,3 +9,4 @@ postausgang.<%= @domain %>.	CNAME mail.<%= @domain %>.
 posteingang.<%= @domain %>.	CNAME mail.<%= @domain %>.
 
 *.<%= @domain %>.		CNAME <%= @domain %>.
+<%= @additional_rrs.join("\n") %>
