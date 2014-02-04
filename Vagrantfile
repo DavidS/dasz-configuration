@@ -25,6 +25,7 @@ Vagrant::Config.run do |config|
     pm_config.vm.box = "Debian-7.2.0-amd64"
     pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.2.0-amd64-netboot.box"
     pm_config.vm.host_name = "monitor.example.org"
+    pm_config.vm.forward_port 80, 8082
     pm_config.vm.network :hostonly, "192.168.50.5"
 
     pm_config.vm.provision :shell, :inline => "/vagrant/scripts/register_puppetmaster 192.168.50.4 puppetmaster.example.org"
@@ -38,6 +39,7 @@ Vagrant::Config.run do |config|
   config.vm.define :testagent do |pm_config|
     pm_config.vm.box = "Debian-7.2.0-amd64"
     pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.2.0-amd64-netboot.box"
+    pm_config.vm.forward_port 80, 8081
     pm_config.vm.host_name = "testagent.example.org"
     pm_config.vm.network :hostonly, "192.168.50.50"
 
