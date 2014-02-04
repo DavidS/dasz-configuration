@@ -57,6 +57,18 @@ define hosting::domain (
       group   => root;
   }
 
+  # manually configure nagios for check_dig
+  @@file { "/etc/nagios3/conf.d/check_dns_${domain}.cfg":
+    ensure  => present,
+    mode    => 0644,
+    owner   => root,
+    group   => root,
+    content => template("hosting/nagios-check-domain.cfg.erb"),
+    tag     => "nagios_host_",
+    require => Package['nagios3'],
+    notify  => Service['nagios3'];
+  }
+
   # avoid overlap with nginx_user_snip
   if (!defined(File["${base_dir}/etc/nginx/${domain}"])) {
     file { "${base_dir}/etc/nginx/${domain}":

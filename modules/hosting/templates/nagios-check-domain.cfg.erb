@@ -1,0 +1,6 @@
+define service {
+        host_name           <%= @fqdn %>
+        service_description check_domain_<%= @domain %>
+        check_command       check_dig!<%= @domain %>
+        use                 generic-service
+}

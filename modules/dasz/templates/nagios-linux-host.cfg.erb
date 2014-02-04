@@ -1,0 +1,6 @@
+define host {
+	host_name             <%= @name %>
+	notifications_enabled <%= @notifications_enabled ? '1' : '0' %>
+	max_check_attempts    5
+	contacts              dasz
+}

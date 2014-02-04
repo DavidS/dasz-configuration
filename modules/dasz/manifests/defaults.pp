@@ -205,6 +205,8 @@ class dasz::defaults (
     Host <<| tag == 'dasz::default_host' |>>
   }
 
+  dasz::nagios_host { $::fqdn: }
+
   package {
     [
       "vim",

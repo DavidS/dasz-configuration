@@ -353,6 +353,39 @@ server {
   }
 
   dasz::zetbox::monitor_fake_host { 'office.dasz.at': folder => 'Tech21'; }
+
+  # collect manual nagios definitions (currently only windows hosts)
+  File <<| tag == 'nagios_host_' |>>
+
+  package { ["nagios3", "nagios-nrpe-plugin"]:
+    ensure => present,
+    notify => Service['nagios3'];
+  }
+
+  file {
+    "/etc/nagios3/conf.d/contacts.cfg":
+      ensure  => present,
+      source  => "puppet:///modules/dasz/nagios/contacts.cfg",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      require => Package['nagios3'],
+      notify  => Service['nagios3'];
+
+    "/etc/nagios3/conf.d/hosting.cfg":
+      ensure  => present,
+      content => template("dasz/nagios-hosting-base.cfg.erb"),
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      require => Package['nagios3'],
+      notify  => Service['nagios3'];
+  }
+
+  service { 'nagios3':
+    ensure => running,
+    enable => true,
+  }
 }
 
 # use
