@@ -9,7 +9,7 @@ define hosting::domain (
   $hosting_ipaddress = $hosting::hosting_ipaddress,
   $hostmaster        = $hosting::hostmaster,
   $serial) {
-  include hosting, concat::setup
+  include hosting
 
   $domain = $name
 

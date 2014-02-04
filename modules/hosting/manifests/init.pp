@@ -19,7 +19,7 @@ class hosting (
   $hostmaster,
   $cert_base_path = 'puppet:///secrets',
   $roundcube_db_password,) {
-  include dasz::defaults, bind, concat::setup, postgresql, mysql
+  include dasz::defaults, bind, postgresql, mysql
 
   if (!defined(Package['git'])) {
     package { git: ensure => installed }

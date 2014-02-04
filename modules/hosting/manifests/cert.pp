@@ -1,6 +1,4 @@
 define hosting::cert ($ca, $base_path, $cn_aliases = []) {
-  include concat::setup
-
   $cert_file = "/etc/ssl/www/${name}.crt.pem"
 
   file {
