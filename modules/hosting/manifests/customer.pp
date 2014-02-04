@@ -99,6 +99,7 @@ define hosting::customer (
     comment    => "${admin_fullname}",
     home       => "${base_dir}/apps",
     managehome => true,
+    shell      => '/bin/bash',
     groups     => [$all_group],
   }
 
