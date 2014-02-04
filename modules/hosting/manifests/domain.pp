@@ -85,7 +85,7 @@ define hosting::domain (
   # bind zone config
   concat::fragment { $domain:
     target  => "/etc/bind/named.conf.local",
-    content => "\nzone \"${domain}\" { type master; file \"/etc/bind/hosting_zones/${domain}.zone\"};\n",
+    content => "\nzone \"${domain}\" { type master; file \"/etc/bind/hosting_zones/${domain}.zone\"; };\n",
     order   => 50,
   }
 }
