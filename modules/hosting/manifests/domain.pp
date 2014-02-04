@@ -91,4 +91,11 @@ define hosting::domain (
     content => "\nzone \"${domain}\" { type master; file \"/etc/bind/hosting_zones/${domain}.zone\"; };\n",
     order   => 50,
   }
+
+  @@concat::fragment { "hosting::domain::slave::${domain}":
+    target  => "/etc/bind/named.conf.local",
+    content => "\nzone \"${domain}\" { type slave; masters { ${::ipaddress}; }; };\n",
+    order   => 50,
+    tag     => "hosting::domain::slave",
+  }
 }

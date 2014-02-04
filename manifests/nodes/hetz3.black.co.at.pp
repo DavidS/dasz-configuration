@@ -12,6 +12,9 @@ node 'hetz3.black.co.at' {
 
     'openvpn':
     ;
+
+    'hosting::secondary_ns':
+    ;
   }
 
   # foreman virt host

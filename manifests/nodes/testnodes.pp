@@ -268,7 +268,7 @@ node 'monitor.example.org' {
     "puppet":
       mode    => 'client',
       server  => 'puppetmaster.example.org',
-      runmode => 'cron',
+      runmode => 'manual',
       require => Class['dasz::defaults'];
 
     'nginx':
@@ -287,6 +287,9 @@ node 'monitor.example.org' {
 
     'dasz::snips::systemd':
       grub_timeout => 0;
+
+    'hosting::secondary_ns':
+    ;
   }
 
   file {
