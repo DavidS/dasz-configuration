@@ -1,3 +1,3 @@
-location <%= @local_name %> {
-	rewrite ^ <%= @location %>$request_uri? permanent;
+location <%= @url_path %> {
+	rewrite ^ <%= @destination %>$request_uri? permanent;
 }
