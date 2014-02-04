@@ -380,6 +380,24 @@ server {
       group   => root,
       require => Package['nagios3'],
       notify  => Service['nagios3'];
+
+    "/etc/nagios3/conf.d/check_zone_auth.cfg":
+      ensure  => present,
+      source  => 'puppet:///modules/dasz/nagios/check_zone_auth.cfg',
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      require => Package['nagios3'],
+      notify  => Service['nagios3'];
+
+    "/usr/local/sbin/check_zone_auth":
+      ensure  => present,
+      source  => 'puppet:///modules/dasz/nagios/check_zone_auth',
+      mode    => 0755,
+      owner   => root,
+      group   => root,
+      require => Package['nagios3'],
+      notify  => Service['nagios3'];
   }
 
   service { 'nagios3':

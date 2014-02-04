@@ -1,0 +1,11 @@
+define host {
+  use                     dns-zone
+  host_name               zone.<%= @name %>
+  alias                   ZONE <%= @name %>
+}
+
+define service {
+  use                     dns-auth-service
+  host_name               zone.<%= @name %>
+  check_command           check-zone-auth!<%= ns.join(',') %>
+}

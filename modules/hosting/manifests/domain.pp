@@ -69,6 +69,8 @@ define hosting::domain (
     notify  => Service['nagios3'];
   }
 
+  dasz::nagios_zone_auth { $domain: ns => [$primary_ns_name, $secondary_ns_name]; }
+
   # avoid overlap with nginx_user_snip
   if (!defined(File["${base_dir}/etc/nginx/${domain}"])) {
     file { "${base_dir}/etc/nginx/${domain}":
