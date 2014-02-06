@@ -56,30 +56,26 @@ class hosting (
     notify => Service['dovecot'];
   }
 
-  file {
-    "${dovecot::config_dir}/dovecot.pem":
-      source  => "${cert_base_path}/ssl/${primary_fqdn}/cert.pem",
-      mode    => 0644,
-      owner   => $dovecot::config_file_owner,
-      group   => $dovecot::config_file_group,
-      require => Package[$dovecot::package],
-      notify  => Service['dovecot'];
+  hosting::ssl_cert { "dovecot::${primary_fqdn}":
+    ca          => thawte,
+    cert_file   => "${dovecot::config_dir}/dovecot.pem",
+    cert_source => "${cert_base_path}/ssl/${primary_fqdn}/cert.pem",
+    key_file    => "${dovecot::config_dir}/private/dovecot.pem",
+    key_source  => "${cert_base_path}/ssl/${primary_fqdn}/privkey.pem",
+    cert_mode   => 0644,
+    cert_owner  => $dovecot::config_file_owner,
+    cert_group  => $dovecot::config_file_group,
+    require     => Package[$dovecot::package],
+    notify      => Service['dovecot'];
+  }
 
-    "${dovecot::config_dir}/private/dovecot.pem":
-      source  => "${cert_base_path}/ssl/${primary_fqdn}/privkey.pem",
-      mode    => 0600,
-      owner   => $dovecot::config_file_owner,
-      group   => $dovecot::config_file_group,
-      require => Package[$dovecot::package],
-      notify  => Service['dovecot'];
-
-    "${dovecot::config_dir}/local.conf":
-      source  => "puppet:///modules/hosting/dovecot.local.conf",
-      mode    => 0644,
-      owner   => $dovecot::config_file_owner,
-      group   => $dovecot::config_file_group,
-      require => Package[$dovecot::package],
-      notify  => Service['dovecot'];
+  file { "${dovecot::config_dir}/local.conf":
+    source  => "puppet:///modules/hosting/dovecot.local.conf",
+    mode    => 0644,
+    owner   => $dovecot::config_file_owner,
+    group   => $dovecot::config_file_group,
+    require => Package[$dovecot::package],
+    notify  => Service['dovecot'];
   }
 
   # use mono3
