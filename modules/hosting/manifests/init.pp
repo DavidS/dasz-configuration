@@ -78,6 +78,8 @@ class hosting (
       cert_mode   => 0644,
       cert_owner  => $exim::config_file_owner,
       cert_group  => $exim::config_file_group,
+      key_mode    => 0640,
+      key_group   => "Debian-exim",
       require     => Package[$exim::package],
       notify      => Service['exim'];
   }
