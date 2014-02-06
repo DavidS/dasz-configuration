@@ -3,6 +3,8 @@ server {
 
 	server_name <%= @domain %> *.<%= @domain %>;
 
+	include /etc/nginx/<%= @domain %>/*.conf;
+
 	location / {
 		proxy_pass http://unix:<%= @base_dir %>/run/nginx.sock:;
 		include    /etc/nginx/customer_proxy_params;
