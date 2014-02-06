@@ -1,5 +1,5 @@
 define hosting::mysql_database ($customer, $base_dir, $admin_user, $password) {
-  $private_cnf = "${base_dir}/apps/.my.${name}.cnf"
+  $private_cnf = "${base_dir}/home/${admin_user}/.my.${name}.cnf"
 
   mysql::grant { $name:
     mysql_password   => $password,

@@ -143,6 +143,7 @@ define hosting::customer (
 
     # app directories
     [
+      "${base_dir}/apps",
       "${base_dir}/backups",
       "${base_dir}/log",
       ]:
@@ -158,20 +159,19 @@ define hosting::customer (
       owner  => $admin_user,
       group  => $admin_group;
 
-    # the app user's home contains the systemd user config
+    # the admin user's home contains the systemd user config
     [
-      "${base_dir}/apps",
-      "${base_dir}/apps/.config",
-      "${base_dir}/apps/.config/systemd",
-      "${base_dir}/apps/.config/systemd/user",
-      "${base_dir}/apps/.config/systemd/user/default.target.wants",
+      "${base_dir}/home/${admin_user}/.config",
+      "${base_dir}/home/${admin_user}/.config/systemd",
+      "${base_dir}/home/${admin_user}/.config/systemd/user",
+      "${base_dir}/home/${admin_user}/.config/systemd/user/default.target.wants",
       ]:
       ensure => directory,
       mode   => 2770,
       owner  => $admin_user,
       group  => $admin_group;
 
-    "${base_dir}/apps/.config/systemd/user/default.target":
+    "${base_dir}/home/${admin_user}/.config/systemd/user/default.target":
       ensure  => present,
       source  => 'puppet:///modules/hosting/default.target',
       replace => false,
@@ -217,7 +217,9 @@ define hosting::customer (
   service { "user@${admin_user}.service":
     ensure    => running,
     provider  => systemd,
-    require   => [Exec["hosting::${customer}::enable-apps-linger"], File["${base_dir}/apps/.config/systemd/user/default.target"]],
+    require   => [
+      Exec["hosting::${customer}::enable-apps-linger"],
+      File["${base_dir}/home/${admin_user}/.config/systemd/user/default.target"]],
     subscribe => Exec["systemd-reload"];
   }
 }

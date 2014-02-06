@@ -9,7 +9,7 @@ define hosting::customer_service (
   $enable,
   $system_integration = true) {
   validate_bool($enable)
-  $service_file_name = "${base_dir}/apps/.config/systemd/user/${service_name}.service"
+  $service_file_name = "${base_dir}/home/${admin_user}/.config/systemd/user/${service_name}.service"
 
   file { $service_file_name:
     ensure  => present,
@@ -35,7 +35,7 @@ define hosting::customer_service (
   }
 
   if ($enable) {
-    $service_file = "${base_dir}/apps/.config/systemd/user/default.target.wants/${service_name}.service"
+    $service_file = "${base_dir}/home/${admin_user}/.config/systemd/user/default.target.wants/${service_name}.service"
 
     file { $service_file:
       ensure => symlink,
