@@ -56,17 +56,30 @@ class hosting (
     notify => Service['dovecot'];
   }
 
-  hosting::ssl_cert { "dovecot::${primary_fqdn}":
-    ca          => thawte,
-    cert_file   => "${dovecot::config_dir}/dovecot.pem",
-    cert_source => "${cert_base_path}/ssl/${primary_fqdn}/cert.pem",
-    key_file    => "${dovecot::config_dir}/private/dovecot.pem",
-    key_source  => "${cert_base_path}/ssl/${primary_fqdn}/privkey.pem",
-    cert_mode   => 0644,
-    cert_owner  => $dovecot::config_file_owner,
-    cert_group  => $dovecot::config_file_group,
-    require     => Package[$dovecot::package],
-    notify      => Service['dovecot'];
+  hosting::ssl_cert {
+    "dovecot::${primary_fqdn}":
+      ca          => thawte,
+      cert_file   => "${dovecot::config_dir}/dovecot.pem",
+      cert_source => "${cert_base_path}/ssl/${primary_fqdn}/cert.pem",
+      key_file    => "${dovecot::config_dir}/private/dovecot.pem",
+      key_source  => "${cert_base_path}/ssl/${primary_fqdn}/privkey.pem",
+      cert_mode   => 0644,
+      cert_owner  => $dovecot::config_file_owner,
+      cert_group  => $dovecot::config_file_group,
+      require     => Package[$dovecot::package],
+      notify      => Service['dovecot'];
+
+    "exim::${primary_fqdn}":
+      ca          => thawte,
+      cert_file   => "${exim::config_dir}/exim.crt",
+      cert_source => "${cert_base_path}/ssl/${primary_fqdn}/cert.pem",
+      key_file    => "${exim::config_dir}/exim.key",
+      key_source  => "${cert_base_path}/ssl/${primary_fqdn}/privkey.pem",
+      cert_mode   => 0644,
+      cert_owner  => $exim::config_file_owner,
+      cert_group  => $exim::config_file_group,
+      require     => Package[$exim::package],
+      notify      => Service['exim'];
   }
 
   file { "${dovecot::config_dir}/local.conf":
