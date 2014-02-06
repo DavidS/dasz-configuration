@@ -47,7 +47,7 @@ for my $domain_config (glob("${apps_dir}/*.apps")) {
 
 		$output .= <<PUPPET;
 hosting::nginx_user_snip {
-  "$subdomain::$domain/${path}::$dest":
+  "${subdomain}::${domain}/${path}::$dest":
     customer    => '$customer',
     admin_user  => '$admin_user',
     subdomain   => '$subdomain',
