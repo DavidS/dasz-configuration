@@ -117,6 +117,7 @@ class hosting (
       "php5-mysql",
       "php5-pgsql",
       "php5-sqlite",
+      "fetchmail",
       ]:
       ensure => installed;
 
