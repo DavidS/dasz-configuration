@@ -19,6 +19,8 @@ define hosting::customer (
   $db_password,
   $mysql_databases = 'none',
   $pg_databases    = 'none',) {
+  $admin_user_escaped = inline_template('<%= @admin_user.gsub(/-/, "\\x2d") %>')
+
   include hosting, postgresql, mysql
 
   $customer = $name
@@ -178,7 +180,7 @@ define hosting::customer (
       mode    => 0660,
       owner   => $admin_user,
       group   => $admin_group,
-      before  => Service["user@${admin_user}.service"];
+      before  => Service["user@${admin_user_escaped}.service"];
 
     "${base_dir}/etc/nginx/nginx.conf":
       content => template("hosting/nginx.customer.conf.erb"),
@@ -186,7 +188,7 @@ define hosting::customer (
       mode    => 0660,
       owner   => $admin_user,
       group   => $admin_group,
-      before  => Service["user@${admin_user}.service"];
+      before  => Service["user@${admin_user_escaped}.service"];
   }
 
   hosting::customer_service { "${customer}::nginx":
@@ -206,15 +208,15 @@ define hosting::customer (
   }
 
   # enable user@ service manually as systemd cannot do so (bug?)
-  file { "/etc/systemd/system/multi-user.target.wants/user@${admin_user}.service":
+  file { "/etc/systemd/system/multi-user.target.wants/user@${admin_user_escaped}.service":
     ensure  => symlink,
     target  => '/lib/systemd/system/user@.service',
-    before  => Service["user@${admin_user}.service"],
+    before  => Service["user@${admin_user_escaped}.service"],
     require => Package['systemd'],
     notify  => Exec["systemd-reload"];
   }
 
-  service { "user@${admin_user}.service":
+  service { "user@${admin_user_escaped}.service":
     ensure    => running,
     provider  => systemd,
     require   => [

@@ -10,6 +10,7 @@ define hosting::customer_service (
   $system_integration = true) {
   validate_bool($enable)
   $service_file_name = "${base_dir}/home/${admin_user}/.config/systemd/user/${service_name}.service"
+  $admin_user_escaped = inline_template('<%= @admin_user.gsub(/-/, "\\x2d") %>')
 
   file { $service_file_name:
     ensure  => present,
@@ -31,7 +32,7 @@ define hosting::customer_service (
 
   if ($system_integration) {
     File[$service_file_name] {
-      before => Service["user@${admin_user}.service"] }
+      before => Service["user@${admin_user_escaped}.service"] }
   }
 
   if ($enable) {
@@ -44,7 +45,7 @@ define hosting::customer_service (
 
     if ($system_integration) {
       File[$service_file] {
-        before => Service["user@${admin_user}.service"] }
+        before => Service["user@${admin_user_escaped}.service"] }
     }
   }
 }
