@@ -25,53 +25,51 @@ define hosting::customer (
   $base_dir = "/srv/${customer}"
   $admin_group = "${customer}_admins"
   $all_group = "${customer}_all"
-  $app_user = "${customer}_app"
 
   create_resources("hosting::domain", $domains, {
     admin_user  => $admin_user,
-    base_dir    => $base_dir,
     admin_group => $admin_group,
-    app_user    => $app_user,
+    base_dir    => $base_dir,
   }
   )
 
   create_resources("hosting::pobox", $users, {
     gid       => $all_group,
     base_dir  => $base_dir,
-    all_group => $all_group
+    all_group => $all_group,
   }
   )
 
   hosting::mysql_database { $customer:
-    customer => $customer,
-    base_dir => $base_dir,
-    app_user => $app_user,
-    password => $db_password;
+    customer   => $customer,
+    base_dir   => $base_dir,
+    admin_user => $admin_user,
+    password   => $db_password;
   }
 
   if (is_hash($mysql_databases)) {
     create_resources("hosting::mysql_database", $mysql_databases, {
-      customer => $customer,
-      base_dir => $base_dir,
-      app_user => $app_user,
-      password => $db_password
+      customer   => $customer,
+      base_dir   => $base_dir,
+      admin_user => $admin_user,
+      password   => $db_password
     }
     )
   }
 
   hosting::pg_database { $customer:
-    customer => $customer,
-    base_dir => $base_dir,
-    app_user => $app_user,
-    password => $db_password;
+    customer   => $customer,
+    base_dir   => $base_dir,
+    admin_user => $admin_user,
+    password   => $db_password;
   }
 
   if (is_hash($pg_databases)) {
     create_resources("hosting::pg_database", $pg_databases, {
-      customer => $customer,
-      base_dir => $base_dir,
-      app_user => $app_user,
-      password => $db_password
+      customer   => $customer,
+      base_dir   => $base_dir,
+      admin_user => $admin_user,
+      password   => $db_password
     }
     )
   }
@@ -93,15 +91,6 @@ define hosting::customer (
     command => "/bin/mkdir -p ${base_dir}/home",
     creates => "${base_dir}/home";
   } -> User <| |>
-
-  user { $app_user:
-    gid        => $admin_group,
-    comment    => "${admin_fullname}",
-    home       => "${base_dir}/apps",
-    managehome => true,
-    shell      => '/bin/bash',
-    groups     => [$all_group],
-  }
 
   file {
     # externals have to poke here
@@ -159,14 +148,14 @@ define hosting::customer (
       ]:
       ensure => directory,
       mode   => 2770,
-      owner  => $app_user,
+      owner  => $admin_user,
       group  => $admin_group;
 
     # app directories, need to be o+x to allow access to nginx.sock
     ["${base_dir}/run",]:
       ensure => directory,
       mode   => 2771,
-      owner  => $app_user,
+      owner  => $admin_user,
       group  => $admin_group;
 
     # the app user's home contains the systemd user config
@@ -179,7 +168,7 @@ define hosting::customer (
       ]:
       ensure => directory,
       mode   => 2770,
-      owner  => $app_user,
+      owner  => $admin_user,
       group  => $admin_group;
 
     "${base_dir}/apps/.config/systemd/user/default.target":
@@ -189,7 +178,7 @@ define hosting::customer (
       mode    => 0660,
       owner   => $admin_user,
       group   => $admin_group,
-      before  => Service["user@${app_user}.service"];
+      before  => Service["user@${admin_user}.service"];
 
     "${base_dir}/etc/nginx/nginx.conf":
       content => template("hosting/nginx.customer.conf.erb"),
@@ -197,12 +186,11 @@ define hosting::customer (
       mode    => 0660,
       owner   => $admin_user,
       group   => $admin_group,
-      before  => Service["user@${app_user}.service"];
+      before  => Service["user@${admin_user}.service"];
   }
 
   hosting::customer_service { "${customer}::nginx":
     base_dir        => $base_dir,
-    app_user        => $app_user,
     admin_user      => $admin_user,
     admin_group     => $admin_group,
     service_name    => 'nginx',
@@ -211,22 +199,22 @@ define hosting::customer (
   }
 
   exec { "hosting::${customer}::enable-apps-linger":
-    command => "/bin/systemd-loginctl enable-linger ${app_user}",
+    command => "/bin/systemd-loginctl enable-linger ${admin_user}",
     onlyif  => "/bin/systemctl > /dev/null",
-    unless  => "/bin/systemd-loginctl show-user ${app_user}",
-    require => [User[$app_user], Exec['dbus-restart'], Package['systemd']];
+    unless  => "/bin/systemd-loginctl show-user ${admin_user}",
+    require => [User[$admin_user], Exec['dbus-restart'], Package['systemd']];
   }
 
   # enable user@ service manually as systemd cannot do so (bug?)
-  file { "/etc/systemd/system/multi-user.target.wants/user@${app_user}.service":
+  file { "/etc/systemd/system/multi-user.target.wants/user@${admin_user}.service":
     ensure  => symlink,
     target  => '/lib/systemd/system/user@.service',
-    before  => Service["user@${app_user}.service"],
+    before  => Service["user@${admin_user}.service"],
     require => Package['systemd'],
     notify  => Exec["systemd-reload"];
   }
 
-  service { "user@${app_user}.service":
+  service { "user@${admin_user}.service":
     ensure    => running,
     provider  => systemd,
     require   => [Exec["hosting::${customer}::enable-apps-linger"], File["${base_dir}/apps/.config/systemd/user/default.target"]],

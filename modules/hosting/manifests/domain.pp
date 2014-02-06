@@ -1,8 +1,7 @@
 define hosting::domain (
-  $admin_user,
   $base_dir,
+  $admin_user,
   $admin_group,
-  $app_user,
   $primary_ns_name   = $hosting::primary_ns_name,
   $secondary_ns_name = $hosting::secondary_ns_name,
   $primary_mx_name   = $hosting::primary_mx_name,

@@ -12,7 +12,7 @@ daemonize = no
 
 listen = <%= @base_dir %>/run/php5-fpm-<%= @destination %>.sock
 
-user = <%= @app_user %> 
+user = <%= @admin_user %> 
 
 pm = dynamic
 pm.max_children = 5

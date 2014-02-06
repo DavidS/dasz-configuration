@@ -18,7 +18,6 @@ define hosting::nginx_user_snip (
   }
   $base_dir = "/srv/${customer}"
   $admin_group = "${customer}_admins"
-  $app_user = "${customer}_app"
 
   $url_path_as_filename = inline_template("<%= @url_path.gsub(/[^a-zA-Z0-9]/, '_') %>")
   $nginx_config_dir = "${base_dir}/etc/nginx/${domain}"
@@ -57,7 +56,6 @@ define hosting::nginx_user_snip (
       if (!defined(Hosting::Customer_service["${customer}::${destination}"])) {
         hosting::customer_service { "${customer}::${destination}":
           base_dir        => $base_dir,
-          app_user        => $app_user,
           admin_user      => $admin_user,
           admin_group     => $admin_group,
           service_name    => $destination,
@@ -89,7 +87,6 @@ define hosting::nginx_user_snip (
       if (!defined(Hosting::Customer_service["${customer}::${destination}"])) {
         hosting::customer_service { "${customer}::${destination}":
           base_dir        => $base_dir,
-          app_user        => $app_user,
           admin_user      => $admin_user,
           admin_group     => $admin_group,
           service_name    => $destination,

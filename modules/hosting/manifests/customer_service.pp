@@ -1,7 +1,6 @@
 # manage an application service for a customer
 define hosting::customer_service (
   $base_dir,
-  $app_user,
   $admin_user,
   $admin_group,
   $service_name,
@@ -32,7 +31,7 @@ define hosting::customer_service (
 
   if ($system_integration) {
     File[$service_file_name] {
-      before => Service["user@${app_user}.service"] }
+      before => Service["user@${admin_user}.service"] }
   }
 
   if ($enable) {
@@ -45,7 +44,7 @@ define hosting::customer_service (
 
     if ($system_integration) {
       File[$service_file] {
-        before => Service["user@${app_user}.service"] }
+        before => Service["user@${admin_user}.service"] }
     }
   }
 }
