@@ -18,7 +18,8 @@ class hosting (
   $hosting_ipaddress,
   $hostmaster,
   $cert_base_path = 'puppet:///secrets',
-  $roundcube_db_password,) {
+  $roundcube_db_password,
+  $webmail_vhost) {
   include dasz::defaults, bind, postgresql, mysql
 
   if (!defined(Package['git'])) {
@@ -204,5 +205,19 @@ class hosting (
     mode   => 0640,
     owner  => root,
     group  => 'Debian-exim';
+  }
+
+  # webmail configuration
+  $url_path = '/webmail'
+  $fpm_socket = '/var/run/php5-fpm.sock'
+  $root = '/var/lib/roundcube'
+
+  file { "/etc/nginx/${webmail_vhost}/50-webmail.conf":
+    content => template("roundcube/nginx.php5-proxy.conf.erb"),
+    mode    => 0644,
+    owner   => root,
+    group   => root,
+    require => Package['nginx'],
+    notify  => Service['nginx'];
   }
 }

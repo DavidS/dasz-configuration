@@ -18,6 +18,17 @@ define hosting::cert ($ca, $base_path, $cn_aliases = []) {
       group     => www-data;
   }
 
+  if (!defined(File["/etc/nginx/${name}"])) {
+    file { "/etc/nginx/${name}":
+      ensure  => directory,
+      mode    => 0755,
+      owner   => root,
+      group   => root,
+      require => Package['nginx'],
+      notify  => Service['nginx'];
+    }
+  }
+
   concat { $cert_file:
     mode   => 0640,
     owner  => root,

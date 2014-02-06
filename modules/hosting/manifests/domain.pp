@@ -44,14 +44,6 @@ define hosting::domain (
       require => Package['nginx'],
       notify  => Service['nginx'];
 
-    "/etc/nginx/${domain}":
-      ensure  => directory,
-      mode    => 0755,
-      owner   => root,
-      group   => root,
-      require => Package['nginx'],
-      notify  => Service['nginx'];
-
     "/etc/bind/hosting_zones/${domain}.zone":
       content => template("hosting/bind.default-zone.erb"),
       mode    => 0640,
@@ -64,6 +56,17 @@ define hosting::domain (
       content => "*: ${base_dir}/mail\n",
       owner   => root,
       group   => root;
+  }
+
+  if (!defined(File["/etc/nginx/${name}"])) {
+    file { "/etc/nginx/${name}":
+      ensure  => directory,
+      mode    => 0755,
+      owner   => root,
+      group   => root,
+      require => Package['nginx'],
+      notify  => Service['nginx'];
+    }
   }
 
   # manually configure nagios for check_dig

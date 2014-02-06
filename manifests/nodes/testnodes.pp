@@ -101,29 +101,8 @@ node 'testagent.example.org' {
       hosting_ipaddress     => $::ipaddress,
       hostmaster            => 'hostmaster.example.net',
       cert_base_path        => 'puppet:///modules/site/testdata',
-      roundcube_db_password => 'phauXee9ochuunge';
-  }
-
-  $url_path = '/webmail'
-  $fpm_socket = '/var/run/php5-fpm.sock'
-  $root = '/var/lib/roundcube'
-
-  file {
-    "/etc/nginx/roundcube_params":
-      content => template("roundcube/nginx.php5-proxy.conf.erb"),
-      mode    => 0644,
-      owner   => root,
-      group   => root,
-      require => Package['nginx'],
-      notify  => Service['nginx'];
-
-    "/etc/nginx/sites-enabled/50-webmail.conf":
-      content => template("site/testagent/hosting.nginx.webmail.conf.erb"),
-      mode    => 0644,
-      owner   => root,
-      group   => root,
-      require => Package['nginx'],
-      notify  => Service['nginx'];
+      roundcube_db_password => 'phauXee9ochuunge',
+      webmail_vhost         => 'example.com';
   }
 
   $customers = parseyaml('
