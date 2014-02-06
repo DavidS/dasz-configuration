@@ -2,9 +2,13 @@
 	# location may not end with /, except when location == '/'
 	# only in the latter case, alias has to have a slash at the end
 	location = @url_path.sub(/\/*$/,'')
+	root_slash = ''
+	fastcgi_split_path_info_prefix = location
 	alias_dir = @destination.sub(/\/*$/,'')
 	if location == '' then
+		root_slash = '/'
 		location = '/'
+		fastcgi_split_path_info_prefix = ''
 		alias_dir += '/'
 	end
 -%>
@@ -13,7 +17,7 @@ location <%= location %> {
 	index index.php;
 
 	location ~ [^/]\.php(/|$) {
-		fastcgi_split_path_info ^<%= location %>(.+?\.php)(/.*)?$;
+		fastcgi_split_path_info ^<%= fastcgi_split_path_info_prefix %>(<%= root_slash %>.+?\.php)(/.*)?$;
 		if (!-f $document_root$fastcgi_script_name) {
 			return 404;
 		}
