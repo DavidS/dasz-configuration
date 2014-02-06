@@ -130,7 +130,7 @@ define hosting::customer (
       "${base_dir}/www",
       ]:
       ensure => directory,
-      mode   => 2750,
+      mode   => 2770,
       owner  => $admin_user,
       group  => $admin_group;
 
