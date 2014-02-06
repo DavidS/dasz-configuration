@@ -14,3 +14,13 @@ server {
 	}
 }
 
+server {
+	listen *:80;
+
+	server_name <%= [@name, @cn_aliases].flatten.join " " %>;
+
+	location / {
+		rewrite ^ https://$server_name$request_uri? permanent;
+	}
+}
+
