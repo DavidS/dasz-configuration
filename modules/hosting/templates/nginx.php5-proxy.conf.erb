@@ -2,14 +2,14 @@
 	# location may not end with /, except when location == '/'
 	# only in the latter case, alias has to have a slash at the end
 	location = @url_path.sub(/\/*$/,'')
-	alias = @destination.sub(/\/*$/,'')
+	alias_dir = @destination.sub(/\/*$/,'')
 	if location == '' then
 		location = '/'
-		alias += '/'
+		alias_dir += '/'
 	end
 -%>
 location <%= location %> {
-	alias <%= @base_dir %>/apps/<%= alias %>;
+	alias <%= @base_dir %>/apps/<%= alias_dir %>;
 	index index.php;
 
 	location ~ [^/]\.php(/|$) {
