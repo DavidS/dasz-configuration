@@ -40,6 +40,7 @@ class hosting (
       exim_source_dir       => "puppet:///modules/hosting/exim",
       other_hostnames       => [$::fqdn, "+virtual_domains"],
       relay_domains         => ["@mx_any/ignore=+localhosts", "+virtual_domains"],
+      local_delivery        => 'dovecot_delivery',
       greylist_local        => true,
       greylist_dsn          => 'servers=(/var/run/postgresql/.s.PGSQL.5432)/greylist/Debian-exim',
       greylist_sql_username => 'Debian-exim';

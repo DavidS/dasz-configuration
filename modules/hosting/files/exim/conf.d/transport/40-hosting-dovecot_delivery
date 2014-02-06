@@ -1,0 +1,14 @@
+dovecot_delivery:
+  driver = pipe
+
+  command = /usr/lib/dovecot/dovecot-lda -f $sender_address
+
+  message_prefix =
+  message_suffix =
+  log_output
+  delivery_date_add
+  envelope_to_add
+  return_path_add
+  #group = mail
+  #mode = 0660
+  temp_errors = 64 : 69 : 70: 71 : 72 : 73 : 74 : 75 : 78
