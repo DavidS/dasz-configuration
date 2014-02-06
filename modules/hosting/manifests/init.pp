@@ -56,6 +56,15 @@ class hosting (
     notify => Service['dovecot'];
   }
 
+  file { "${dovecot::config_dir}/local.conf":
+    source  => "puppet:///modules/hosting/dovecot.local.conf",
+    mode    => 0644,
+    owner   => $dovecot::config_file_owner,
+    group   => $dovecot::config_file_group,
+    require => Package[$dovecot::package],
+    notify  => Service['dovecot'];
+  }
+
   hosting::ssl_cert {
     "dovecot::${primary_fqdn}":
       ca          => thawte,
@@ -82,15 +91,6 @@ class hosting (
       key_group   => "Debian-exim",
       require     => Package[$exim::package],
       notify      => Service['exim'];
-  }
-
-  file { "${dovecot::config_dir}/local.conf":
-    source  => "puppet:///modules/hosting/dovecot.local.conf",
-    mode    => 0644,
-    owner   => $dovecot::config_file_owner,
-    group   => $dovecot::config_file_group,
-    require => Package[$dovecot::package],
-    notify  => Service['dovecot'];
   }
 
   # use mono3
