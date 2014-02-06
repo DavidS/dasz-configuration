@@ -6,7 +6,7 @@ server {
 	ssl_certificate     /etc/ssl/www/<%= @name %>.crt.pem;
 	ssl_certificate_key /etc/ssl/www/<%= @name %>.key.pem;
 
-	include /etc/nginx/<%= @domain %>/*.conf;
+	include /etc/nginx/<%= @name %>/*.conf;
 
 	location / {
 		proxy_pass http://unix:<%= @base_dir %>/run/nginx.sock:;
