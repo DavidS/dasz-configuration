@@ -1,5 +1,6 @@
 location <%= @url_path %> {
-	root <%= @base_dir %>/apps/<%= @destination %>;
+	alias <%= @base_dir %>/apps/<%= @destination %>;
+	index index.php;
 
 	location ~ [^/]\.php(/|$) {
 		fastcgi_split_path_info ^<%= @url_path.sub(/\/$/,'') %>(.+?\.php)(/.*)?$;
