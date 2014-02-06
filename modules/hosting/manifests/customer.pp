@@ -121,6 +121,14 @@ define hosting::customer (
     [
       "${base_dir}/home/${admin_user}",
       "${base_dir}/home/${admin_user}/bin",
+      ]:
+      ensure => directory,
+      mode   => 2750,
+      owner  => $admin_user,
+      group  => $admin_group;
+
+    # admin group only directories
+    [
       "${base_dir}/etc",
       "${base_dir}/etc/nginx",
       "${base_dir}/etc/nginx/conf.d",
