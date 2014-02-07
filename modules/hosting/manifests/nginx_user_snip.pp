@@ -9,7 +9,7 @@ define hosting::nginx_user_snip (
   $type,
   $destination,
   $forcessl  = false) {
-  validate_re($type, 'static|php5|mono|redirect')
+  validate_re($type, 'static|php5|mono|redirect|php5-wordpress|php5-owncloud')
   validate_bool($forcessl)
 
   $domain = $subdomain ? {
@@ -79,9 +79,9 @@ define hosting::nginx_user_snip (
         group   => $admin_group;
       }
     }
-    'php5'     : {
+    /^php5/    : {
       # configure proxy pass through
-      $nginx_config_content = template("hosting/nginx.php5-proxy.conf.erb")
+      $nginx_config_content = template("hosting/nginx.${type}-proxy.conf.erb")
 
       # configure php5-fcgi/fpm instance
       if (!defined(Hosting::Customer_service["${customer}::${destination}"])) {
