@@ -233,7 +233,7 @@ class hosting::roundcube ($vhost, $url_path = '/webmail', $fpm_socket = '/var/ru
 }
 
 # phpmyadmin configuration
-class hosting::phpmyadmin ($vhost, $url_path = '/webmail', $fpm_socket = '/var/run/php5-fpm.sock', $root = '/var/lib/roundcube',) {
+class hosting::phpmyadmin ($vhost, $url_path = '/phpmyadmin', $fpm_socket = '/var/run/php5-fpm.sock',) {
   package { "phpmyadmin": ensure => installed; }
 
   file { "/etc/nginx/${vhost}/50-phpmyadmin.conf":
