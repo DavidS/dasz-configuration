@@ -1,0 +1,38 @@
+<%
+	# location may not end with /, except when location == '/'
+	# only in the latter case, alias has to have a slash at the end
+	location = @url_path.sub(/\/*$/,'')
+	root_slash = ''
+	fastcgi_split_path_info_prefix = location
+	if location == '' then
+		root_slash = '/'
+		location = '/'
+		fastcgi_split_path_info_prefix = ''
+	end
+-%>
+location <%= location %> {
+	alias /usr/share/phpmyadmin;
+	index index.php;
+	
+	index index.php;
+	location = /robots.txt {
+		allow all;
+		log_not_found off;
+		access_log off;
+	}
+	
+	location ~ ^/(libaries|setup) {
+		deny all;
+	}
+	
+	location ~ [^/]\.php(/|$) {
+		fastcgi_split_path_info ^<%= fastcgi_split_path_info_prefix %>(<%= root_slash %>.+?\.php)(/.*)?$;
+		if (!-f $document_root$fastcgi_script_name) {
+			return 404;
+		}
+
+		fastcgi_pass unix:<%= @fpm_socket %>;
+		fastcgi_index index.php;
+		include /etc/nginx/php5-fpm_params;
+	}
+}

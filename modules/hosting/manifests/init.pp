@@ -45,13 +45,13 @@ class hosting (
       greylist_dsn          => 'servers=(/var/run/postgresql/.s.PGSQL.5432)/greylist/Debian-exim',
       greylist_sql_username => 'Debian-exim';
 
-    'roundcube':
+    '::roundcube':
       db_password => $roundcube_db_password;
   }
 
   # installing roundcube before php5-fpm pulls in apache
-  Package["php5-fpm"] -> Class["roundcube"]
-  Class["nginx"] -> Class["roundcube"]
+  Package["php5-fpm"] -> Class["::roundcube"]
+  Class["nginx"] -> Class["::roundcube"]
 
   package { ["dovecot-managesieved", "dovecot-sieve"]:
     ensure => installed,
@@ -209,17 +209,40 @@ class hosting (
     group  => 'Debian-exim';
   }
 
-  # webmail configuration
-  $url_path = '/webmail'
-  $fpm_socket = '/var/run/php5-fpm.sock'
-  $root = '/var/lib/roundcube'
+  class {
+    "hosting::roundcube":
+      vhost => $webmail_vhost;
 
-  file { "/etc/nginx/${webmail_vhost}/50-webmail.conf":
+    "hosting::phpmyadmin":
+      vhost => $webmail_vhost
+
+  }
+
+}
+
+# webmail configuration
+class hosting::roundcube ($vhost, $url_path = '/webmail', $fpm_socket = '/var/run/php5-fpm.sock', $root = '/var/lib/roundcube',) {
+  file { "/etc/nginx/${vhost}/50-webmail.conf":
     content => template("roundcube/nginx.php5-proxy.conf.erb"),
     mode    => 0644,
     owner   => root,
     group   => root,
     require => Package['nginx'],
+    notify  => Service['nginx'];
+  }
+}
+
+# phpmyadmin configuration
+class hosting::phpmyadmin ($vhost, $url_path = '/webmail', $fpm_socket = '/var/run/php5-fpm.sock', $root = '/var/lib/roundcube',) {
+  package { "phpmyadmin": ensure => installed; }
+
+  file { "/etc/nginx/${vhost}/50-phpmyadmin.conf":
+    ensure  => present,
+    content => template("hosting/nginx.php5-phpmyadmin-proxy.conf.erb"),
+    mode    => 0644,
+    owner   => root,
+    group   => root,
+    require => [Package['nginx'], Package["phpmyadmin"]],
     notify  => Service['nginx'];
   }
 }
