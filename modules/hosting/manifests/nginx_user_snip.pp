@@ -40,7 +40,6 @@ define hosting::nginx_user_snip (
     file { $nginx_domain_config:
       ensure  => present,
       content => template("hosting/nginx.app-site.conf.erb"),
-      replace => false,
       mode    => 0664,
       owner   => $admin_user,
       group   => $admin_group;
@@ -73,7 +72,6 @@ define hosting::nginx_user_snip (
 
       file { "${base_dir}/etc/mono-${destination}/${domain}.${url_path_as_filename}.webapp":
         content => template('hosting/mono.webapp.erb'),
-        replace => false,
         mode    => 0660,
         owner   => $admin_user,
         group   => $admin_group;
@@ -103,7 +101,6 @@ define hosting::nginx_user_snip (
 
           "${base_dir}/etc/php5-${destination}/php-fpm.conf":
             content => template("hosting/php5-fpm.conf.erb"),
-            replace => false,
             mode    => 0640,
             owner   => $admin_user,
             group   => $admin_group;
@@ -121,7 +118,6 @@ define hosting::nginx_user_snip (
   # configure nginx with chosen content
   file { "${nginx_config_dir}/${url_path_as_filename}.conf":
     content => $nginx_config_content,
-    replace => false,
     mode    => 0660,
     owner   => $admin_user,
     group   => $admin_group;

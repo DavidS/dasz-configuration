@@ -118,6 +118,7 @@ class hosting (
       "php5-pgsql",
       "php5-sqlite",
       "fetchmail",
+      "imagemagick",
       ]:
       ensure => installed;
 
@@ -215,7 +216,6 @@ class hosting (
 
     "hosting::phpmyadmin":
       vhost => $webmail_vhost
-
   }
 
 }
