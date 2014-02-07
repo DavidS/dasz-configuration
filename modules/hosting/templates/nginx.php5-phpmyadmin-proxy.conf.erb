@@ -15,11 +15,6 @@ location <%= location %> {
 	index index.php;
 	
 	index index.php;
-	location = /robots.txt {
-		allow all;
-		log_not_found off;
-		access_log off;
-	}
 	
 	location ~ ^/(libaries|setup) {
 		deny all;
