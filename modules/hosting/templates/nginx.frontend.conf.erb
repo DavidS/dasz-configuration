@@ -22,6 +22,9 @@ http {
         ssl_session_cache   shared:SSL:10m;
         ssl_session_timeout 10m;
 
+        # enable upload for bigger files
+        client_max_body_size  50m;
+
         # compatability for IIS applications, see also customer_proxy_params
         map $scheme $msiis  { http off; https on; }
 

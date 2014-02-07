@@ -129,6 +129,7 @@ define hosting::customer (
       "${base_dir}/etc/nginx/conf.d",
       "${base_dir}/etc/nginx/sites-enabled",
       "${base_dir}/ssl",
+      "${base_dir}/tmp",
       "${base_dir}/www",
       ]:
       ensure => directory,

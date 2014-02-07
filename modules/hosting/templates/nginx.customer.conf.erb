@@ -23,6 +23,11 @@ http {
 	include /etc/nginx/mime.types;
 	default_type application/octet-stream;
 
+	# enable upload for bigger files
+	client_max_body_size  50m;
+	client_body_temp_path <%= @base_dir %>/tmp;
+	fastcgi_temp_path     <%= @base_dir %>/tmp;
+
 	gzip on;
 	gzip_disable "msie6";
 
