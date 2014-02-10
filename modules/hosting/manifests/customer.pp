@@ -12,7 +12,7 @@ define hosting::customer (
   $admin_user,
   $admin_fullname,
   $type            = 'none',
-  $users,
+  $users           = 'none',
   $domains,
   $certs           = 'none',
   $cert_base_path  = 'puppet:///secrets/',
@@ -35,12 +35,14 @@ define hosting::customer (
   }
   )
 
-  create_resources("hosting::pobox", $users, {
-    gid       => $all_group,
-    base_dir  => $base_dir,
-    all_group => $all_group,
+  if (is_hash($users)) {
+    create_resources("hosting::pobox", $users, {
+      gid       => $all_group,
+      base_dir  => $base_dir,
+      all_group => $all_group,
+    }
+    )
   }
-  )
 
   hosting::mysql_database { $customer:
     customer   => $customer,
