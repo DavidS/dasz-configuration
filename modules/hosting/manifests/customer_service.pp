@@ -37,7 +37,7 @@ define hosting::customer_service (
   }
 
   if ($enable) {
-    $service_file = "${base_dir}/home/${admin_user}/.config/systemd/user/default.target.wants/${service_name}.service"
+    $service_file = "${base_dir}/home/${admin_user}/.config/systemd/user/default.target.wants/${service_name_escaped}.service"
 
     file { $service_file:
       ensure => symlink,
