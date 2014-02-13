@@ -3,8 +3,8 @@
 use strict;
 use warnings;
 
-my $customer = $ARGV[1];
-my $admin_user = $ARGV[2];
+my $customer = shift;
+my $admin_user = shift;
 my $debug = 0;
 
 ####################################################
@@ -37,7 +37,7 @@ for my $domain_config (glob("${apps_dir}/*.apps")) {
 		# ignore empty lines
 		next if /^\w*$/;
 
-		if (!/^([^,]*),([^,]*),([^,]*),([^,]*)(,([^,]*)?)?$/) {
+		if (!/^([^,]*),([^,]*),([^,]*),([^,]*)(,(.*)?)?$/) {
 			print STDERR "$domain_config:$.:$_ failed to match ^.*,.*,.*,.*(,.*)?/\n";
 			next;
 		}
