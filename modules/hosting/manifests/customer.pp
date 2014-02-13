@@ -109,7 +109,7 @@ define hosting::customer (
     # directories accessible to all
     ["${base_dir}/home"]:
       ensure => directory,
-      mode   => 2750,
+      mode   => 2751,
       owner  => $admin_user,
       group  => $all_group;
 
