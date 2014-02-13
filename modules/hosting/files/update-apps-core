@@ -74,7 +74,7 @@ PUPPET
 
 my $puppet_opts = join " ", @ARGV;
 
-open APPLY, "|puppet apply --modulepath /var/lib/hosting/dasz-configuration/modules $puppet_opts" or die "Unable to start puppet: $!";
+open APPLY, "|puppet apply --show_diff --modulepath /var/lib/hosting/dasz-configuration/modules $puppet_opts" or die "Unable to start puppet: $!";
 
 print APPLY $header;
 print APPLY $output;
