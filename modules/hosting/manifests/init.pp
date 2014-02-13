@@ -182,6 +182,12 @@ class hosting (
       mode   => 0710,
       owner  => root,
       group  => www-data;
+
+    "/usr/local/bin/update-apps-core":
+      source => "puppet:///modules/hosting/update-apps-core",
+      mode   => 0755,
+      owner  => root,
+      group  => root;
   }
 
   concat { "/etc/bind/named.conf.local":

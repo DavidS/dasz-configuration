@@ -140,7 +140,6 @@ define hosting::customer (
 
     "${base_dir}/home/${admin_user}/bin/update-apps":
       content => template("hosting/update-apps.erb"),
-      replace => false,
       mode    => 0750,
       owner   => $admin_user,
       group   => $admin_group;

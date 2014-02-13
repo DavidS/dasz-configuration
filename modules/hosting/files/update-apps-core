@@ -1,0 +1,83 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my $customer = $ARGV[1];
+my $admin_user = $ARGV[2];
+my $debug = 0;
+
+####################################################
+
+sub trim($) {
+	my $str = shift;
+	$str =~ s/^\s+//;
+	$str =~ s/\s+$//;
+	return $str;
+}
+
+my $base_dir = "/srv/${customer}";
+my $apps_dir = "${base_dir}/apps";
+
+my $output = "";
+
+for my $domain_config (glob("${apps_dir}/*.apps")) {
+	next unless $domain_config =~ /${apps_dir}\/(.*)\.apps/;
+	my $domain = $1;
+
+	open APPS, "<$domain_config" or die "Cannot open $domain_config: $!";
+	while (<APPS>) {
+		# deal with windows
+		s/\r\n/\n/g;
+		chomp;
+
+		# remove comments
+		s/#.*//g;
+
+		# ignore empty lines
+		next if /^\w*$/;
+
+		if (!/^([^,]*),([^,]*),([^,]*),([^,]*)(,([^,]*)?)?$/) {
+			print STDERR "$domain_config:$.:$_ failed to match ^.*,.*,.*,.*(,.*)?/\n";
+			next;
+		}
+		my ($subdomain, $path, $type, $dest, $flags) = (trim($1), trim($2), trim($3), trim($4), trim($6 || ''));
+
+		print STDERR "$domain_config:$.:[$_] => [$subdomain] [$path] [$type] [$dest] [$flags]\n" if $debug;
+
+		$output .= <<PUPPET;
+hosting::nginx_user_snip {
+  "${subdomain}::${domain}/${path}::$dest":
+    customer    => '$customer',
+    admin_user  => '$admin_user',
+    subdomain   => '$subdomain',
+    basedomain  => '$domain',
+    url_path    => '$path',
+    type        => '$type',
+    destination => '$dest',
+}
+
+PUPPET
+	}
+	close APPS;
+}
+
+if (length($output) == 0) {
+	print STDERR "Nothing to do.\n";
+	exit 0;
+}
+
+my $header = <<PUPPET;
+Hosting::Customer_service { system_integration => false }
+
+PUPPET
+
+my $puppet_opts = join " ", @ARGV;
+
+open APPLY, "|puppet apply --modulepath /var/lib/hosting/dasz-configuration/modules $puppet_opts" or die "Unable to start puppet: $!";
+
+print APPLY $header;
+print APPLY $output;
+
+close APPLY;
+
