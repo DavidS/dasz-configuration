@@ -37,7 +37,6 @@ define hosting::customer (
 
   if (is_hash($users)) {
     create_resources("hosting::pobox", $users, {
-      gid       => $all_group,
       base_dir  => $base_dir,
       all_group => $all_group,
     }
