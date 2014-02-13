@@ -9,9 +9,9 @@ define hosting::customer_service (
   $enable,
   $system_integration = true) {
   validate_bool($enable)
-  $service_name_escaped = inline_template('<%= @service_name.gsub(/-/, "\\x2d") %>')
+  $service_name_escaped = inline_template('<%= @service_name.gsub(/-/, "\\x2d").gsub(/\//, "-").gsub(/^-|-$/, "") %>')
   $service_file_name = "${base_dir}/home/${admin_user}/.config/systemd/user/${service_name_escaped}.service"
-  $admin_user_escaped = inline_template('<%= @admin_user.gsub(/-/, "\\x2d") %>')
+  $admin_user_escaped = inline_template('<%= @admin_user.gsub(/-/, "\\x2d").gsub(/\//, "-").gsub(/^-|-$/, "") %>')
 
   file { $service_file_name:
     ensure  => present,
