@@ -1,3 +1,3 @@
 location <%= @url_path %> {
-	alias <%= @base_dir %>/www/<%= @basedomain %>/<%= @subdomain %>/<%= @local_name %>;
+	alias <%= @base_dir %>/www/<%= @basedomain %>/<%= @subdomain %><%= @subdomain == '' ? '' : '/' %><%= @destination %>;
 }
