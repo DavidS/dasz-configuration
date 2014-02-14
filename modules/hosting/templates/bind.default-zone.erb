@@ -4,7 +4,7 @@
 <%= @domain %>.		MX 10 <%= @primary_mx_name %>.
 <%= @domain %>.		A <%= @hosting_ipaddress %>
 
-mail.<%= @domain %>.	A <%= @hosting_ipaddress %>
+mail.<%= @domain %>.	A <%= @real_mail_ipaddress %>
 postausgang.<%= @domain %>.	CNAME mail.<%= @domain %>.
 posteingang.<%= @domain %>.	CNAME mail.<%= @domain %>.
 

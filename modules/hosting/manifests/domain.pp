@@ -6,12 +6,18 @@ define hosting::domain (
   $secondary_ns_name = $hosting::secondary_ns_name,
   $primary_mx_name   = $hosting::primary_mx_name,
   $hosting_ipaddress = $hosting::hosting_ipaddress,
+  $mail_ipaddress    = '',
   $hostmaster        = $hosting::hostmaster,
   $serial,
   $additional_rrs    = []) {
   include hosting
 
   $domain = $name
+  $real_mail_ipaddress = $mail_ipaddress ? {
+    ''        => $hosting_ipaddress,
+    'hosting' => $hosting::hosting_ipaddress,
+    default   => $mail_ipaddress,
+  }
 
   file {
     "${base_dir}/etc/nginx/sites-enabled/99-${domain}_others.conf":
