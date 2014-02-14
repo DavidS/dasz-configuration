@@ -14,7 +14,7 @@
 -%>
 location <%= location %> {
 	alias <%= @base_dir %>/apps/<%= alias_dir %>;
-	index index.php;
+	index index.php index.html index.htm;
 
 	location ~ [^/]\.php(/|$) {
 		fastcgi_split_path_info ^<%= fastcgi_split_path_info_prefix %>(<%= root_slash %>.+?\.php)(/.*)?$;
