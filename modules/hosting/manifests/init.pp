@@ -208,11 +208,18 @@ class hosting (
   }
 
   # # exim configuration
-  file { "/etc/exim4/virtual_domains_to_customer":
-    ensure => directory,
-    mode   => 0640,
-    owner  => root,
-    group  => 'Debian-exim';
+  file {
+    "/etc/exim4/virtual_domains_to_customer":
+      ensure => directory,
+      mode   => 0640,
+      owner  => root,
+      group  => 'Debian-exim';
+
+    "/etc/exim4/conf.d/main/01_hosting_primary_hostname":
+      content => "MAIN_HARDCODE_PRIMARY_HOSTNAME = ${primary_fqdn}\n",
+      mode    => 0644,
+      owner   => root,
+      group   => root;
   }
 
   class {
