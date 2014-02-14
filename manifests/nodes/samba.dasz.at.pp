@@ -3,6 +3,7 @@ node 'samba.dasz.at' {
     'dasz::defaults':
       location          => hetzner,
       admin_users       => false, # collides with local ldap setup
+      primary_ip        => '10.0.0.223',
       munin_smart_disks => ['sda'],
       force_nullmailer  => true;
 
