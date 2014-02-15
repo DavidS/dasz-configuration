@@ -29,5 +29,7 @@ location <%= location %> {
 		fastcgi_pass unix:<%= @fpm_socket %>;
 		fastcgi_index index.php;
 		include /etc/nginx/php5-fpm_params;
+		fastcgi_param   SCRIPT_NAME             <%= fastcgi_split_path_info_prefix %>$fastcgi_script_name;
+		fastcgi_param   SCRIPT_FILE_NAME        /usr/share/phpmyadmin$fastcgi_script_name;
 	}
 }
