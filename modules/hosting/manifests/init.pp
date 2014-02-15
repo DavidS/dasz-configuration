@@ -111,12 +111,14 @@ class hosting (
     [
       "mono-complete",
       "mono-fastcgi-server",
+      "php5-curl",
       "php5-fpm",
       "php5-gd",
       "php5-imap",
       "php5-mysql",
       "php5-pgsql",
       "php5-sqlite",
+      "php5-xmlrpc",
       "fetchmail",
       "imagemagick",
       ]:
