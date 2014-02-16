@@ -46,7 +46,8 @@ class hosting (
       greylist_sql_username => 'Debian-exim';
 
     '::roundcube':
-      db_password => $roundcube_db_password;
+      db_password => $roundcube_db_password,
+      mail_domain => $primary_fqdn;
   }
 
   # installing roundcube before php5-fpm pulls in apache
