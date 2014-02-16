@@ -233,6 +233,24 @@ class hosting (
       vhost => $webmail_vhost
   }
 
+  # allow global access via localhost with password for phppgadmin
+  postgresql::hba {
+    "hba_localhost_admin":
+      ensure   => 'present',
+      type     => 'host',
+      database => 'postgres',
+      user     => 'all',
+      address  => '127.0.0.1/32',
+      method   => 'md5';
+
+    "hba_localhost6_admin":
+      ensure   => 'present',
+      type     => 'host',
+      database => 'postgres',
+      user     => 'all',
+      address  => '::1/128',
+      method   => 'md5';
+  }
 }
 
 # webmail configuration
