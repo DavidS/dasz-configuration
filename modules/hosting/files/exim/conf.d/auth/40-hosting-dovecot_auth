@@ -4,3 +4,9 @@ dovecot_plain:
   server_socket = /var/run/dovecot/auth-exim
   server_set_id = $auth1
 
+dovecot_login:
+  driver = dovecot
+  public_name = LOGIN
+  server_socket = /var/run/dovecot/auth-exim
+  server_set_id = $auth1
+
