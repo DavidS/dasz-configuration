@@ -1,4 +1,4 @@
-define hosting::cert ($ca, $base_path, $cn_aliases = []) {
+define hosting::cert ($ca, $base_path, $force_ssl = true, $cn_aliases = []) {
   $cert_file = "/etc/ssl/www/${name}.crt.pem"
 
   file {
