@@ -109,7 +109,7 @@ my %data = (
     'ServerMethodInvocations' => 0,
 );
 
-for (split /\r\n/, $counters) {
+for (split /\r?\n/, $counters) {
     next if /\/|AvgDuration/;
     next unless /Calls/;
     /^(.*): (\d*)$/;

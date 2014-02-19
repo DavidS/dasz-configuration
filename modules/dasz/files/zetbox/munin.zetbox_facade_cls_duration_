@@ -36,7 +36,7 @@ my $url = $ENV{'PERFMON_URL'};
 my $counters = get($url) or die "Failure when retrieving data from $url: $!";
 my %data;
 
-foreach my $key (grep /\/.*GetList(Of)?Duration:/, split /\r\n/, $counters) {
+foreach my $key (grep /\/.*GetList(Of)?Duration:/, split /\r?\n/, $counters) {
     $key =~ /^(.*)\/(.*)Duration: (\d*)$/;
     my ($class, $call, $count) = ($1, $2, int($3) / 1000);
     $call = 'GetList';

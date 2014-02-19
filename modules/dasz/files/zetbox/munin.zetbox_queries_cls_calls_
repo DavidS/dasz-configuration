@@ -34,7 +34,7 @@ my $instance = $1;
 
 my $url = $ENV{'PERFMON_URL'};
 my $counters = get($url) or die "Failure when retrieving data from $url: $!";
-my %data = map { /^(.*)\/(.*)Calls: (\d*)$/; (clean_fieldname("${2}_${1}") => int($3)) } grep /\/.*QueriesCalls:/, split /\r\n/, $counters;
+my %data = map { /^(.*)\/(.*)Calls: (\d*)$/; (clean_fieldname("${2}_${1}") => int($3)) } grep /\/.*QueriesCalls:/, split /\r?\n/, $counters;
 
 my $fake_host = $ENV{'FAKE_HOST'};
 
