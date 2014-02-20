@@ -144,14 +144,13 @@ class dasz::defaults (
       server          => 'puppetmaster.dasz.at',
       # can be configured more globally
       runmode         => 'cron',
+      croncommand     => $puppet_debug ? {
+        true    => '/usr/bin/puppet agent --onetime --pidfile /var/run/puppet-cron.pid --verbose --debug',
+        default => $puppet::params::croncommand,
+      },
       prerun_command  => '/etc/puppet/etckeeper-commit-pre',
       postrun_command => '/etc/puppet/etckeeper-commit-post',
       require         => Apt::Repository["puppetlabs"];
-    }
-
-    if $puppet_debug {
-      Class["puppet"] {
-        croncommand => '/usr/bin/puppet agent --onetime --pidfile /var/run/puppet-cron.pid --verbose --debug' }
     }
   }
 
