@@ -2,6 +2,7 @@ class dasz::defaults (
   $distro               = $::lsbdistcodename,
   $location             = 'unknown',
   $puppet_agent         = true,
+  $puppet_debug         = false,
   $primary_ip           = $::ipaddress,
   $munin_node           = true,
   $munin_port           = 4949,
@@ -146,6 +147,11 @@ class dasz::defaults (
       prerun_command  => '/etc/puppet/etckeeper-commit-pre',
       postrun_command => '/etc/puppet/etckeeper-commit-post',
       require         => Apt::Repository["puppetlabs"];
+    }
+
+    if $puppet_debug {
+      Class["puppet"] {
+        croncommand => '/usr/bin/puppet agent --onetime --pidfile /var/run/puppet-cron.pid --verbose --debug' }
     }
   }
 
