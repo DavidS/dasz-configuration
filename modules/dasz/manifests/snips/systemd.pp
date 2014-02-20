@@ -16,4 +16,18 @@ class dasz::snips::systemd ($grub_template = 'dasz/systemd-grub.conf.erb', $grub
     refreshonly => true,
     path        => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin';
   }
+
+  exec {
+    'systemd-reload':
+      command     => '/bin/systemctl --system daemon-reload',
+      refreshonly => true,
+      onlyif      => '/bin/systemctl > /dev/null',
+      require     => Package['systemd'];
+
+    'dbus-restart':
+      command     => '/bin/systemctl restart dbus.service',
+      refreshonly => true,
+      onlyif      => '/bin/systemctl > /dev/null',
+      require     => Package['systemd'];
+  }
 }

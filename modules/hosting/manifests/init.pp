@@ -136,20 +136,6 @@ class hosting (
     subscribe   => Package['mono-complete'];
   }
 
-  exec {
-    'systemd-reload':
-      command     => '/bin/systemctl --system daemon-reload',
-      refreshonly => true,
-      onlyif      => '/bin/systemctl > /dev/null',
-      require     => Package['systemd'];
-
-    'dbus-restart':
-      command     => '/bin/systemctl restart dbus.service',
-      refreshonly => true,
-      onlyif      => '/bin/systemctl > /dev/null',
-      require     => Package['systemd'];
-  }
-
   file {
     "/etc/nginx/php5-fpm_params":
       source  => "puppet:///modules/hosting/nginx.php5-fpm_params",
