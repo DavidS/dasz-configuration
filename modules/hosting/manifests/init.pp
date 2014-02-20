@@ -215,7 +215,7 @@ class hosting (
   file {
     "/etc/exim4/virtual_domains_to_customer":
       ensure => directory,
-      mode   => 0640,
+      mode   => 0750,
       owner  => root,
       group  => 'Debian-exim';
 
