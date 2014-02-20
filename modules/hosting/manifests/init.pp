@@ -224,6 +224,12 @@ class hosting (
       mode    => 0644,
       owner   => root,
       group   => root;
+
+    "/etc/exim4/mailman_domains":
+      ensure => directory,
+      mode   => 0750,
+      owner  => root,
+      group  => 'Debian-exim';
   }
 
   class {
@@ -279,4 +285,8 @@ class hosting::phpmyadmin ($vhost, $url_path = '/phpmyadmin', $fpm_socket = '/va
     require => [Package['nginx'], Package["phpmyadmin"]],
     notify  => Service['nginx'];
   }
+
+  # mailman
+  package { "mailman": ensure => installed }
+
 }

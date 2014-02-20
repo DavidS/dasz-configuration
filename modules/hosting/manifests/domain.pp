@@ -9,7 +9,8 @@ define hosting::domain (
   $mail_ipaddress    = '',
   $hostmaster        = $hosting::hostmaster,
   $serial,
-  $additional_rrs    = []) {
+  $additional_rrs    = [],
+  $has_mailinglists  = false) {
   include hosting
 
   $domain = $name
@@ -113,5 +114,15 @@ define hosting::domain (
     content => "\nzone \"${domain}\" { type slave; masters { ${::ipaddress}; }; };\n",
     order   => 50,
     tag     => "hosting::domain::slave",
+  }
+
+  if $has_mailinglists {
+    file { "/etc/exim4/mailman_domains/${name}":
+      ensure  => present,
+      content => '',
+      mode    => 0644,
+      owner   => root,
+      group   => root;
+    }
   }
 }
