@@ -15,7 +15,8 @@ node 'hosting3.edv-bus.at' {
       hosting_ipaddress     => $::ipaddress,
       hostmaster            => 'hostmaster.edv-bus.at',
       roundcube_db_password => file("/srv/puppet/secrets/${::fqdn}/roundcube_db.password"),
-      webmail_vhost         => 'hosting.edv-bus.at';
+      webmail_vhost         => 'hosting.edv-bus.at',
+      mailman_vhost         => 'hosting.edv-bus.at';
   }
 
   $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")

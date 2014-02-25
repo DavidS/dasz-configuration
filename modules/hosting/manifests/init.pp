@@ -19,7 +19,8 @@ class hosting (
   $hostmaster,
   $cert_base_path = 'puppet:///secrets',
   $roundcube_db_password,
-  $webmail_vhost) {
+  $webmail_vhost,
+  $mailman_vhost) {
   include dasz::defaults, bind, postgresql, mysql
 
   if (!defined(Package['git'])) {
@@ -226,7 +227,10 @@ class hosting (
       vhost => $webmail_vhost;
 
     "hosting::phpmyadmin":
-      vhost => $webmail_vhost
+      vhost => $webmail_vhost;
+
+    "hosting::mailman":
+      vhost => $mailman_vhost;
   }
 
   # allow global access via localhost with password for phppgadmin
@@ -272,6 +276,22 @@ class hosting::phpmyadmin ($vhost, $url_path = '/phpmyadmin', $fpm_socket = '/va
     owner   => root,
     group   => root,
     require => [Package['nginx'], Package["phpmyadmin"]],
+    notify  => Service['nginx'];
+  }
+
+}
+
+class hosting::mailman (
+  $vhost,
+  $url_path    = '/cgi-bin/mailman',
+  $fcgi_socket = '/var/run/fcgiwrap.socket',
+  $root        = '/usr/lib/cgi-bin/mailman',) {
+  file { "/etc/nginx/${vhost}/50-mailman.conf":
+    content => template("hosting/nginx.fcgi-mailman-proxy.conf.erb"),
+    mode    => 0644,
+    owner   => root,
+    group   => root,
+    require => Package['nginx'],
     notify  => Service['nginx'];
   }
 
