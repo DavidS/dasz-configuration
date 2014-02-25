@@ -212,10 +212,13 @@ class hosting (
       group   => root;
 
     "/etc/exim4/mailman_domains":
-      ensure => directory,
-      mode   => 0750,
-      owner  => root,
-      group  => 'Debian-exim';
+      ensure  => directory,
+      mode    => 0750,
+      owner   => root,
+      group   => 'Debian-exim',
+      purge   => true,
+      recurse => true,
+      force   => true;
   }
 
   class {
