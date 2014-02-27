@@ -108,6 +108,14 @@ class dasz::defaults (
       source        => 'puppet:///modules/dasz/munin/nullmailer_queue',
       config_source => 'puppet:///modules/dasz/munin/nullmailer_queue.conf';
     }
+
+    @@file { "/etc/exim4/adminmailer_domains/${::fqdn}":
+      ensure => present,
+      mode   => 0644,
+      owner  => root,
+      group  => root,
+      tag    => 'dasz_snips_adminmailer';
+    }
   }
 
   file {

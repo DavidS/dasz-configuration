@@ -1,0 +1,7 @@
+# Accept administrative emails from our hosts to special accounts
+
+adminmailer:
+  debug_print = "R: adminmailer for $local_part@$domain"
+  driver = redirect
+  domains = dsearch;/etc/exim4/adminmailer_domains
+  data = <%= @recipient %>

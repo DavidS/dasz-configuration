@@ -17,6 +17,9 @@ node 'hosting3.edv-bus.at' {
       roundcube_db_password => file("/srv/puppet/secrets/${::fqdn}/roundcube_db.password"),
       webmail_vhost         => 'hosting.edv-bus.at',
       mailman_vhost         => 'hosting.edv-bus.at';
+
+    'dasz::snips::adminmailer':
+      recipient => 'root@dasz.at';
   }
 
   $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")
