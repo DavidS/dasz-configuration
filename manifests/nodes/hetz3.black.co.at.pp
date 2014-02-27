@@ -1,7 +1,6 @@
 node 'hetz3.black.co.at' {
   class { 'dasz::defaults':
     location          => hetzner,
-    puppet_debug      => true,
     ssh_port          => 2200,
     munin_smart_disks => ['sda', 'sdb'],
     force_nullmailer  => true;
