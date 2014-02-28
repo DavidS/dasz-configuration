@@ -5,7 +5,10 @@ class dasz::snips::jenkins ($url) {
       # only upgrade when required
       ensure => held;
 
-    'libwww-perl':
+    [
+      'libwww-perl',
+      'build-essential',
+      'devscripts']:
       ensure => present;
   }
 
