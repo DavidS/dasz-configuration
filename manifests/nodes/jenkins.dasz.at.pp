@@ -7,6 +7,8 @@ node 'jenkins.dasz.at' {
     'dasz::snips::jenkins':
       url => 'http://jenkins:8080';
 
+    'dasz::snips::mono_backport':
+    ;
   }
 
   dasz::zetbox::monitor {
