@@ -49,6 +49,9 @@ class hosting (
     '::roundcube':
       db_password => $roundcube_db_password,
       mail_domain => $primary_fqdn;
+
+    'dasz::snips::mono_backport':
+    ;
   }
 
   # installing roundcube before php5-fpm pulls in apache
@@ -96,23 +99,8 @@ class hosting (
       notify      => Service['exim'];
   }
 
-  # use mono3
-  apt::repository { "zetbox":
-    url        => $dasz::defaults::location ? {
-      'hetzner' => "http://office.dasz.at/debian",
-      'tech21'  => "http://kvmhost.dasz/debian",
-      'vagrant' => "http://kvmhost.dasz/debian",
-      default   => "http://office.dasz.at/debian",
-    },
-    distro     => zetbox,
-    repository => "main",
-    trusted    => yes;
-  }
-
   package {
     [
-      "mono-complete",
-      "mono-fastcgi-server",
       "php5-curl",
       "php5-fpm",
       "php5-gd",
