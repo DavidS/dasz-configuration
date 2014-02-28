@@ -10,6 +10,9 @@ node 'kvmhost.dasz.at' {
 
     'nginx':
     ;
+
+    'dasz::snips::mono_backport':
+    ;
   }
 
   # misc
@@ -36,15 +39,6 @@ node 'kvmhost.dasz.at' {
   }
 
   sudo::directive { "jenkins-cowbuilder": content => "slave ALL=(ALL) NOPASSWD: SETENV: /usr/sbin/cowbuilder *\n", }
-
-  # use mono3
-  apt::repository { "zetbox":
-    url        => "http://kvmhost.dasz/debian",
-    distro     => zetbox,
-    repository => "main";
-  }
-
-  package { "mono-complete": ensure => installed; }
 
   # jenkins slave
   package { "openjdk-7-jre-headless": ensure => installed; }
