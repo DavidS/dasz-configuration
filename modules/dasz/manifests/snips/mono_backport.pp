@@ -11,5 +11,10 @@ class dasz::snips::mono_backport () {
     trusted    => yes;
   }
 
-  package { ["mono-complete", "mono-fastcgi-server",]: ensure => installed; }
+  package { ["mono-complete", "mono-fastcgi-server",]: ensure => installed; } ->
+  # mono's npgsql is so old, nobody can work with it
+  exec { "ungac npgsql":
+    command => "/usr/bin/gacutil -u Npgsql",
+    unless  => "[ $(/usr/bin/gacutil -l Npgsql | wc -l) -eq 2 ]"
+  }
 }
