@@ -1,6 +1,13 @@
 # configures the munin plugin for the specified url
 class dasz::snips::jenkins ($url) {
-  package { ['jenkins', 'libwww-perl',]: ensure => present; }
+  package {
+    'jenkins':
+      # only upgrade when required
+      ensure => held;
+
+    'libwww-perl':
+      ensure => present;
+  }
 
   munin::plugin { 'jenkins_status':
     ensure         => 'present',
