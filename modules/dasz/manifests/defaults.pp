@@ -195,6 +195,9 @@ class dasz::defaults (
     }
 
     smart { $munin_smart_disks: }
+
+    # remove non-rotated logfile
+    file { "/var/log/munin/munin.log": ensure => absent }
   }
 
   # replace default cronjob to set proper environment vars in cronjob
