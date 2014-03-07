@@ -102,7 +102,9 @@ node 'testagent.example.org' {
       hostmaster            => 'hostmaster.example.net',
       cert_base_path        => 'puppet:///modules/site/testdata',
       roundcube_db_password => 'phauXee9ochuunge',
-      webmail_vhost         => 'example.com';
+      webmail_vhost         => 'example.com',
+      mailman_vhost         => 'mailman.example.net',
+      sa_trusted_networks   => '8.8.8.8';
   }
 
   $customers = parseyaml('
