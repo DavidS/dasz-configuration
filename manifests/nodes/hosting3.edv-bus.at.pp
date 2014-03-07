@@ -16,7 +16,8 @@ node 'hosting3.edv-bus.at' {
       hostmaster            => 'hostmaster.edv-bus.at',
       roundcube_db_password => file("/srv/puppet/secrets/${::fqdn}/roundcube_db.password"),
       webmail_vhost         => 'hosting.edv-bus.at',
-      mailman_vhost         => 'hosting.edv-bus.at';
+      mailman_vhost         => 'hosting.edv-bus.at',
+      sa_trusted_networks   => [$::ipaddress, '91.217.119.254'];
 
     'dasz::snips::adminmailer':
       recipient => 'root@dasz.at';

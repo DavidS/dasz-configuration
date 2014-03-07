@@ -20,7 +20,8 @@ class hosting (
   $cert_base_path = 'puppet:///secrets',
   $roundcube_db_password,
   $webmail_vhost,
-  $mailman_vhost) {
+  $mailman_vhost,
+  $sa_trusted_networks) {
   include dasz::defaults, bind, postgresql, mysql
 
   if (!defined(Package['git'])) {
@@ -38,6 +39,7 @@ class hosting (
       sa_bayes_sql_local    => true,
       sa_bayes_sql_dsn      => "DBI:Pg:dbname=spamassassin",
       sa_bayes_sql_username => 'debian-spamd',
+      sa_trusted_networks   => $sa_trusted_networks,
       exim_source_dir       => "puppet:///modules/hosting/exim",
       other_hostnames       => [$::fqdn, "+virtual_domains"],
       relay_domains         => ["@mx_any/ignore=+localhosts", "+virtual_domains"],
