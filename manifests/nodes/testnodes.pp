@@ -140,6 +140,8 @@ dasz:
       password: default_db
     dasz_teststuff:
       password: default_db
+    dasz_owncloud:
+      password: geheim1
 
 example:
   type: customer
@@ -177,6 +179,15 @@ example:
       basedomain  => 'dasz.at',
       url_path    => '/testapp_loc',
       destination => 'testapp_name';
+
+    "@@test1@@_oc":
+      admin_user  => $customers['dasz']['admin_user'],
+      customer    => 'dasz',
+      type        => 'php5',
+      basedomain  => 'dasz.at',
+      subdomain   => 'owncloud',
+      url_path    => '/',
+      destination => 'owncloud';
 
     "@@test2@@":
       customer    => 'dasz',
