@@ -82,7 +82,8 @@ node 'testagent.example.org' {
       apt_dater_secret_key => 'unused',
       ssh_port             => 22,
       primary_ip           => '192.168.50.50',
-      force_nullmailer     => false;
+      force_nullmailer     => false,
+      join_domain          => true;
 
     "puppet":
       mode    => 'client',

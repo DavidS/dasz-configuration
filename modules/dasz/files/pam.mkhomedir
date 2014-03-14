@@ -1,0 +1,7 @@
+Name: automatically create homedirs on login
+Default: yes
+Priority: 300
+Session-Type: Additional
+Session:
+	required	pam_mkhomedir.so
+	

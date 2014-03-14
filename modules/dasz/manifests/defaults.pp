@@ -14,12 +14,14 @@ class dasz::defaults (
   $ssh_port             = 22,
   # can be used on non-public sshds to reduce ssh bruteforce spamming, or avoid conflicts on shared IPs
   $admin_users          = true,
-  $force_nullmailer     = false) {
+  $force_nullmailer     = false,
+  $join_domain          = false) {
   validate_bool($puppet_agent)
   validate_bool($munin_node)
   validate_bool($apt_dater_manager)
   validate_bool($admin_users)
   validate_bool($force_nullmailer)
+  validate_bool($join_domain)
 
   case $::virtual {
     'vserver' : {
@@ -197,7 +199,10 @@ class dasz::defaults (
     smart { $munin_smart_disks: }
 
     # remove non-rotated logfile
-    file { "/var/log/munin/munin.log": ensure => absent, backup => false; }
+    file { "/var/log/munin/munin.log":
+      ensure => absent,
+      backup => false;
+    }
   }
 
   # replace default cronjob to set proper environment vars in cronjob
@@ -318,6 +323,38 @@ class dasz::defaults (
     ; }
 
   package { "nocache": ensure => installed }
+
+  if $join_domain {
+    package { ["libnss-winbind", "libpam-winbind"]: ensure => installed; } ->
+    file {
+      "/etc/samba/smb.conf":
+        source => "puppet:///modules/dasz/samba.lan.dasz.at.conf",
+        mode   => 0644,
+        owner  => root,
+        group  => root;
+
+      "/etc/nsswitch.conf":
+        source => "puppet:///modules/dasz/nsswitch.winbind.conf",
+        mode   => 0644,
+        owner  => root,
+        group  => root;
+
+      "/usr/share/pam-configs/mkhomedir":
+        source => "puppet:///modules/dasz/pam.mkhomedir",
+        mode   => 0644,
+        owner  => root,
+        group  => root,
+        notify => Exec["/usr/sbin/pam-auth-update"];
+    }
+
+    exec { "/usr/sbin/pam-auth-update": refreshonly => true; }
+
+    service { "winbind":
+      ensure    => running,
+      enable    => true,
+      subscribe => [Package["libnss-winbind", "libpam-winbind"], File["/etc/samba/smb.conf"]]
+    }
+  }
 }
 
 define smart () {
