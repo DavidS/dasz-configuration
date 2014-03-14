@@ -52,4 +52,12 @@ Vagrant::Config.run do |config|
     end
   end
 
+  config.vm.define :empty do |pm_config|
+    pm_config.vm.box = "Debian-7.2.0-amd64"
+    pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.2.0-amd64-netboot.box"
+    pm_config.vm.host_name = "empty.example.org"
+    pm_config.vm.network :hostonly, "192.168.50.60"
+
+    pm_config.vm.provision :shell, :inline => "/vagrant/scripts/register_puppetmaster 192.168.50.4 puppetmaster.example.org"
+  end
 end
