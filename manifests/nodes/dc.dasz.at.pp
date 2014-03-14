@@ -35,4 +35,17 @@ node 'dc.dasz.at' {
   }
 
   site::ovpn_keys { 'dasz': }
+
+  file { "/etc/dnsmasq.d/redirect-samba":
+    content => "server=/lan.dasz.at/10.0.0.223\n",
+    mode    => 0644,
+    owner   => root,
+    group   => root,
+    notify  => Service['dnsmasq'];
+  }
+
+  service { "dnsmasq":
+    ensure => running,
+    enable => true;
+  }
 }
