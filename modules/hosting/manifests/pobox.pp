@@ -1,7 +1,8 @@
 define hosting::pobox ($uid = undef, $comment, $base_dir, $all_group, $groups = []) {
-  group { $name: ; }
+  group { $name: ensure => present; }
 
   user { $name:
+    ensure     => present,
     uid        => $uid,
     gid        => $name,
     comment    => $comment,
