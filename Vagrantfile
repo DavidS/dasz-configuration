@@ -3,8 +3,8 @@
 
 Vagrant::Config.run do |config|
   config.vm.define :puppetmaster do |pm_config|
-    pm_config.vm.box = "Debian-7.3.0-amd64"
-    pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.3.0-amd64-netboot.box"
+    pm_config.vm.box = "Debian-7.4.0-amd64"
+    pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.4.0-amd64-netboot.box"
     pm_config.vm.host_name = "puppetmaster.example.org"
     pm_config.vm.forward_port 80, 8080   # foreman
     pm_config.vm.forward_port 3140, 3140 # puppetmaster
@@ -22,8 +22,8 @@ Vagrant::Config.run do |config|
   end
 
   config.vm.define :monitor do |pm_config|
-    pm_config.vm.box = "Debian-7.3.0-amd64"
-    pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.3.0-amd64-netboot.box"
+    pm_config.vm.box = "Debian-7.4.0-amd64"
+    pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.4.0-amd64-netboot.box"
     pm_config.vm.host_name = "monitor.example.org"
     pm_config.vm.forward_port 80, 8082
     pm_config.vm.network :hostonly, "192.168.50.5"
@@ -37,8 +37,8 @@ Vagrant::Config.run do |config|
   end
 
   config.vm.define :testagent do |pm_config|
-    pm_config.vm.box = "Debian-7.3.0-amd64"
-    pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.3.0-amd64-netboot.box"
+    pm_config.vm.box = "Debian-7.4.0-amd64"
+    pm_config.vm.box_url = "http://jenkins:8080/view/zetbox.Appliance/job/appliance-develop-build-basebox/lastSuccessfulBuild/artifact/Builder/veewee/Debian-7.4.0-amd64-netboot.box"
     pm_config.vm.host_name = "testagent.example.org"
     pm_config.vm.forward_port 80, 8081
     pm_config.vm.forward_port 443, 8443
