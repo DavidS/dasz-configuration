@@ -104,7 +104,7 @@ node 'testagent.example.org' {
       cert_base_path        => 'puppet:///modules/site/testdata',
       roundcube_db_password => 'phauXee9ochuunge',
       webmail_vhost         => 'example.com',
-      mailman_vhost         => 'mailman.example.net',
+      mailman_vhost         => 'mailman.example.org',
       sa_trusted_networks   => '8.8.8.8';
   }
 
@@ -164,6 +164,8 @@ example:
       password: foo
   certs:
     example.com:
+      ca: self
+    mailman.example.org:
       ca: self
 
 ')
