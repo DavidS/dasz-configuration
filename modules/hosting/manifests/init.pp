@@ -191,16 +191,18 @@ class hosting (
   # # exim configuration
   file {
     "/etc/exim4/virtual_domains_to_customer":
-      ensure => directory,
-      mode   => 0750,
-      owner  => root,
-      group  => 'Debian-exim';
+      ensure  => directory,
+      mode    => 0750,
+      owner   => root,
+      group   => 'Debian-exim',
+      require => Class['exim'];
 
     "/etc/exim4/conf.d/main/01_hosting_primary_hostname":
       content => "MAIN_HARDCODE_PRIMARY_HOSTNAME = ${primary_fqdn}\n",
       mode    => 0644,
       owner   => root,
-      group   => root;
+      group   => root,
+      notify  => Service['exim'];
 
     "/etc/exim4/mailman_domains":
       ensure  => directory,
@@ -209,7 +211,8 @@ class hosting (
       group   => 'Debian-exim',
       purge   => true,
       recurse => true,
-      force   => true;
+      force   => true,
+      require => Class['exim'];
   }
 
   class {
