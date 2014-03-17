@@ -25,5 +25,16 @@ class dasz::snips::jenkins ($url) {
     key        => 'D50582E6',
     key_url    => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key';
   }
+
+  file { "/var/lib/jenkins/rules":
+    ensure  => directory,
+    source  => "puppet:///modules/dasz/jenkins/rules",
+    mode    => 0755,
+    owner   => jenkins,
+    group   => adm,
+    recurse => true,
+    purge   => true,
+    force   => true;
+  }
 }
 

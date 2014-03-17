@@ -1,0 +1,6 @@
+info /^\+ /
+start /^Build started /
+warn / warning : /
+warn / warning ([^:]*): /
+error / error : /
+error / error ([^:]*): /

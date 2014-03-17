@@ -1,0 +1,25 @@
+# general stuff
+start /^\+ /
+
+# log4net
+warn / WARN /
+error / ERROR /
+error / FATAL /
+
+# msbuild
+start /^Build started /
+# downgrade false positives
+info / warning : Reference 'System.* not resolved/
+info / warning : Reference 'Microsoft.* not resolved/
+info / warning : Reference 'UIAutomationProvider.* not resolved/
+# default messages
+warn / warning : /
+warn / warning ([^:]*): /
+error / error : /
+error / error ([^:]*): /
+
+# zetbox
+info / Starting Kistl Server /
+
+# mono
+error /\* Assertion at [^ ]*, condition `.*' not met/

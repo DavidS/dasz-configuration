@@ -1,0 +1,15 @@
+# general stuff
+start /^\+ /
+start /^\*\*\*\*\* /
+
+# log4net
+warn / WARN /
+warn / ERROR /
+warn / FATAL /
+
+# NUnit
+error / SetUp Error : /
+
+# mono
+error /\* Assertion at [^ ]*, condition `.*' not met/
+error /^Native [Ss]tacktrace:/

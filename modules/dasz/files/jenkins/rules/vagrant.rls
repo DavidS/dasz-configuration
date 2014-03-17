@@ -1,0 +1,7 @@
+# general stuff
+start /^\+ /
+
+# vagrant output
+start /^Stdout from the command:/
+start /^Stderr from the command:/
+error /The following SSH command responded with a non-zero exit status/
