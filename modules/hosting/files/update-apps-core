@@ -19,7 +19,7 @@ sub trim($) {
 my $base_dir = "/srv/${customer}";
 my $apps_dir = "${base_dir}/apps";
 
-my $output = "";
+my $output = "include hosting::update_apps\n";
 
 for my $domain_config (glob("${apps_dir}/*.apps")) {
 	next unless $domain_config =~ /${apps_dir}\/(.*)\.apps/;
@@ -55,6 +55,8 @@ hosting::nginx_user_snip {
     url_path    => '$path',
     type        => '$type',
     destination => '$dest',
+    in_user_context => true,
+    notify      => Exec['reload nginx'],
 }
 
 PUPPET

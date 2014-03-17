@@ -3,12 +3,13 @@
 define hosting::nginx_user_snip (
   $admin_user,
   $customer,
-  $subdomain = '',
+  $subdomain       = '',
   $basedomain,
   $url_path,
   $type,
   $destination,
-  $forcessl  = false) {
+  $forcessl        = false,
+  $in_user_context = false,) {
   validate_re($type, 'static|php5|mono|redirect|php5-wordpress|php5-owncloud')
   validate_bool($forcessl)
 
@@ -60,6 +61,7 @@ define hosting::nginx_user_snip (
           service_name    => $destination,
           service_content => template("hosting/mono-fcgi.service.erb"),
           enable          => true,
+          in_user_context => $in_user_context,
         }
 
         file { "${base_dir}/etc/mono-${destination}":
@@ -90,6 +92,7 @@ define hosting::nginx_user_snip (
           service_name    => $destination,
           service_content => template("hosting/php5-fpm.service.erb"),
           enable          => true,
+          in_user_context => $in_user_context,
         }
 
         file {
