@@ -14,6 +14,7 @@ define hosting::customer (
   $type            = 'none',
   $users           = 'none',
   $domains,
+  $vhosts          = [],
   $certs           = 'none',
   $cert_base_path  = 'puppet:///secrets/',
   $db_password,
@@ -29,6 +30,13 @@ define hosting::customer (
   $all_group = "${customer}_all"
 
   create_resources("hosting::domain", $domains, {
+    admin_user  => $admin_user,
+    admin_group => $admin_group,
+    base_dir    => $base_dir,
+  }
+  )
+
+  create_resources("hosting::external_vhost", $vhosts, {
     admin_user  => $admin_user,
     admin_group => $admin_group,
     base_dir    => $base_dir,
