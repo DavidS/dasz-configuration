@@ -14,7 +14,9 @@ define hosting::customer (
   $type            = 'none',
   $users           = 'none',
   $domains,
-  $vhosts          = [],
+  $vhosts          = {
+  }
+  ,
   $certs           = 'none',
   $cert_base_path  = 'puppet:///secrets/',
   $db_password,
@@ -45,8 +47,10 @@ define hosting::customer (
 
   if (is_hash($users)) {
     create_resources("hosting::pobox", $users, {
-      base_dir  => $base_dir,
-      all_group => $all_group,
+      base_dir    => $base_dir,
+      all_group   => $all_group,
+      admin_user  => $admin_user,
+      admin_group => $admin_group,
     }
     )
   }

@@ -136,6 +136,9 @@ dasz:
     dasz1:
       uid: 1666
       comment: Testuser
+    secundus:
+      comment: Testuser
+      admin: true
   mysql_databases:
     dasz_wordpress:
       password: default_db
