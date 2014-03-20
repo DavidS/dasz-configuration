@@ -48,16 +48,9 @@ class hosting (
       greylist_dsn          => 'servers=(/var/run/postgresql/.s.PGSQL.5432)/greylist/Debian-exim',
       greylist_sql_username => 'Debian-exim';
 
-    '::roundcube':
-      db_password => $roundcube_db_password,
-      mail_domain => $primary_fqdn;
-
     'dasz::snips::mono_backport':
     ;
   }
-
-  # installing roundcube before php5-fpm pulls in apache
-  Class["nginx"] -> Package["php5-fpm"] -> Class["::roundcube"]
 
   package { ["dovecot-managesieved", "dovecot-sieve"]:
     ensure => installed,
@@ -215,7 +208,13 @@ class hosting (
       require => Class['exim'];
   }
 
+  # install nginx and php5-fpm before any of the applications pulls in a wrong php with apache
+  Package['nginx', "php5-fpm"] ->
   class {
+    '::roundcube':
+      db_password => $roundcube_db_password,
+      mail_domain => $primary_fqdn;
+
     "hosting::roundcube":
       vhost => $webmail_vhost;
 
@@ -253,7 +252,6 @@ class hosting::roundcube ($vhost, $url_path = '/webmail', $fpm_socket = '/var/ru
     mode    => 0644,
     owner   => root,
     group   => root,
-    require => Package['nginx'],
     notify  => Service['nginx'];
   }
 }
@@ -268,7 +266,6 @@ class hosting::phpmyadmin ($vhost, $url_path = '/phpmyadmin', $fpm_socket = '/va
     mode    => 0644,
     owner   => root,
     group   => root,
-    require => [Package['nginx'], Package["phpmyadmin"]],
     notify  => Service['nginx'];
   }
 
@@ -284,7 +281,6 @@ class hosting::mailman (
     mode    => 0644,
     owner   => root,
     group   => root,
-    require => Package['nginx'],
     notify  => Service['nginx'];
   }
 
