@@ -38,12 +38,14 @@ define hosting::customer (
   }
   )
 
-  create_resources("hosting::external_vhost", $vhosts, {
-    admin_user  => $admin_user,
-    admin_group => $admin_group,
-    base_dir    => $base_dir,
+  if (is_hash($vhosts)) {
+    create_resources("hosting::external_vhost", $vhosts, {
+      admin_user  => $admin_user,
+      admin_group => $admin_group,
+      base_dir    => $base_dir,
+    }
+    )
   }
-  )
 
   if (is_hash($users)) {
     create_resources("hosting::pobox", $users, {
