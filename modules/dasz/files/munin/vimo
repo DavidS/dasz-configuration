@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VIMO_DIR=/srv/www/sh.dasz.at
+VIMO_DIR=/srv/dasz/apps/vimo
 LOG_DIR="$VIMO_DIR/App_Data/Logging"
 
 . $MUNIN_LIBDIR/plugins/plugin.sh

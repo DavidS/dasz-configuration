@@ -25,4 +25,6 @@ node 'hosting3.edv-bus.at' {
 
   $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")
   create_resources("hosting::customer", $customers)
+
+  munin::plugin { 'vimo': source => 'puppet:///modules/dasz/munin/vimo'; }
 }
