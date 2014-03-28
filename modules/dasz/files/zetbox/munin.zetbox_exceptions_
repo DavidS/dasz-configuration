@@ -21,8 +21,8 @@ if [ "$1" = "config" ]; then
         [ -n "$FAKE_HOST" ] && echo "host_name $FAKE_HOST"
         echo 'total.label total'
         echo 'total.draw LINE'
-        echo 'total.min 0'
         echo 'total.type DERIVE'
+        echo 'total.min 0'
         echo 'total.info Total # of exceptions per minute'
         i=1
         # id | logger -t "$db"
@@ -37,8 +37,8 @@ if [ "$1" = "config" ]; then
                 else
                         echo "$message.draw STACK"
                 fi
-                echo "$message.min 0"
                 echo "$message.type DERIVE"
+                echo "$message.min 0"
                 echo "$message.info Exceptions for '${message//_/ }'"
 
                 i=$(( i + 1 ))

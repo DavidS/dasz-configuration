@@ -78,12 +78,14 @@ if ( defined($ARGV[0]) ) {
             print "${graph}Duration.info cumulative duration of $graph calls\n";
             print "${graph}Duration.draw LINE1\n";
             print "${graph}Duration.type DERIVE\n";
+            print "${graph}Duration.min 0\n";
             print "${graph}Duration.colour $graphs{$graph}->{colour}\n";
         }
         print "ServerMethodInvocations.label method invocation duration\n";
         print "ServerMethodInvocations.info duration of server method invocations\n";
         print "ServerMethodInvocations.draw LINE1\n";
         print "ServerMethodInvocations.type DERIVE\n";
+        print "ServerMethodInvocations.min 0\n";
         print "ServerMethodInvocations.colour AAAAAA\n";
         exit 0;
     }
