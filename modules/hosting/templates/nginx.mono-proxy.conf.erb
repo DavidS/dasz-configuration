@@ -14,7 +14,8 @@
 -%>
 location <%= location %> {
 	alias <%= @base_dir %>/apps/<%= alias_dir %>;
-	fastcgi_split_path_info       ^<%= fastcgi_split_path_info_prefix %>(<%= root_slash %>.*)()?$;
+	# mono is configured to root applications correctly
+	fastcgi_split_path_info       ^(<%= fastcgi_split_path_info_prefix %><%= root_slash %>.*)()?$;
 	fastcgi_param SCRIPT_NAME     <%= fastcgi_split_path_info_prefix %><%= root_slash %>$fastcgi_script_name;
 	fastcgi_param SCRIPT_FILENAME <%= @base_dir %>/apps/<%= alias_dir %>$fastcgi_script_name;
 
