@@ -34,4 +34,6 @@ http {
 	include <%= @base_dir %>/etc/nginx/conf.d/*.conf;
 	include <%= @base_dir %>/etc/nginx/sites-enabled/*;
 	access_log <%= @base_dir %>/log/access.log;
+	
+	map $http_x_forwarded_proto $frontend_server_port { http 80; https 443; } 
 }
