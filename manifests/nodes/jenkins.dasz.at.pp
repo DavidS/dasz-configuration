@@ -32,5 +32,5 @@ node 'jenkins.dasz.at' {
 
   dasz::zetbox::monitor_fake_host { 'db-server-monitor': folder => 'Initiative50'; }
 
-  package { 'postgresql-client-8.4': ensure => present; }
+  package { ['xmlsec1', 'postgresql-client-8.4']: ensure => present; }
 }

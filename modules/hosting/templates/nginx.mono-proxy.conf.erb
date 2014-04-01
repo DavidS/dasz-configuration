@@ -16,9 +16,9 @@ location <%= location %> {
 	alias <%= @base_dir %>/apps/<%= alias_dir %>;
 	# mono is configured to root applications correctly
 	fastcgi_split_path_info       ^(<%= fastcgi_split_path_info_prefix %><%= root_slash %>.*)()?$;
-	fastcgi_param SCRIPT_NAME     <%= fastcgi_split_path_info_prefix %><%= root_slash %>$fastcgi_script_name;
-	fastcgi_param SCRIPT_FILENAME <%= @base_dir %>/apps/<%= alias_dir %>$fastcgi_script_name;
 
 	fastcgi_pass unix:<%= @base_dir %>/run/<%= @destination %>.sock;
 	include /etc/nginx/fastcgi_params;
+	fastcgi_param SERVER_PORT       $frontend_server_port;
+	fastcgi_param REMOTE_ADDR       $http_x_forwarded_for;
 }
