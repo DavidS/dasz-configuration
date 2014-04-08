@@ -149,4 +149,6 @@ node 'hetz3.black.co.at' {
       group  => www-data,
       before => Service['nginx'];
   }
+
+  munin::plugin { 'ksm_memory': source => 'puppet:///modules/dasz/munin/ksm_memory'; }
 }
