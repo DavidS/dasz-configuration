@@ -115,7 +115,8 @@ class hosting (
   }
 
   # import certificates from mozilla
-  exec { "/usr/bin/mozroots --import --sync":
+  exec { "mono-import-certs":
+    command     => "/usr/bin/mozroots --import --sync --machine",
     refreshonly => true,
     subscribe   => Package['mono-complete'];
   }
@@ -161,6 +162,15 @@ class hosting (
       mode   => 0755,
       owner  => root,
       group  => root;
+
+    [
+      "/usr/share/.mono",
+      "/usr/share/.mono/keypairs"]:
+      ensure  => directory,
+      mode    => 0755,
+      owner   => root,
+      group   => root,
+      require => Exec["mono-import-certs"];
   }
 
   concat { "/etc/bind/named.conf.local":
