@@ -15,10 +15,17 @@ iface br0 inet static
   broadcast 88.198.141.255
   netmask   255.255.255.224
   gateway   88.198.141.225
-  # default route to access subnet
-  # not needed, kills inter-vm communication
-  # up route add -net 88.198.141.224 netmask 255.255.255.224 gw 88.198.141.225 br0
-  
+  # Add routes to additional subnet for VMs
+  # see http://wiki.hetzner.de/index.php/KVM_mit_Nutzung_aller_IPs_-_the_easy_way
+  up ip r add 148.251.254.136/32 dev br0
+  up ip r add 148.251.254.137/32 dev br0
+  up ip r add 148.251.254.138/32 dev br0
+  up ip r add 148.251.254.139/32 dev br0
+  up ip r add 148.251.254.140/32 dev br0
+  up ip r add 148.251.254.141/32 dev br0
+  up ip r add 148.251.254.142/32 dev br0
+  up ip r add 148.251.254.143/32 dev br0
+
 iface br0 inet6 static
   address 2a01:4f8:190:62e9::2
   netmask 64
