@@ -34,6 +34,14 @@ define hosting::domain (
       owner  => $admin_user,
       group  => $admin_group;
 
+    "${base_dir}/mail/${domain}":
+      ensure  => present,
+      content => template("hosting/aliases.erb"),
+      replace => false,
+      mode    => 0640,
+      owner   => $admin_user,
+      group   => $admin_group;
+
     "${base_dir}/apps/${domain}.apps":
       content => template("hosting/apps.erb"),
       replace => false,
@@ -98,9 +106,6 @@ define hosting::domain (
       group  => $admin_group;
     }
   }
-
-  # exim routing
-  # according to config in /srv/${customer}/mail/${domain}
 
   # bind zone config
   concat::fragment { $domain:

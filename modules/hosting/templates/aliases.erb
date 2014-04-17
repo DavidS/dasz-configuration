@@ -1,0 +1,21 @@
+# In dieser Datei können Emailadressen definiert werden.
+#
+# Zeilen, die - wie diese - mit einem # Zeichen beginnen werden ignoriert
+#
+# Alle anderen Zeilen müssen in der Form 
+#
+#   local_part: Ziel
+#
+# sein. "Ziel" kann dabei ein anderer local_part oder eine Emailadresse sein.
+#
+# Um "beispiel1@<%= @domain %>" an den lokalen Benutzer "beispiel" weiterzuleiten, wird
+# so ein Eintrag benötigt:
+#
+# beispiel: beispiel@<%= scope.lookupvar('::hosting::primary_fqdn') %>
+#
+# Um "beispiel2@<%= @domain %>" an die externe Emailadresse "beispiel@example.com"
+# weiterzuleiten, wird so ein Eintrag benötigt:
+#
+# beispiel2: beispiel@example.com
+
+<%= @admin_user %>: <%= @admin_user %>@<%= scope.lookupvar('::hosting::primary_fqdn') %>
