@@ -43,6 +43,8 @@ node 'puppetmaster.dasz.at' {
 
     "puppet":
       template            => 'site/puppetmaster/puppet.conf.erb',
+      manifest_path       => '/srv/puppet/configuration/manifests/site.pp',
+      module_path         => '/srv/puppet/configuration/modules',
       template_fileserver => 'site/puppetmaster/fileserver.conf.erb',
       allow               => ['*.dasz.at', '*.dasz', '*.black.co.at', '*.edv-bus.at', '127.0.0.1'],
       mode                => 'server',
