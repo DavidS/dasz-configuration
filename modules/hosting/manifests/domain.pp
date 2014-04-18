@@ -38,7 +38,7 @@ define hosting::domain (
       ensure  => present,
       content => template("hosting/aliases.erb"),
       replace => false,
-      mode    => 0640,
+      mode    => 0644,
       owner   => $admin_user,
       group   => $admin_group;
 
