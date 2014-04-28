@@ -7,7 +7,16 @@ class dasz::windows ($nagios_notifications, $nagios_allowed_hosts = '10.0.0.217'
   }
 
   # global
-  package { ['chocolatey', 'notepadplusplus', '7zip', 'adobereader', 'windirstat', 'javaruntime', 'Firefox', "NSClientPlusPlus.${::architecture}", 'sumatrapdf.install']:
+  package { [
+    'chocolatey',
+    'notepadplusplus',
+    '7zip',
+    'adobereader',
+    'windirstat',
+    'javaruntime',
+    'Firefox',
+    "NSClientPlusPlus.${::architecture}",
+    'sumatrapdf.install']:
     ensure   => installed,
     provider => 'chocolatey';
   }
@@ -42,6 +51,7 @@ class dasz::windows ($nagios_notifications, $nagios_allowed_hosts = '10.0.0.217'
       source  => "puppet:///modules/dasz/nagios/nsclient-boot.ini",
       require => Package["NSClientPlusPlus.${::architecture}"],
       notify  => Service["nscp"];
+
     'C:\Program Files\NSClient++\nsclient.ini':
       ensure  => present,
       content => template("dasz/nsclient.ini.erb"),
