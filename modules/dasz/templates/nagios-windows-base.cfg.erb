@@ -39,6 +39,9 @@ define service {
 define service {
         service_description service
         use     windows-service
+        # windows has some services that are enabled but not running
+        # this makes this check quite uesless for notification
+        notifications_enabled 0
 }
 
 define service {

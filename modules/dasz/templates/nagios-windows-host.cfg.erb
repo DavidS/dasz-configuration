@@ -1,5 +1,6 @@
 define host {
 	host_name <%= @fqdn %>
+	notification_period   <%= @nagios_notification_period %>
 	notifications_enabled <%= @nagios_notifications ? '1' : '0' %>
 	use windows-host
 }
