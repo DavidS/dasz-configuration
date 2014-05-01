@@ -24,4 +24,5 @@ node 'kvmhost2.dasz.at' {
 
   package { "autossh": ensure => installed }
 
+  munin::plugin { 'ksm_memory': source => 'puppet:///modules/dasz/munin/ksm_memory'; }
 }
