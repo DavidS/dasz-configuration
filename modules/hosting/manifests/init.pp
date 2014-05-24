@@ -11,18 +11,18 @@
 # Sample Usage:
 #
 class hosting (
-  $primary_fqdn   = $::fqdn,
-  $primary_ns_name,
-  $secondary_ns_name,
-  $primary_mx_name,
-  $hosting_ipaddress,
+  $primary_fqdn        = $::fqdn,
+  $primary_ns_name     = $::fqdn,
+  $secondary_ns_name   = $::fqdn,
+  $primary_mx_name     = $::fqdn,
+  $hosting_ipaddress   = $::ipaddress,
   $hostmaster,
-  $cert_base_path = 'puppet:///secrets',
+  $cert_base_path      = 'puppet:///secrets',
   $roundcube_db_password,
-  $webmail_vhost,
-  $mailman_vhost,
-  $sa_trusted_networks) {
-  include dasz::defaults, bind, postgresql, mysql
+  $webmail_vhost       = $::fqdn,
+  $mailman_vhost       = $::fqdn,
+  $sa_trusted_networks = $::ipaddress) {
+  include dasz::defaults, dasz::snips::systemd, bind, postgresql, mysql
 
   if (!defined(Package['git'])) {
     package { git: ensure => installed }
