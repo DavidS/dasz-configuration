@@ -162,6 +162,20 @@ class dasz::defaults (
       postrun_command => '/etc/puppet/etckeeper-commit-post',
       require         => Apt::Repository["puppetlabs"];
     }
+
+    file {
+      '/etc/puppet/etckeeper-commit-pre':
+        source => 'puppet:///modules/dasz/puppet/etckeeper-commit-pre',
+        mode   => 0755,
+        owner  => root,
+        group  => root;
+
+      '/etc/puppet/etckeeper-commit-post':
+        source => 'puppet:///modules/dasz/puppet/etckeeper-commit-post',
+        mode   => 0755,
+        owner  => root,
+        group  => root;
+    }
   }
 
   if $munin_node {
