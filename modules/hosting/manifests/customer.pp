@@ -19,9 +19,17 @@ define hosting::customer (
   ,
   $certs           = 'none',
   $cert_base_path  = 'puppet:///secrets/',
-  $db_password,
+  $db_password     = 'none',
   $mysql_databases = 'none',
   $pg_databases    = 'none',) {
+  if ($mysql_databases != 'none' and $db_password == 'none') {
+    fail("Hosting::Customer[${name}]: has mysql database, but no db_password")
+  }
+
+  if ($pg_databases != 'none' and $db_password == 'none') {
+    fail("Hosting::Customer[${name}]: has pg database, but no db_password")
+  }
+
   $admin_user_escaped = inline_template('<%= @admin_user.gsub(/-/, "\\x2d") %>')
 
   include hosting, postgresql, mysql
@@ -57,38 +65,40 @@ define hosting::customer (
     )
   }
 
-  hosting::mysql_database { $customer:
-    customer   => $customer,
-    base_dir   => $base_dir,
-    admin_user => $admin_user,
-    password   => $db_password;
-  }
-
-  if (is_hash($mysql_databases)) {
-    create_resources("hosting::mysql_database", $mysql_databases, {
+  if $db_password != 'none' {
+    hosting::mysql_database { $customer:
       customer   => $customer,
       base_dir   => $base_dir,
       admin_user => $admin_user,
-      password   => $db_password
+      password   => $db_password;
     }
-    )
-  }
 
-  hosting::pg_database { $customer:
-    customer   => $customer,
-    base_dir   => $base_dir,
-    admin_user => $admin_user,
-    password   => $db_password;
-  }
+    if (is_hash($mysql_databases)) {
+      create_resources("hosting::mysql_database", $mysql_databases, {
+        customer   => $customer,
+        base_dir   => $base_dir,
+        admin_user => $admin_user,
+        password   => $db_password
+      }
+      )
+    }
 
-  if (is_hash($pg_databases)) {
-    create_resources("hosting::pg_database", $pg_databases, {
+    hosting::pg_database { $customer:
       customer   => $customer,
       base_dir   => $base_dir,
       admin_user => $admin_user,
-      password   => $db_password
+      password   => $db_password;
     }
-    )
+
+    if (is_hash($pg_databases)) {
+      create_resources("hosting::pg_database", $pg_databases, {
+        customer   => $customer,
+        base_dir   => $base_dir,
+        admin_user => $admin_user,
+        password   => $db_password
+      }
+      )
+    }
   }
 
   if (is_hash($certs)) {
