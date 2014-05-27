@@ -233,7 +233,9 @@ define hosting::customer (
   }
 
   # enable user@ service manually as systemd cannot do so (bug?)
-  file { "/etc/systemd/system/multi-user.target.wants/user@${admin_user_escaped}.service":
+  $user_service_file = "/etc/systemd/system/multi-user.target.wants/user@${admin_user_escaped}.service"
+
+  file { $user_service_file:
     ensure  => symlink,
     target  => '/lib/systemd/system/user@.service',
     before  => Service["user@${admin_user_escaped}.service"],
@@ -246,7 +248,8 @@ define hosting::customer (
     provider  => systemd,
     require   => [
       Exec["hosting::${customer}::enable-apps-linger"],
-      File["${base_dir}/home/${admin_user}/.config/systemd/user/default.target"]],
-    subscribe => Exec["systemd-reload"];
+      File["${base_dir}/home/${admin_user}/.config/systemd/user/default.target"],
+      Exec["systemd-reload"]],
+    subscribe => File[$user_service_file];
   }
 }
