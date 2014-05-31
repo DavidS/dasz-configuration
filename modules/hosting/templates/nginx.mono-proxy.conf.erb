@@ -18,7 +18,5 @@ location <%= location %> {
 	fastcgi_split_path_info       ^(<%= fastcgi_split_path_info_prefix %><%= root_slash %>.*)()?$;
 
 	fastcgi_pass unix:<%= @base_dir %>/run/<%= @destination %>.sock;
-	include /etc/nginx/fastcgi_params;
-	fastcgi_param SERVER_PORT       $frontend_server_port;
-	fastcgi_param REMOTE_ADDR       $http_x_forwarded_for;
+	include /etc/nginx/customer_fastcgi_params;
 }

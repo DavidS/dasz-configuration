@@ -24,7 +24,7 @@ location <%= location %> {
 
 		fastcgi_pass unix:<%= @base_dir %>/run/php5-fpm-<%= @destination %>.sock;
 		fastcgi_index index.php;
-		include /etc/nginx/php5-fpm_params;
+		include /etc/nginx/customer_php5-fpm_params;
 		fastcgi_param   SCRIPT_NAME             <%= fastcgi_split_path_info_prefix %><%= root_slash %>$fastcgi_script_name;
 	}
 }

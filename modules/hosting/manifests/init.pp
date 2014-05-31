@@ -130,8 +130,24 @@ class hosting (
       require => Package['nginx'],
       notify  => Service['nginx'];
 
+    "/etc/nginx/customer_php5-fpm_params":
+      source  => "puppet:///modules/hosting/nginx.customer_php5-fpm_params",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      require => Package['nginx'],
+      notify  => Service['nginx'];
+
     "/etc/nginx/customer_proxy_params":
       source  => "puppet:///modules/hosting/nginx.customer_proxy_params",
+      mode    => 0644,
+      owner   => root,
+      group   => root,
+      require => Package['nginx'],
+      notify  => Service['nginx'];
+
+    "/etc/nginx/customer_fastcgi_params":
+      source  => "puppet:///modules/hosting/nginx.customer_fastcgi_params",
       mode    => 0644,
       owner   => root,
       group   => root,
