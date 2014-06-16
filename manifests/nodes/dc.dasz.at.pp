@@ -28,7 +28,7 @@ node 'dc.dasz.at' {
   }
 
   openvpn::tunnel { 'dasz-bridge':
-    port     => 1197,
+    port     => 1194,
     proto    => 'udp',
     server   => '10.254.0.2 10.254.0.1',
     template => "site/${::fqdn}/openvpn_dasz-bridge.conf.erb";

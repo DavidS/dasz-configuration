@@ -74,7 +74,7 @@ node 'hetz3.black.co.at' {
 
   openvpn::tunnel {
     'dasz-bridge':
-      port     => 1197,
+      port     => 1194,
       proto    => 'udp',
       mode     => 'server',
       template => "site/${::fqdn}/openvpn_dasz-bridge.conf.erb";
