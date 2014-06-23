@@ -1,7 +1,7 @@
 node 'kvmhost2.dasz.at' {
   class {
     'dasz::defaults':
-      location          => tech21,
+      location          => at,
       ssh_address       => '10.0.0.192',
       munin_smart_disks => ['sda', 'sdb', 'sdc'],
       force_nullmailer  => true;

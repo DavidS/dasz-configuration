@@ -1,7 +1,7 @@
 node 'jenkins.dasz.at' {
   class {
     'dasz::defaults':
-      location         => tech21,
+      location         => at,
       force_nullmailer => true;
 
     'dasz::snips::jenkins':

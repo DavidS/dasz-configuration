@@ -1,7 +1,7 @@
 node 'monitor.dasz.at' {
   class {
     'dasz::defaults':
-      location         => tech21,
+      location         => at,
       munin_node       => false,
       force_nullmailer => true;
 
