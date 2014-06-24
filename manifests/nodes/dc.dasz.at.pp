@@ -27,14 +27,14 @@ node 'dc.dasz.at' {
       source => 'puppet:///modules/dasz/munin/dc_ttys_temp';
   }
 
-  openvpn::tunnel { 'dasz-bridge':
-    port     => 1194,
-    proto    => 'udp',
-    server   => '10.254.0.2 10.254.0.1',
-    template => "site/${::fqdn}/openvpn_dasz-bridge.conf.erb";
-  }
-
-  site::ovpn_keys { 'dasz': }
+#  openvpn::tunnel { 'dasz-bridge':
+#    port     => 1194,
+#    proto    => 'udp',
+#    server   => '10.254.0.2 10.254.0.1',
+#    template => "site/${::fqdn}/openvpn_dasz-bridge.conf.erb";
+#  }
+#
+#  site::ovpn_keys { 'dasz': }
 
   file { "/etc/dnsmasq.d/redirect-samba":
     content => "server=/lan.dasz.at/10.0.0.223\n",
