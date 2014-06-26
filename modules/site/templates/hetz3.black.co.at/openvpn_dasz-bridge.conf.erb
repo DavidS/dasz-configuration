@@ -15,6 +15,7 @@ cert dasz-ca/keys/<%= @fqdn %>.crt
 key dasz-ca/keys/<%= @fqdn %>.key
 crl-verify dasz-ca-crl.pem
 remote-cert-tls client
+duplicate-cn
 
 # set to 3 for production
 verb 3
