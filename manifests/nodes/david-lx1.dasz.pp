@@ -8,6 +8,9 @@ node 'david-lx1.dasz' {
 
     'libvirt':
     ;
+
+    'openvpn':
+    ;
   }
 
   file {
