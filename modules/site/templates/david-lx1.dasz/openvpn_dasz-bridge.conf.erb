@@ -17,3 +17,9 @@ verb 3
 status /var/run/openvpn-<%= @name %>-status.log
 
 keepalive 5 20
+
+# trigger adding tap interface to the bridge when the tunnel is started
+script-security 2
+up /etc/openvpn/dasz_up
+down-pre
+down /etc/openvpn/dasz_down

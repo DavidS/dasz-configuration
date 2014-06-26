@@ -1,0 +1,8 @@
+# This host should only do dhcp to look into LANs managed by others.
+# This config file removes all dangerous options, like updating resolv.conf
+# or futzing with routes
+
+send host-name = gethostname();
+supersede domain-name-servers 195.34.133.21,212.186.211.21;
+request subnet-mask, broadcast-address, time-offset, interface-mtu;
+
