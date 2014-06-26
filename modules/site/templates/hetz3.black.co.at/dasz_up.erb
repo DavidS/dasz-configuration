@@ -1,5 +1,5 @@
 #!/bin/bash
 
 if [ "$6" = 'init' ] ; then
-  (sleep 10; ifup "$1") &
+  (sleep 10; brctl addif dasz "$1") &
 fi

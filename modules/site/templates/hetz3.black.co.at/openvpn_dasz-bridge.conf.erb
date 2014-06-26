@@ -21,7 +21,7 @@ duplicate-cn
 verb 3
 status /var/run/openvpn-<%= @name %>-status.log
 
-# trigger dhcp'ing the tap interface when the tunnel is started
+# trigger adding tap interface to the bridge when the tunnel is started
 script-security 2
 up /etc/openvpn/dasz_up
 down-pre
