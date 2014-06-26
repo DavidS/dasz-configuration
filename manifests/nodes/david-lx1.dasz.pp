@@ -21,13 +21,4 @@ node 'david-lx1.dasz' {
 #      repository => "main",
 #      src_repo   => true;
 #  }
-
-  openvpn::tunnel { 'dasz-bridge':
-    port     => 1194,
-    proto    => 'udp',
-    server   => '10.254.0.2 10.254.0.1',
-    template => "site/${::fqdn}/openvpn_dasz-bridge.conf.erb";
-  }
-
-  site::ovpn_keys { 'dasz': }
 }
