@@ -34,7 +34,9 @@ iface br0 inet6 static
 iface vnet0 inet manual
    hwaddress ether fe:50:56:00:12:50
 
-allow-hotplug tap0
-iface tap0 inet dhcp
-
+allow-hotplug dasz
+iface dasz inet dhcp
+  bridge_ports tap0 vnet5
+  bridge_stp on
+  bridge_fd 0
 
