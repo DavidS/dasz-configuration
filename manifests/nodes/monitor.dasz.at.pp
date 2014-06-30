@@ -89,4 +89,7 @@ node 'monitor.dasz.at' {
   }
 
   dasz::zetbox::monitor_fake_host { 'SRV2008-monitor': folder => 'Tech21'; }
+
+  # workaround broken dns/samba bridge
+  host { 'SRV2008.lan.dasz.at': ip => '10.0.0.221'; }
 }
