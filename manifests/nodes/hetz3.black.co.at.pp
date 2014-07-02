@@ -157,27 +157,28 @@ node 'hetz3.black.co.at' {
 
   file {
     "/root/.ssh/id_db-server":
-      source => "puppet:///secrets/id_db-server",
+      source => "puppet:///secrets/db-server/id_db-server",
       mode   => 0600,
       owner  => root,
       group  => root;
 
     "/root/.ssh/id_db-server.pub":
-      source => "puppet:///secrets/id_db-server.pub",
+      source => "puppet:///secrets/db-server/id_db-server.pub",
       mode   => 0600,
       owner  => root,
       group  => root;
 
     "/root/bin/db-server-connect":
-      source => "puppet:///secrets/db-server-connect",
+      source => "puppet:///secrets/db-server/db-server-connect",
       mode   => 0750,
       owner  => root,
       group  => root;
 
     "/etc/systemd/system/db-server-connect.service":
-      source => "puppet:///secrets/db-server-connect.service",
+      source => "puppet:///secrets/db-server/db-server-connect.service",
       mode   => 0644,
       owner  => root,
       group  => root;
   }
+
 }
