@@ -7,6 +7,9 @@ node 'backup.dasz.at' {
 
     'dasz::snips::systemd':
     ;
+
+    'site::internal_hosts':
+    ;
   }
 
   ##################################################################

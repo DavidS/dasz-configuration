@@ -9,6 +9,9 @@ node 'jenkins.dasz.at' {
 
     'dasz::snips::mono_backport':
     ;
+
+    'site::internal_hosts':
+    ;
   }
 
   dasz::zetbox::monitor {

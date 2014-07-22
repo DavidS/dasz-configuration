@@ -20,6 +20,9 @@ node 'monitor.dasz.at' {
 
     'dasz::snips::systemd':
     ;
+
+    'site::internal_hosts':
+    ;
   }
 
   # manually configured server

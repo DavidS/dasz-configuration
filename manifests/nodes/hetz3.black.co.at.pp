@@ -18,6 +18,9 @@ node 'hetz3.black.co.at' {
 
     'dasz::snips::systemd':
     ;
+
+    'site::internal_hosts':
+    ;
   }
 
   # foreman virt host
