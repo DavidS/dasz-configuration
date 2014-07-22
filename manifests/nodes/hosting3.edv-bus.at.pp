@@ -1,4 +1,6 @@
 node 'hosting3.edv-bus.at' {
+  $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")
+
   class {
     'dasz::defaults':
       location    => hetzner,
@@ -17,14 +19,14 @@ node 'hosting3.edv-bus.at' {
       roundcube_db_password => file("/srv/puppet/secrets/${::fqdn}/roundcube_db.password"),
       webmail_vhost         => 'hosting.edv-bus.at',
       mailman_vhost         => 'hosting.edv-bus.at',
-      sa_trusted_networks   => [$::ipaddress, '91.217.119.254'];
+      sa_trusted_networks   => [$::ipaddress, '91.217.119.254'],
+      junk_submitters       => $customers['junk_submitters'];
 
     'dasz::snips::adminmailer':
       recipient => 'root@dasz.at';
   }
 
-  $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")
-  create_resources("hosting::customer", $customers)
+  create_resources("hosting::customer", $customers['customers'])
 
   munin::plugin { 'vimo': source => 'puppet:///modules/dasz/munin/vimo'; }
 

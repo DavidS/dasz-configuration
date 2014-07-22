@@ -21,7 +21,8 @@ class hosting (
   $roundcube_db_password,
   $webmail_vhost       = $::fqdn,
   $mailman_vhost       = $::fqdn,
-  $sa_trusted_networks = $::ipaddress) {
+  $sa_trusted_networks = $::ipaddress,
+  $junk_submitters     = []) {
   include dasz::defaults, dasz::snips::systemd, bind, postgresql, mysql
 
   if (!defined(Package['git'])) {
@@ -46,7 +47,8 @@ class hosting (
       local_delivery        => 'dovecot_delivery',
       greylist_local        => true,
       greylist_dsn          => 'servers=(/var/run/postgresql/.s.PGSQL.5432)/greylist/Debian-exim',
-      greylist_sql_username => 'Debian-exim';
+      greylist_sql_username => 'Debian-exim',
+      junk_submitters       => $junk_submitters;
 
     'dasz::snips::mono_backport':
     ;
