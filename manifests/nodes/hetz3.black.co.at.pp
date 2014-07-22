@@ -20,7 +20,7 @@ node 'hetz3.black.co.at' {
     ;
 
     'site::internal_hosts':
-    ;
+      notify => Service['nginx'];
   }
 
   # foreman virt host
@@ -101,21 +101,6 @@ node 'hetz3.black.co.at' {
       docroot        => 'none',
       create_docroot => false,
       template       => "site/${::fqdn}/nginx-office.dasz.at.site.erb";
-  }
-
-  # required so that nginx finds the upstrem servers at dasz lan
-  host {
-    "office":
-      ip     => '10.0.0.221',
-      notify => Service['nginx'];
-
-    'monitor':
-      ip     => '10.0.0.217',
-      notify => Service['nginx'];
-
-    'kvmhost':
-      ip     => '10.0.0.191',
-      notify => Service['nginx'];
   }
 
   file {
