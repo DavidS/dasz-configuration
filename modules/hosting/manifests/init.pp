@@ -271,6 +271,18 @@ class hosting (
       address  => '::1/128',
       method   => 'md5';
   }
+
+  # manually configure nagios check_httpname_follow command
+  @@file { "/etc/nagios3/conf.d/check_domain_commands.cfg":
+    ensure  => present,
+    mode    => 0644,
+    owner   => root,
+    group   => root,
+    content => template("hosting/nagios-check-domain-commands.cfg.erb"),
+    tag     => "nagios_host_",
+    require => Package['nagios3'],
+    notify  => Service['nagios3'];
+  }
 }
 
 # webmail configuration
