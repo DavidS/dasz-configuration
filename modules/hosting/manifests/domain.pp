@@ -83,7 +83,7 @@ define hosting::domain (
     }
   }
 
-  # manually configure nagios for check_dig
+  # manually configure nagios for check_dig and check_http
   @@file { "/etc/nagios3/conf.d/check_dns_${domain}.cfg":
     ensure  => present,
     mode    => 0644,

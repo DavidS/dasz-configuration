@@ -4,3 +4,9 @@ define service {
         check_command       check_dig!<%= @domain %>
         use                 generic-service
 }
+define service {
+        host_name           <%= @fqdn %>
+        service_description check_www_<%= @domain %>
+        check_command       check_http
+        use                 generic-service
+}
