@@ -7,6 +7,6 @@ define service {
 define service {
         host_name           <%= @fqdn %>
         service_description check_www_<%= @domain %>
-        check_command       check_httpname_follow
+        check_command       check_httpname_follow!<%= @domain %>
         use                 generic-service
 }

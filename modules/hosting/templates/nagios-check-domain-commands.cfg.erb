@@ -1,5 +1,5 @@
 define command{
         command_name    check_httpname_follow
-        command_line    /usr/lib/nagios/plugins/check_http -H '$HOSTNAME$' -I '$HOSTADDRESS$' -f follow --sni
+        command_line    /usr/lib/nagios/plugins/check_http -H '$ARG1$' -I '$HOSTADDRESS$' -f follow --sni
         }
 
