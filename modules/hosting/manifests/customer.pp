@@ -169,8 +169,13 @@ define hosting::customer (
       group   => $admin_group;
 
     # app directories
+    "${base_dir}/apps":
+      ensure => directory,
+      mode   => 2771,
+      owner  => $admin_user,
+      group  => $admin_group;
+
     [
-      "${base_dir}/apps",
       "${base_dir}/backups",
       "${base_dir}/log",
       ]:
