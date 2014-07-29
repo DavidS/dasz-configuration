@@ -1,5 +1,5 @@
 #!/bin/bash
 
 if [ "$6" = 'init' ] ; then
-  (sleep 10; brctl addif dasz "$1") &
+  (sleep 1; brctl addif dasz "$1"; ip link set "$1" up) &
 fi

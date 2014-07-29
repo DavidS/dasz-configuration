@@ -11,6 +11,7 @@ iface eth0 inet manual
 auto br0
 iface br0 inet static
   bridge_ports eth0
+  bridge_bridgeprio 32767
   address   88.198.141.234
   broadcast 88.198.141.255
   netmask   255.255.255.224
@@ -35,7 +36,9 @@ iface vnet0 inet manual
    hwaddress ether fe:50:56:00:12:50
 
 allow-hotplug dasz
-iface dasz inet dhcp
+iface dasz inet static
+  address 10.0.0.1
+  netmask 255.255.255.0
   bridge_ports tap0 vnet5
   bridge_stp on
   bridge_fd 0
