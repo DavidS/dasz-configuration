@@ -73,6 +73,19 @@ node 'hetz3.black.co.at' {
       owner   => root,
       group   => root,
       notify  => Service['openvpn'];
+
+    "/etc/sysctl.d/10-no-ip-redirects.conf":
+      ensure => present,
+      source => "puppet:///site/${::fqdn}/sysctl-no-redirects.conf",
+      mode   => 0644,
+      owner  => root,
+      group  => root,
+      notify => Exec['apply sysctl'];
+  }
+
+  exec { 'apply sysctl':
+    command     => '/sbin/sysctl --system',
+    refreshonly => true;
   }
 
   openvpn::tunnel {
