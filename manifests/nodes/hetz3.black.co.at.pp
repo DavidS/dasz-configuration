@@ -76,7 +76,7 @@ node 'hetz3.black.co.at' {
 
     "/etc/sysctl.d/10-no-ip-redirects.conf":
       ensure => present,
-      source => "puppet:///site/${::fqdn}/sysctl-no-redirects.conf",
+      source => "puppet:///modules/site/sysctl-no-redirects.conf",
       mode   => 0644,
       owner  => root,
       group  => root,
