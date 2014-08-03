@@ -42,4 +42,5 @@ iface dasz inet static
   bridge_ports tap0 vnet5
   bridge_stp on
   bridge_fd 0
-
+  up iptables -t nat -I POSTROUTING --source 10.0.0.0/24 ! --destination 10.0.0.0/24 -j MASQUERADE
+  down iptables -t nat -D POSTROUTING --source 10.0.0.0/24 ! --destination 10.0.0.0/24 -j MASQUERADE
