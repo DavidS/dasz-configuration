@@ -1,0 +1,13 @@
+<%= @base_dir %>/log/<%= @log_file %>
+{
+	rotate 10
+	daily
+	missingok
+	notifempty
+	compress
+	delaycompress
+	sharedscripts
+	postrotate
+		su - <%= @admin_user %> -c 'systemctl --user restart <%= @service %>.service'
+	endscript
+}
