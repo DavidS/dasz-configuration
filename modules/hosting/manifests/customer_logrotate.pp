@@ -1,6 +1,7 @@
 define hosting::customer_logrotate(
   $base_dir,
   $admin_user,
+  $admin_group,
   $service,
   $log_file,
   )
