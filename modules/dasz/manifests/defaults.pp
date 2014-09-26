@@ -189,6 +189,7 @@ class dasz::defaults (
         'vagrant' => '192.168.50.5',
         'at'      => '10.0.0.217',
         'tech21'  => '10.0.0.217',
+        'hetzner' => '10.0.0.217',
         default   => '88.198.141.234',
       },
       autoconfigure => once,
