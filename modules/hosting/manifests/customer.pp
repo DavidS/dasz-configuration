@@ -257,4 +257,20 @@ define hosting::customer (
       Exec["systemd-reload"]],
     subscribe => File[$user_service_file];
   }
+
+  customer_logrotate {
+    "${customer}_access":
+      base_dir    => $base_dir,
+      admin_user  => $admin_user,
+      admin_group => $admin_group,
+      service     => 'nginx',
+      log_file    => 'access.log';
+
+    "${customer}_error":
+      base_dir    => $base_dir,
+      admin_user  => $admin_user,
+      admin_group => $admin_group,
+      service     => 'nginx',
+      log_file    => 'error.log';
+  }
 }

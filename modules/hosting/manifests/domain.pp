@@ -72,22 +72,6 @@ define hosting::domain (
       group   => root;
   }
 
-  customer_logrotate {
-    "${domain}_access":
-      base_dir    => $base_dir,
-      admin_user  => $admin_user,
-      admin_group => $admin_group,
-      service     => 'nginx',
-      log_file    => 'access.log';
-
-    "${domain}_error":
-      base_dir    => $base_dir,
-      admin_user  => $admin_user,
-      admin_group => $admin_group,
-      service     => 'nginx',
-      log_file    => 'error.log';
-  }
-
   if (!defined(File["/etc/nginx/${name}"])) {
     file { "/etc/nginx/${name}":
       ensure  => directory,
