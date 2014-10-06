@@ -6,6 +6,7 @@ node 'puppetmaster.dasz.at' {
       location          => hetzner,
       puppet_agent      => false,
       apt_dater_manager => true,
+      munin_server      => '88.198.141.234',
       ssh_port          => 2200,
       force_nullmailer  => true;
 
