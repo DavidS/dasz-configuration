@@ -3,8 +3,9 @@ node 'hosting3.edv-bus.at' {
 
   class {
     'dasz::defaults':
-      location    => hetzner,
-      admin_users => false;
+      location     => hetzner,
+      munin_server => '88.198.141.234',
+      admin_users  => false;
 
     'dasz::snips::systemd':
     ;

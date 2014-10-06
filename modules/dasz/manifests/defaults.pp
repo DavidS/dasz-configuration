@@ -7,6 +7,7 @@ class dasz::defaults (
   $munin_node           = true,
   $munin_port           = 4949,
   $munin_smart_disks    = [],
+  $munin_server         = '',
   $apt_dater_manager    = false,
   $apt_dater_key        = '',
   $apt_dater_secret_key = '',
@@ -22,6 +23,17 @@ class dasz::defaults (
   validate_bool($admin_users)
   validate_bool($force_nullmailer)
   validate_bool($join_domain)
+
+  $real_munin_server = $munin_server? {
+    '' => $location ? {
+      'vagrant' => '192.168.50.5',
+      'at'      => '10.0.0.217',
+      'tech21'  => '10.0.0.217',
+      'hetzner' => '10.0.0.217',
+      default   => '88.198.141.234',
+    },
+    default => $munin_server,
+  }
 
   case $::virtual {
     'vserver' : {
@@ -185,13 +197,7 @@ class dasz::defaults (
         'hetzner' => 'Hetzner',
         default   => $location,
       },
-      server        => $location ? {
-        'vagrant' => '192.168.50.5',
-        'at'      => '10.0.0.217',
-        'tech21'  => '10.0.0.217',
-        'hetzner' => '10.0.0.217',
-        default   => '88.198.141.234',
-      },
+      server        => $real_munin_server,
       autoconfigure => once,
       address       => $primary_ip,
       port          => $munin_port,
