@@ -33,10 +33,10 @@ node 'puppetmaster.dasz.at' {
       install_proxy          => true,
       proxy_feature_puppet   => true,
       proxy_feature_puppetca => true,
-      proxy_feature_tftp     => true,
+      proxy_feature_tftp     => false,
       # force foreman to use the private ip for tftp
       proxy_tftp_servername  => '192.168.5.2',
-      proxy_feature_dhcp     => true,
+      proxy_feature_dhcp     => false,
       proxy_dhcp_omapi_key   => $proxy_key;
 
     "postgresql":
