@@ -17,6 +17,7 @@ class hosting (
   $primary_mx_name     = $::fqdn,
   $hosting_ipaddress   = $::ipaddress,
   $hostmaster,
+  $ca                  = 'thawte2014',
   $cert_base_path      = 'puppet:///secrets',
   $roundcube_db_password,
   $webmail_vhost       = $::fqdn,
@@ -70,7 +71,7 @@ class hosting (
 
   hosting::ssl_cert {
     "dovecot::${primary_fqdn}":
-      ca          => thawte,
+      ca          => $ca,
       cert_file   => "${dovecot::config_dir}/dovecot.pem",
       cert_source => "${cert_base_path}/ssl/${primary_fqdn}/cert.pem",
       key_file    => "${dovecot::config_dir}/private/dovecot.pem",
@@ -82,7 +83,7 @@ class hosting (
       notify      => Service['dovecot'];
 
     "exim::${primary_fqdn}":
-      ca          => thawte,
+      ca          => $ca,
       cert_file   => "${exim::config_dir}/exim.crt",
       cert_source => "${cert_base_path}/ssl/${primary_fqdn}/cert.pem",
       key_file    => "${exim::config_dir}/exim.key",
