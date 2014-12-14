@@ -52,27 +52,27 @@ class dasz::defaults (
       force_sources_list_d => true,
       purge_sources_list_d => true;
 
-    "apt::dater":
-      role             => $apt_dater_manager ? {
-        true  => 'all',
-        false => 'host',
-      },
-      customer         => $location,
-      ssh_key_type     => $apt_dater_key ? {
-        ''      => file("/srv/puppet/secrets/apt-dater-host.pub.type"),
-        default => 'ssh-rsa',
-      },
-      ssh_key          => $apt_dater_key ? {
-        ''      => file("/srv/puppet/secrets/apt-dater-host.pub.key"),
-        default => $apt_dater_key,
-      },
-      ssh_port         => $ssh_port,
-      manager_user     => 'david',
-      manager_home_dir => '/home/david',
-      manager_ssh_key  => $apt_dater_secret_key ? {
-        ''      => file("/srv/puppet/secrets/apt-dater-host"),
-        default => $apt_dater_secret_key,
-      } ;
+#    "apt::dater":
+#      role             => $apt_dater_manager ? {
+#        true  => 'all',
+#        false => 'host',
+#      },
+#      customer         => $location,
+#      ssh_key_type     => $apt_dater_key ? {
+#        ''      => file("/srv/puppet/secrets/apt-dater-host.pub.type"),
+#        default => 'ssh-rsa',
+#      },
+#      ssh_key          => $apt_dater_key ? {
+#        ''      => file("/srv/puppet/secrets/apt-dater-host.pub.key"),
+#        default => $apt_dater_key,
+#      },
+#      ssh_port         => $ssh_port,
+#      manager_user     => 'david',
+#      manager_home_dir => '/home/david',
+#      manager_ssh_key  => $apt_dater_secret_key ? {
+#        ''      => file("/srv/puppet/secrets/apt-dater-host"),
+#        default => $apt_dater_secret_key,
+#      } ;
 
     "apt::repo::puppetlabs":
       distro       => $distro,
