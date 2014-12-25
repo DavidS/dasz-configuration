@@ -10,7 +10,7 @@ define hosting::nginx_user_snip (
   $destination,
   $forcessl        = false,
   $in_user_context = false,) {
-  validate_re($type, 'static|php5|mono|redirect|php5-wordpress|php5-owncloud')
+  validate_re($type, 'static|cgi|php5|mono|redirect|php5-wordpress|php5-owncloud')
   validate_bool($forcessl)
 
   $domain = $subdomain ? {
