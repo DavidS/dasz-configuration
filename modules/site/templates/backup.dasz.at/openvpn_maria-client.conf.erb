@@ -19,7 +19,7 @@ ifconfig 192.168.0.2 255.255.255.0
 keepalive 10 120
 
 user <%= scope.lookupvar("openvpn::process_user") %>
-group <%= scope.lookupvar("openvpn::process_user") %>
+group <%= scope.lookupvar("openvpn::process_group") %>
 
 # The persist options will try to avoid
 # accessing certain resources on restart
