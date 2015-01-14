@@ -129,4 +129,27 @@ node 'backup.dasz.at' {
     provider  => systemd,
     subscribe => [File["/root/bin/showslide", "/etc/systemd/system/showslide.service"], Package["fbi"]];
   }
+
+  ##################################################################
+  # #  OPENVPN  ####################################################
+  ##################################################################
+
+  site::ovpn_keys { 'maria': }
+  ->
+  # additional keying material for mariatreu vpn
+  file { '/etc/openvpn/keys/maria.key':
+    source => 'puppet:///secrets/openvpn/maria.key',
+    mode   => '0600',
+    owner  => root,
+    group  => root;
+  }
+  ->
+  openvpn::tunnel { 'maria':
+    port     => 1195,
+    proto    => 'tcp',
+    mode     => 'client',
+    remote   => 'hetz3.black.co.at',
+    dev      => 'tap',
+    template => "site/${::fqdn}/openvpn_maria-client.conf.erb";
+  }
 }

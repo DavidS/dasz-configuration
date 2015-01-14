@@ -1,0 +1,51 @@
+# Managed by puppet
+
+remote <%= @remote %> <%= @port %>
+proto <%= @real_proto %>
+dev <%= @dev %>
+<% if @route != '' %>route <%= @route %><% end -%>
+resolv-retry infinite
+nobind
+
+tls-auth keys/maria.key 1
+
+tls-client
+ca maria-ca/keys/ca.crt
+cert maria-ca/keys/<%= @fqdn %>.crt
+key maria-ca/keys/<%= @fqdn %>.key
+
+ifconfig 192.168.0.2 255.255.255.0
+
+keepalive 10 120
+
+user <%= scope.lookupvar("openvpn::process_user") %>
+group <%= scope.lookupvar("openvpn::process_user") %>
+
+# The persist options will try to avoid
+# accessing certain resources on restart
+# that may no longer be accessible because
+# of the privilege downgrade.
+persist-key
+persist-tun
+
+# Output a short status file showing
+# current connections, truncated
+# and rewritten every minute.
+status /var/run/openvpn-schmidg-status.log
+
+# Set the appropriate level of log
+# file verbosity.
+#
+# 0 is silent, except for fatal errors
+# 4 is reasonable for general usage
+# 5 and 6 can help to debug connection problems
+# 9 is extremely verbose
+verb 4
+
+# Silence repeating messages.  At most 20
+# sequential messages of the same message
+# category will be output to the log.
+mute 20
+
+comp-lzo yes
+
