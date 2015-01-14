@@ -26,5 +26,9 @@ class site::internal_hosts {
     'fw-maria.mariatreu.at':
       host_aliases => ['fw-maria'],
       ip           => '192.168.0.131';
+
+    'fw-schmidg2.edv-bus.at':
+      host_aliases => ['fw-schmidg', 'fw-schmidg2'],
+      ip           => '192.168.0.9';
   }
 }
