@@ -10,6 +10,9 @@ node 'backup.dasz.at' {
 
     'site::internal_hosts':
     ;
+
+    'openvpn':
+    ;
   }
 
   ##################################################################
@@ -134,6 +137,8 @@ node 'backup.dasz.at' {
   # #  OPENVPN  ####################################################
   ##################################################################
 
+  Class['openvpn']
+  ->
   site::ovpn_keys { 'maria': }
   ->
   # additional keying material for mariatreu vpn
