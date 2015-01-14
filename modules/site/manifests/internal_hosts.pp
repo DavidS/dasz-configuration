@@ -22,5 +22,9 @@ class site::internal_hosts {
     'kvmhost':
       host_aliases => ['kvmhost.dasz'],
       ip           => '10.0.0.191';
+
+    'fw-maria.mariatreu.at':
+      host_aliases => ['fw-maria'],
+      ip           => '192.168.0.131';
   }
 }
