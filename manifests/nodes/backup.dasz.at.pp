@@ -137,10 +137,8 @@ node 'backup.dasz.at' {
   # #  OPENVPN  ####################################################
   ##################################################################
 
-  Class['openvpn']
-  ->
   site::ovpn_keys { 'maria': }
-  ->
+
   # additional keying material for mariatreu vpn
   file { '/etc/openvpn/keys/maria.key':
     source => 'puppet:///secrets/openvpn/maria.key',
@@ -148,7 +146,7 @@ node 'backup.dasz.at' {
     owner  => root,
     group  => root;
   }
-  ->
+
   openvpn::tunnel { 'maria':
     port     => 1195,
     proto    => 'tcp',
