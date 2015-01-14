@@ -352,7 +352,9 @@ class dasz::defaults (
   sudo::directive { "backuppc": content => 'abackup ALL=(ALL) NOPASSWD: /usr/bin/rsync --server --sender --numeric-ids --perms --owner --group --devices --links --times --block-size=2048 --recursive -D *'
     ; }
 
-  package { "nocache": ensure => installed }
+  if $::lsbdistcodename != 'squeeze' {
+    package { "nocache": ensure => installed }
+  }
 
   if $join_domain {
     package { ["libnss-winbind", "libpam-winbind"]: ensure => installed; } ->
