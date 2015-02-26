@@ -35,11 +35,13 @@ iface br0 inet6 static
 iface vnet0 inet manual
    hwaddress ether fe:50:56:00:12:50
 
+# interface has to be started by openvpn when creating tap0
 allow-hotplug dasz
 iface dasz inet static
   address 10.0.0.1
   netmask 255.255.255.0
-  bridge_ports tap0 vnet5
+  # tap0 is openvpn to office; additional ports added automatically by libvirt
+  bridge_ports tap0
   bridge_bridgeprio 32767
   bridge_stp on
   bridge_fd 0
