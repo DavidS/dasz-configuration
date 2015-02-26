@@ -1,5 +1,9 @@
 class hosting::secondary_ns {
-  include dasz::defaults, bind
+  include dasz::defaults
+
+  class { 'bind':
+    service => 'bind9.service';
+  }
 
   concat { "/etc/bind/named.conf.local":
     mode    => 644,
