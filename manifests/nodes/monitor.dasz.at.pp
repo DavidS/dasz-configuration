@@ -54,14 +54,14 @@ node 'monitor.dasz.at' {
   }
 
   file {
-    "/etc/nagios3/conf.d/windows.cfg":
-      ensure  => present,
-      content => template("dasz/nagios-windows-base.cfg.erb"),
-      mode    => 0644,
-      owner   => root,
-      group   => root,
-      notify  => Service['nagios3'];
-
+#    "/etc/nagios3/conf.d/windows.cfg":
+#      ensure  => present,
+#      content => template("dasz/nagios-windows-base.cfg.erb"),
+#      mode    => 0644,
+#      owner   => root,
+#      group   => root,
+#      notify  => Service['nagios3'];
+#
     "/etc/nagios3/conf.d/check_zone_auth.cfg":
       ensure  => present,
       source  => 'puppet:///modules/dasz/nagios/check_zone_auth.cfg',
