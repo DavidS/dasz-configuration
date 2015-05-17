@@ -10,8 +10,8 @@ node 'puppetmaster.dasz.at' {
       ssh_port          => 2200,
       force_nullmailer  => true;
 
-    "dhcpd":
-      template => "site/${::fqdn}/dhcpd.conf.erb";
+    #"dhcpd":
+    #  template => "site/${::fqdn}/dhcpd.conf.erb";
 
     "foreman":
       install_mode           => all,
