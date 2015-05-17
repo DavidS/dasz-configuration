@@ -50,9 +50,6 @@ class hosting (
       greylist_dsn          => 'servers=(/var/run/postgresql/.s.PGSQL.5432)/greylist/Debian-exim',
       greylist_sql_username => 'Debian-exim',
       junk_submitters       => $junk_submitters;
-
-    'dasz::snips::mono_backport':
-    ;
   }
 
   package { ["dovecot-managesieved", "dovecot-sieve"]:
