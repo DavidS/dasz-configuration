@@ -85,11 +85,4 @@ node 'monitor.dasz.at' {
     ensure => running,
     enable => true,
   }
-
-  dasz::zetbox::monitor { 'dasz-prod':
-    url       => "https://office.dasz.at/dasz/PerfMon.facade",
-    fake_host => 'SRV2008-monitor';
-  }
-
-  dasz::zetbox::monitor_fake_host { 'SRV2008-monitor': folder => 'Tech21'; }
 }
