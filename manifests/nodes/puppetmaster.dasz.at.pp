@@ -78,7 +78,7 @@ node 'puppetmaster.dasz.at' {
   vcsrepo { "/srv/puppet/secrets":
     ensure   => latest,
     provider => git,
-    source   => "ssh://ccnet@dasz.at/srv/dasz/git/puppet-secrets.git",
+    source   => "ssh://ccnet@hosting3.edv-bus.at/srv/dasz/git/puppet-secrets.git",
     owner    => puppet,
     group    => puppet;
   } -> file {
