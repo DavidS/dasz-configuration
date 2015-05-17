@@ -31,10 +31,9 @@ node 'hosting3.edv-bus.at' {
 
   munin::plugin { 'vimo': source => 'puppet:///modules/dasz/munin/vimo'; }
 
-  # extra packages needed for zetbox and customers
+  # extra packages needed for customers
   # the first is even contrib
   package { [
-    "ttf-mscorefonts-installer",
     "postgresql-contrib",
     "nano"]:
     ensure => installed;
