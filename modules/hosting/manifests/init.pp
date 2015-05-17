@@ -114,13 +114,6 @@ class hosting (
       notify => Exec['dbus-restart']
   }
 
-  # import certificates from mozilla
-  exec { "mono-import-certs":
-    command     => "/usr/bin/mozroots --import --sync --machine",
-    refreshonly => true,
-    subscribe   => Package['mono-complete'];
-  }
-
   file {
     "/etc/nginx/php5-fpm_params":
       source  => "puppet:///modules/hosting/nginx.php5-fpm_params",
@@ -178,15 +171,6 @@ class hosting (
       mode   => 0755,
       owner  => root,
       group  => root;
-
-    [
-      "/usr/share/.mono",
-      "/usr/share/.mono/keypairs"]:
-      ensure  => directory,
-      mode    => 0755,
-      owner   => root,
-      group   => root,
-      require => Exec["mono-import-certs"];
   }
 
   concat { "/etc/bind/named.conf.local":
