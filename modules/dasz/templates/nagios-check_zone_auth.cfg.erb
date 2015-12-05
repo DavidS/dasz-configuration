@@ -7,5 +7,5 @@ define host {
 define service {
   use                     dns-auth-service
   host_name               zone.<%= @name %>
-  check_command           check-zone-auth!<%= ns.join(',') %>
+  check_command           check-zone-auth!<%= @ns.join(',') %>
 }
