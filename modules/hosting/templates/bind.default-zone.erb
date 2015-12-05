@@ -8,5 +8,14 @@ mail.<%= @domain %>.	A <%= @real_mail_ipaddress %>
 postausgang.<%= @domain %>.	CNAME mail.<%= @domain %>.
 posteingang.<%= @domain %>.	CNAME mail.<%= @domain %>.
 
+<% unless @dkim_public_key_data == :undef %>
+_domainkey.<%= @domain %>. TXT "t=y; o=~;"
+dkim._domainkey.<%= @domain %>. TXT ("v=DKIM1; t=y; k=rsa; p="
+<% @dkim_public_key_data.split('/n')[1..-2].each do |line| -%>
+"<%= line %>"
+<% end -%>
+)
+<% end %>
+
 *.<%= @domain %>.		CNAME <%= @domain %>.
 <%= @additional_rrs.join("\n") %>

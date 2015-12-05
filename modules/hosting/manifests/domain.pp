@@ -10,7 +10,9 @@ define hosting::domain (
   $hostmaster        = $hosting::hostmaster,
   $serial,
   $additional_rrs    = [],
-  $has_mailinglists  = false) {
+  $has_mailinglists  = false,
+  $dkim_public_key_data = undef,
+  ) {
   include hosting
 
   $domain = $name

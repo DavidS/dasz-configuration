@@ -49,7 +49,8 @@ class hosting (
       greylist_local        => true,
       greylist_dsn          => 'servers=(/var/run/postgresql/.s.PGSQL.5432)/greylist/Debian-exim',
       greylist_sql_username => 'Debian-exim',
-      junk_submitters       => $junk_submitters;
+      junk_submitters       => $junk_submitters,
+      dkim_private_key      => 'puppet:///secrets/dkim/dkim.private.key',
   }
 
   package { ["dovecot-managesieved", "dovecot-sieve"]:

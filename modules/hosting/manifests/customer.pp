@@ -21,7 +21,9 @@ define hosting::customer (
   $cert_base_path  = 'puppet:///secrets/',
   $db_password     = 'none',
   $mysql_databases = 'none',
-  $pg_databases    = 'none',) {
+  $pg_databases    = 'none',
+  $dkim_public_key_data = undef,
+  ) {
   if ($mysql_databases != 'none' and $db_password == 'none') {
     fail("Hosting::Customer[${name}]: has mysql database, but no db_password")
   }
@@ -43,6 +45,7 @@ define hosting::customer (
     admin_user  => $admin_user,
     admin_group => $admin_group,
     base_dir    => $base_dir,
+    dkim_public_key_data => $dkim_public_key_data,
   }
   )
 
