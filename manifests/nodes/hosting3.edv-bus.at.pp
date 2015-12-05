@@ -28,7 +28,7 @@ node 'hosting3.edv-bus.at' {
   }
 
   create_resources("hosting::customer", $customers['customers'], {
-    $dkim_public_key_data = file("/srv/puppet/secrets/${::fqdn}/dkim/dkim.public.key"),
+    $dkim_public_key_data => file("/srv/puppet/secrets/${::fqdn}/dkim/dkim.public.key"),
   })
 
   munin::plugin { 'vimo': source => 'puppet:///modules/dasz/munin/vimo'; }
