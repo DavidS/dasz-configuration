@@ -17,7 +17,7 @@ class hosting (
   $primary_mx_name     = $::fqdn,
   $hosting_ipaddress   = $::ipaddress,
   $hostmaster,
-  $ca                  = 'thawte2014',
+  $ca                  = 'sslmate',
   $cert_base_path      = 'puppet:///secrets',
   $roundcube_db_password,
   $webmail_vhost       = $::fqdn,

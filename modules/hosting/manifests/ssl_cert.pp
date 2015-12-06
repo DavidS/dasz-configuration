@@ -29,33 +29,50 @@ define hosting::ssl_cert (
     source  => $key_source ? {
       ''      => undef,
       default => $key_source
-    }
-  }
-
-  concat { $cert_file:
-    mode  => $cert_mode,
-    owner => $cert_owner,
-    group => $cert_group;
-  }
-
-  concat::fragment { "${name}.crt.pem#certificate":
-    target  => $cert_file,
-    order   => 10,
-    content => $cert_content ? {
-      ''      => undef,
-      default => $cert_content
     },
-    source  => $cert_source ? {
-      ''      => undef,
-      default => $cert_source
-    }
   }
 
-  if ($ca != self and $ca != none) {
-    concat::fragment { "${name}.crt.pem#bundle":
-      target => $cert_file,
-      order  => 90,
-      source => "puppet:///modules/hosting/ssl/${ca}.bundle.pem";
+  if $ca == 'sslmate' {
+    file {
+      $cert_file:
+        mode    => $cert_mode,
+        owner   => $cert_owner,
+        group   => $cert_group,
+        content => $cert_content ? {
+          ''      => undef,
+          default => $cert_content
+        },
+        source  => $cert_source ? {
+          ''      => undef,
+          default => $cert_source
+        },
+    }
+  } else {
+    concat { $cert_file:
+      mode  => $cert_mode,
+      owner => $cert_owner,
+      group => $cert_group;
+    }
+  
+    concat::fragment { "${name}.crt.pem#certificate":
+      target  => $cert_file,
+      order   => 10,
+      content => $cert_content ? {
+        ''      => undef,
+        default => $cert_content
+      },
+      source  => $cert_source ? {
+        ''      => undef,
+        default => $cert_source
+      }
+    }
+  
+    if ($ca != self and $ca != none) {
+      concat::fragment { "${name}.crt.pem#bundle":
+        target => $cert_file,
+        order  => 90,
+        source => "puppet:///modules/hosting/ssl/${ca}.bundle.pem";
+      }
     }
   }
 }
