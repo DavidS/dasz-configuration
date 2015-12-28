@@ -20,6 +20,10 @@ server {
 
 	server_name <%= [@name, @cn_aliases].flatten.join " " %>;
 
+	location /.well-known/acme-challenge {
+		alias /var/lib/hosting/acme;
+	}
+
 	location / {
 		rewrite ^ https://$server_name$request_uri? permanent;
 	}
