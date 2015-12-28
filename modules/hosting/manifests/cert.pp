@@ -38,6 +38,22 @@ define hosting::cert ($ca, $base_path, $force_ssl = true, $cn_aliases = []) {
         group     => www-data,
         notify => Service["nginx"];
     }
+  } elsif $ca == 'le' {
+    file {
+      "/etc/ssl/www/${name}.key.pem":
+        source    => "${base_path}/ssl/${name}/privkey.key",
+        show_diff => false,
+        mode      => 0640,
+        owner     => root,
+        group     => www-data;
+
+      $cert_file:
+        source    => "${base_path}/ssl/${name}/fullchain.crt",
+        mode      => 0640,
+        owner     => root,
+        group     => www-data,
+        notify => Service["nginx"];
+    }
   } else {
     concat { $cert_file:
       mode   => 0640,
