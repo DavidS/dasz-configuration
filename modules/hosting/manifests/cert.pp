@@ -41,14 +41,14 @@ define hosting::cert ($ca, $base_path, $force_ssl = true, $cn_aliases = []) {
   } elsif $ca == 'le' {
     file {
       "/etc/ssl/www/${name}.key.pem":
-        source    => "${base_path}/ssl/${name}/privkey.key",
+        source    => "${base_path}/ssl/${name}/privkey.pem",
         show_diff => false,
         mode      => 0640,
         owner     => root,
         group     => www-data;
 
       $cert_file:
-        source    => "${base_path}/ssl/${name}/fullchain.crt",
+        source    => "${base_path}/ssl/${name}/fullchain.pem",
         mode      => 0640,
         owner     => root,
         group     => www-data,
