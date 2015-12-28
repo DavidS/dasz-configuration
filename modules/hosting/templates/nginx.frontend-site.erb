@@ -3,11 +3,11 @@ server {
 
 	server_name .<%= @domain %>;
 
-	include /etc/nginx/<%= @domain %>/*.conf;
-
 	location /.well-known/acme-challenge {
 		alias /var/lib/hosting/acme;
 	}
+
+	include /etc/nginx/<%= @domain %>/*.conf;
 
 	location / {
 		proxy_pass http://unix:<%= @base_dir %>/run/nginx.sock:;
