@@ -154,6 +154,13 @@ class hosting (
       owner  => root,
       group  => root;
 
+    # used to host the acme-challenge nonces
+    "/var/lib/hosting/acme":
+      ensure => directory,
+      mode   => 0700,
+      owner  => root,
+      group  => root;
+
     "/etc/bind/hosting_zones":
       ensure  => directory,
       mode    => 0750,

@@ -5,6 +5,10 @@ server {
 
 	include /etc/nginx/<%= @domain %>/*.conf;
 
+	location /.well-known/acme-challenge {
+		alias /var/lib/hosting/acme;
+	}
+
 	location / {
 		proxy_pass http://unix:<%= @base_dir %>/run/nginx.sock:;
 		include    /etc/nginx/customer_proxy_params;
