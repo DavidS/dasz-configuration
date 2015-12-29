@@ -71,7 +71,7 @@ class hosting (
     "dovecot::${primary_fqdn}":
       ca          => $ca,
       cert_file   => "${dovecot::config_dir}/dovecot.pem",
-      cert_source => "${cert_base_path}/ssl/${primary_fqdn}/chain.pem",
+      cert_source => "${cert_base_path}/ssl/${primary_fqdn}/fullchain.pem",
       key_file    => "${dovecot::config_dir}/private/dovecot.pem",
       key_source  => "${cert_base_path}/ssl/${primary_fqdn}/privkey.pem",
       cert_mode   => 0644,
@@ -83,7 +83,7 @@ class hosting (
     "exim::${primary_fqdn}":
       ca          => $ca,
       cert_file   => "${exim::config_dir}/exim.crt",
-      cert_source => "${cert_base_path}/ssl/${primary_fqdn}/chain.pem",
+      cert_source => "${cert_base_path}/ssl/${primary_fqdn}/fullchain.pem",
       key_file    => "${exim::config_dir}/exim.key",
       key_source  => "${cert_base_path}/ssl/${primary_fqdn}/privkey.pem",
       cert_mode   => 0644,
