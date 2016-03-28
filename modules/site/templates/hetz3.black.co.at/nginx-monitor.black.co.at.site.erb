@@ -1,0 +1,61 @@
+server {
+	server_name	monitor.black.co.at;
+
+	access_log  /var/log/nginx/monitor.black.co.at.access.log;
+	# error_log	/var/log/nginx/monitor.black.co.at.error.log debug;
+
+	root /dev/null;
+}
+
+server {
+	listen 443;
+
+	server_name	monitor.black.co.at;
+
+	ssl on;
+	ssl_certificate	/etc/nginx/certs/monitor.black.co.at.bundle.crt;
+	ssl_certificate_key	/etc/nginx/certs/monitor.black.co.at.key;
+
+	access_log  /var/log/nginx/monitor.black.co.at.access.log;
+	#error_log	/var/log/nginx/monitor.black.co.at.error.log debug;
+
+	##########################################################################
+	########  munin  #########################################################
+	##########################################################################
+
+	location = /munin {
+		rewrite / https://monitor.black.co.at/munin/ permanent;
+	}
+
+	location /munin/ {
+		proxy_pass http://monitor/munin/;
+		proxy_set_header Host monitor;
+	}
+
+	location /munin-cgi/ {
+		proxy_pass http://monitor/munin-cgi/;
+		proxy_set_header Host monitor;
+	}
+
+	##########################################################################
+	########  nagios  ########################################################
+	##########################################################################
+
+	location = /nagios {
+		rewrite / https://monitor.black.co.at/nagios3/ permanent;
+	}
+
+	location = /nagios3 {
+		rewrite / https://monitor.black.co.at/nagios3/ permanent;
+	}
+
+	location /nagios3/ {
+		proxy_pass http://monitor/nagios3/;
+		proxy_set_header Host monitor;
+	}
+
+	location /cgi-bin/nagios3/ {
+		proxy_pass http://monitor/cgi-bin/nagios3/;
+		proxy_set_header Host monitor;
+	}
+}

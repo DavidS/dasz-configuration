@@ -114,6 +114,11 @@ node 'hetz3.black.co.at' {
       docroot        => 'none',
       create_docroot => false,
       template       => "site/${::fqdn}/nginx-office.dasz.at.site.erb";
+
+    'monitor.black.co.at':
+      docroot        => 'none',
+      create_docroot => false,
+      template       => "site/${::fqdn}/nginx-monitor.black.co.at.site.erb";
   }
 
   file {
@@ -123,6 +128,22 @@ node 'hetz3.black.co.at' {
     '/etc/nginx/certs':
       ensure => directory,
       mode   => 0750,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
+    '/etc/nginx/certs/monitor.black.co.at.key':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/monitor.black.co.at-privkey.pem',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
+    '/etc/nginx/certs/monitor.black.co.at.bundle.crt':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/monitor.black.co.at-fullchain.pem',
+      mode   => 0440,
       owner  => root,
       group  => 'www-data',
       notify => Service['nginx'];
