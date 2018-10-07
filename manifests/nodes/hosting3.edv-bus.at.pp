@@ -31,8 +31,6 @@ node 'hosting3.edv-bus.at' {
     dkim_public_key_data => file("/srv/puppet/secrets/${::fqdn}/dkim/dkim.public.key"),
   })
 
-  munin::plugin { 'vimo': source => 'puppet:///modules/dasz/munin/vimo'; }
-
   # extra packages needed for customers
   # the first is even contrib
   package { [
