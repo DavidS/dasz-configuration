@@ -1,0 +1,33 @@
+server {
+	server_name	oc.black.co.at;
+
+	access_log  /var/log/nginx/oc.black.co.at.access.log;
+	# error_log	/var/log/nginx/oc.black.co.at.error.log debug;
+
+	location /.well-known/acme-challenge {
+		alias /var/lib/hosting/acme;
+	}
+
+	location / {
+		proxy_pass http://localhost:8080;
+		proxy_set_header Host oc.black.co.at;
+	}
+}
+
+server {
+	listen 443;
+
+	server_name	oc.black.co.at;
+
+	ssl on;
+	ssl_certificate	/etc/nginx/certs/oc.black.co.at.bundle.crt;
+	ssl_certificate_key	/etc/nginx/certs/oc.black.co.at.key;
+
+	access_log  /var/log/nginx/oc.black.co.at.access.log;
+	#error_log	/var/log/nginx/oc.black.co.at.error.log debug;
+
+	location / {
+		proxy_pass http://localhost:8080;
+		proxy_set_header Host oc.black.co.at;
+	}
+}

@@ -119,10 +119,18 @@ node 'hetz3.black.co.at' {
       docroot        => 'none',
       create_docroot => false,
       template       => "site/${::fqdn}/nginx-monitor.black.co.at.site.erb";
+
+    'oc.black.co.at':
+      docroot        => 'none',
+      create_docroot => false,
+      template       => "site/${::fqdn}/nginx-oc.black.co.at.site.erb";
   }
 
   file {
     '/etc/nginx/sites-available/default':
+      ensure => absent;
+
+    '/etc/nginx/sites-enabled/default':
       ensure => absent;
 
     '/etc/nginx/certs':
@@ -164,12 +172,35 @@ node 'hetz3.black.co.at' {
       group  => 'www-data',
       notify => Service['nginx'];
 
+    '/etc/nginx/certs/oc.black.co.at.key':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/oc.black.co.at.key',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
+    '/etc/nginx/certs/oc.black.co.at.bundle.crt':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/oc.black.co.at.fullchain.crt',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
     '/srv/dasz':
       ensure => directory,
       mode   => 0750,
       owner  => david,
       group  => www-data,
       before => Service['nginx'];
+
+    # used to host the acme-challenge nonces
+    "/var/lib/hosting/acme":
+      ensure => directory,
+      mode   => 0750,
+      owner  => root,
+      group  => 'www-data';
   }
 
   munin::plugin { 'ksm_memory': source => 'puppet:///modules/dasz/munin/ksm_memory'; }
