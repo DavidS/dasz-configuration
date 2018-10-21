@@ -4,6 +4,7 @@
 <%= @domain %>.		MX 10 <%= @primary_mx_name %>.
 <%= @domain %>.		A <%= @hosting_ipaddress %>
 
+<% if @host_mx %>
 mail.<%= @domain %>.	A <%= @real_mail_ipaddress %>
 postausgang.<%= @domain %>.	CNAME mail.<%= @domain %>.
 posteingang.<%= @domain %>.	CNAME mail.<%= @domain %>.
@@ -15,6 +16,7 @@ dkim._domainkey.<%= @domain %>. TXT ("v=DKIM1; t=y; k=rsa; p="
 "<%= line %>"
 <% end -%>
 )
+<% end %>
 <% end %>
 
 *.<%= @domain %>.		CNAME <%= @domain %>.
