@@ -6,7 +6,7 @@ define hosting::domain (
   $secondary_ns_name = $hosting::secondary_ns_name,
   $primary_mx_name   = $hosting::primary_mx_name,
   $hosting_ipaddress = $hosting::hosting_ipaddress,
-  $has_mx           = true,
+  $has_mx            = true,
   $mail_ipaddress    = '',
   $hostmaster        = $hosting::hostmaster,
   $serial,
