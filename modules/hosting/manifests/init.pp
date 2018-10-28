@@ -199,12 +199,13 @@ class hosting (
     require  => Package['git'];
   }
 
-  # # exim configuration
+  # exim configuration
   file {
     "/etc/exim4/virtual_domains_to_customer":
       ensure  => directory,
       mode    => 0750,
       owner   => root,
+      purge   => true,
       group   => 'Debian-exim',
       require => Class['exim'];
 
