@@ -205,6 +205,7 @@ class hosting (
       ensure  => directory,
       mode    => 0750,
       owner   => root,
+      recurse => true,
       purge   => true,
       group   => 'Debian-exim',
       require => Class['exim'];
