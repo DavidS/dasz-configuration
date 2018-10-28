@@ -68,11 +68,15 @@ define hosting::domain (
       group   => bind,
       before  => Concat["/etc/bind/named.conf.local"],
       notify  => Class['bind::service'];
+  }
 
-    "/etc/exim4/virtual_domains_to_customer/${domain}":
-      content => "*: ${base_dir}/mail\n",
-      owner   => root,
-      group   => root;
+  if $has_mx {
+    file {
+      "/etc/exim4/virtual_domains_to_customer/${domain}":
+        content => "*: ${base_dir}/mail\n",
+        owner   => root,
+        group   => root;
+    }
   }
 
   if (!defined(File["/etc/nginx/${name}"])) {
