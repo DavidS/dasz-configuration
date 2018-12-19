@@ -1,5 +1,6 @@
 node 'hetz3.black.co.at' {
   class {
+    'dasz::snips::systemd': ;
     'hosting::secondary_ns': ;
     'site::internal_hosts':
       notify => Service['nginx'];
