@@ -9,8 +9,7 @@ server {
 	}
 
 	location / {
-		proxy_pass http://localhost:8080;
-		proxy_set_header Host oc.black.co.at;
+		rewrite     ^   https://$server_name$request_uri? permanent;
 	}
 }
 
@@ -29,5 +28,6 @@ server {
 	location / {
 		proxy_pass http://localhost:8080;
 		proxy_set_header Host oc.black.co.at;
+		client_max_body_size 0;
 	}
 }
