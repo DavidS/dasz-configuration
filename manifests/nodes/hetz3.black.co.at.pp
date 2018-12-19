@@ -76,7 +76,7 @@ node 'hetz3.black.co.at' {
 
     '/etc/nginx/certs/oc.black.co.at.key':
       ensure => present,
-      source => 'puppet:///secrets/ssl/oc.black.co.at.key',
+      source => 'puppet:///secrets/ssl/oc.black.co.at/privkey.pem',
       mode   => 0440,
       owner  => root,
       group  => 'www-data',
@@ -84,7 +84,7 @@ node 'hetz3.black.co.at' {
 
     '/etc/nginx/certs/oc.black.co.at.bundle.crt':
       ensure => present,
-      source => 'puppet:///secrets/ssl/oc.black.co.at.fullchain.crt',
+      source => 'puppet:///secrets/ssl/oc.black.co.at/fullchain.pem',
       mode   => 0440,
       owner  => root,
       group  => 'www-data',
