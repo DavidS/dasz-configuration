@@ -1,108 +1,9 @@
 node 'hetz3.black.co.at' {
-  class { 'dasz::defaults':
-    location          => hetzner,
-    ssh_port          => 2200,
-    munin_smart_disks => ['sda', 'sdb'],
-    force_nullmailer  => true;
-  }
-
   class {
-    'libvirt':
-    ;
-
-    'openvpn':
-    ;
-
-    'hosting::secondary_ns':
-    ;
-
-    'dasz::snips::systemd':
-    ;
-
+    'hosting::secondary_ns': ;
     'site::internal_hosts':
       notify => Service['nginx'];
   }
-
-  # foreman virt host
-  $home = '/var/lib/foreman-mgr'
-
-  user { 'foreman-mgr':
-    ensure     => present,
-    system     => true,
-    home       => $home,
-    managehome => true,
-    groups     => ['libvirt'],
-    require    => Package['libvirt'];
-  }
-
-  file {
-    "${home}/.ssh":
-      ensure => directory,
-      owner  => 'foreman-mgr',
-      group  => 'foreman-mgr',
-      mode   => 0700;
-
-    "${home}/.ssh/authorized_keys":
-      source => "puppet:///modules/site/foreman-authorized_keys",
-      owner  => 'foreman-mgr',
-      group  => 'foreman-mgr',
-      mode   => 0600;
-  }
-
-  file {
-    "/etc/network/interfaces":
-      ensure  => present,
-      content => template("site/${::fqdn}/interfaces.erb");
-
-    "/etc/dhcp/dhclient.conf":
-      ensure  => present,
-      content => template("site/${::fqdn}/dhclient.conf.erb");
-
-    "/etc/openvpn/dasz_up":
-      ensure  => present,
-      content => template("site/${::fqdn}/dasz_up.erb"),
-      mode    => 0755,
-      owner   => root,
-      group   => root,
-      notify  => Service['openvpn'];
-
-    "/etc/openvpn/dasz_down":
-      ensure  => present,
-      content => template("site/${::fqdn}/dasz_down.erb"),
-      mode    => 0755,
-      owner   => root,
-      group   => root,
-      notify  => Service['openvpn'];
-
-    "/etc/sysctl.d/10-no-ip-redirects.conf":
-      ensure => present,
-      source => "puppet:///modules/site/sysctl-no-redirects.conf",
-      mode   => 0644,
-      owner  => root,
-      group  => root,
-      notify => Exec['apply sysctl'];
-  }
-
-  exec { 'apply sysctl':
-    command     => '/sbin/sysctl --system',
-    refreshonly => true;
-  }
-
-  openvpn::tunnel {
-    'dasz-bridge':
-      port     => 1194,
-      proto    => 'udp',
-      mode     => 'server',
-      template => "site/${::fqdn}/openvpn_dasz-bridge.conf.erb";
-
-    'maria':
-      port     => 1195,
-      proto    => 'tcp',
-      mode     => 'server',
-      template => "site/${::fqdn}/openvpn_maria.conf.erb";
-  }
-
-  site::ovpn_keys { ['dasz', 'maria']: }
 
   nginx::vhost {
     'default':
@@ -202,6 +103,4 @@ node 'hetz3.black.co.at' {
       owner  => root,
       group  => 'www-data';
   }
-
-  munin::plugin { 'ksm_memory': source => 'puppet:///modules/dasz/munin/ksm_memory'; }
 }
