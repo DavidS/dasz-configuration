@@ -289,8 +289,8 @@ class dasz::defaults (
   }
 
   $default_apt_url = $location ? {
-    'hetzner' => "http://mirror.hetzner.de/debian/packages",
-    'tech21'  => "http://kvmhost.dasz:3142/debian",
+    # 'hetzner' => "http://mirror.hetzner.de/debian/packages",
+    # 'tech21'  => "http://kvmhost.dasz:3142/debian",
     default   => 'http://http.debian.net/debian',
   }
 

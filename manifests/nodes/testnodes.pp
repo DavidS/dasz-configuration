@@ -430,7 +430,7 @@ node 'workstation.example.org' {
 class experimental {
   apt::repository { "experimental":
     url        => $dasz::defaults::location ? {
-      'hetzner' => "http://mirror.hetzner.de/debian/packages",
+      # 'hetzner' => "http://mirror.hetzner.de/debian/packages",
       default   => 'http://http.debian.net/debian',
     },
     distro     => experimental,
