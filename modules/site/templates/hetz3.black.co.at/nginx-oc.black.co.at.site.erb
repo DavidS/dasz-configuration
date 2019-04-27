@@ -25,6 +25,9 @@ server {
 	access_log  /var/log/nginx/oc.black.co.at.access.log;
 	#error_log	/var/log/nginx/oc.black.co.at.error.log debug;
 
+	rewrite /.well-known/caldav https://oc.black.co.at/remote.php/dav;
+	rewrite /.well-known/carddav https://oc.black.co.at/remote.php/dav;
+
 	location / {
 		proxy_pass http://localhost:8080;
 		proxy_set_header Host oc.black.co.at;
