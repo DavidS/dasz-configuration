@@ -1,9 +1,0 @@
-name 'dasz-site'
-version '0.0.1'
-
-author 'David Schmitt <david@dasz.at>'
-license ''
-project_page ''
-source ''
-summary 'site specific stuff'
-description ''

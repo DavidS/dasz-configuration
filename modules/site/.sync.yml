@@ -1,0 +1,5 @@
+---
+.gitlab-ci.yml:
+  unmanaged: true
+appveyor.yml:
+  unmanaged: true
