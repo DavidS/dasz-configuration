@@ -32,5 +32,7 @@ server {
 		proxy_pass http://localhost:8080;
 		proxy_set_header Host oc.black.co.at;
 		client_max_body_size 0;
+		# see https://github.com/nextcloud/docker/commit/64607f491668b986963ba04211ad6d2b0032efa3
+		proxy_request_buffering off;
 	}
 }
