@@ -11,7 +11,7 @@ Deployment
 run 
 
 ```
-bolt task --modulepath ./modules run site::puppet_deploy -n puppetmaster.dasz.at:2200 --run-as root
+bolt task --modulepath ./modules run site::puppet_deploy -t puppetmaster.dasz.at:2200 --run-as root
 ```
 
 to deploy staged code to the puppetmaster
