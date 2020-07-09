@@ -15,7 +15,7 @@
 location <%= location %> {
 	alias <%= @base_dir %>/apps/<%= alias_dir %>;
 	index index.php;
-	try_files $uri $uri/ <%= File.join(@url_path, 'index.php') %>;
+	try_files $uri $uri/ <%= File.join(@url_path, 'index.php') %>$is_args$args;
 
 	location ~ [^/]\.php(/|$) {
 		fastcgi_split_path_info ^<%= fastcgi_split_path_info_prefix %>(<%= root_slash %>.+?\.php)(/.*)?$;
