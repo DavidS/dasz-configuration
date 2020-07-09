@@ -13,7 +13,7 @@
 	end
 -%>
 location <%= location %> {
-	alias <%= @base_dir %>/apps/<%= alias_dir %>;
+	root <%= @base_dir %>/apps/<%= alias_dir %>;
 	index index.php;
 	try_files $uri $uri/ <%= File.join(@url_path, 'index.php') %>$is_args$args;
 
