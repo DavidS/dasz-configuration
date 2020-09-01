@@ -27,7 +27,7 @@ node 'hetz3.black.co.at' {
       create_docroot => false,
       template       => "site/${::fqdn}/nginx-oc.black.co.at.site.erb";
 
-    'www.cheesy.at':
+    'test.cheesy.at':
       docroot        => 'none',
       create_docroot => false,
       template       => "site/${::fqdn}/nginx-www.cheesy.at.site.erb";

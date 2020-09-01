@@ -1,0 +1,30 @@
+server {
+	server_name	test.cheesy.at;
+
+	access_log /var/log/nginx/test.cheesy.at.access.log;
+	error_log	 /var/log/nginx/test.cheesy.at.error.log debug;
+
+	location /.well-known/acme-challenge {
+		alias /var/lib/hosting/acme;
+	}
+
+	location / {
+		rewrite     ^   https://$server_name$request_uri? permanent;
+	}
+}
+<%#
+server {
+	listen 443;
+
+	server_name	test.cheesy.at;
+
+	ssl on;
+	ssl_certificate	/etc/nginx/certs/test.cheesy.at.bundle.crt;
+	ssl_certificate_key	/etc/nginx/certs/test.cheesy.at.key;
+
+	access_log /var/log/nginx/test.cheesy.at.access.log;
+	error_log  /var/log/nginx/test.cheesy.at.error.log debug;
+
+	root   /srv/cheesy.at/site;
+	index  index.html;
+} %>
