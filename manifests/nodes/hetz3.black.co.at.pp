@@ -116,6 +116,22 @@ node 'hetz3.black.co.at' {
       group  => 'www-data',
       notify => Service['nginx'];
 
+    '/etc/nginx/certs/test.cheesy.at.key':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/test.cheesy.at/privkey.pem',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
+    '/etc/nginx/certs/test.cheesy.at.bundle.crt':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/test.cheesy.at/fullchain.pem',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
     '/srv/dasz':
       ensure => directory,
       mode   => 0750,
