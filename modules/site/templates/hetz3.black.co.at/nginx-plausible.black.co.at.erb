@@ -1,0 +1,31 @@
+server {
+	server_name	plausible.black.co.at;
+
+	access_log /var/log/nginx/plausible.black.co.at.access.log;
+	error_log	 /var/log/nginx/plausible.black.co.at.error.log debug;
+
+	location /.well-known/acme-challenge {
+		alias /var/lib/hosting/acme;
+	}
+
+	location / {
+		rewrite     ^   https://$server_name$request_uri? permanent;
+	}
+}
+server {
+	listen 443;
+
+	server_name	plausible.black.co.at;
+
+	ssl on;
+	ssl_certificate	/etc/nginx/certs/plausible.black.co.at.bundle.crt;
+	ssl_certificate_key	/etc/nginx/certs/plausible.black.co.at.key;
+
+	access_log /var/log/nginx/plausible.black.co.at.access.log;
+	error_log  /var/log/nginx/plausible.black.co.at.error.log debug;
+
+	location / {
+		proxy_pass http://localhost:8000;
+		proxy_set_header Host plausible.black.co.at;
+	}
+}

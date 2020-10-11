@@ -36,6 +36,12 @@ node 'hetz3.black.co.at' {
     #   docroot        => 'none',
     #   create_docroot => false,
     #   template       => "site/${::fqdn}/nginx-www.cheesy.at.site.erb";
+
+    'plausible.black.co.at':
+      docroot        => 'none',
+      create_docroot => false,
+      template       => "site/${::fqdn}/nginx-plausible.black.co.at.site.erb";
+
   }
 
   file {
@@ -127,6 +133,22 @@ node 'hetz3.black.co.at' {
     '/etc/nginx/certs/test.cheesy.at.bundle.crt':
       ensure => present,
       source => 'puppet:///secrets/ssl/test.cheesy.at/fullchain.pem',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
+    '/etc/nginx/certs/plausible.black.co.at.key':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/plausible.black.co.at/privkey.pem',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
+    '/etc/nginx/certs/plausible.black.co.at.bundle.crt':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/plausible.black.co.at/fullchain.pem',
       mode   => 0440,
       owner  => root,
       group  => 'www-data',
