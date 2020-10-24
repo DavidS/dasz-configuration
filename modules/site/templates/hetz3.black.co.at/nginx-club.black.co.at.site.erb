@@ -25,7 +25,7 @@ server {
 	error_log  /var/log/nginx/club.black.co.at.error.log debug;
 
 	location /log {
-		root   /srv/davidlog/site;
+		alias  /srv/davidlog/site;
 		index  index.html;
 	}
 }
