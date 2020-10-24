@@ -24,8 +24,8 @@ server {
 	access_log /var/log/nginx/club.black.co.at.access.log;
 	error_log  /var/log/nginx/club.black.co.at.error.log debug;
 
-	location / {
-		proxy_pass http://localhost:8000;
-		proxy_set_header Host club.black.co.at;
+	location /log {
+		root   /srv/davidlog/site;
+		index  index.html;
 	}
 }
