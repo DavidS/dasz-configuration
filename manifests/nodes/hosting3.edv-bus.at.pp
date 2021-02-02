@@ -1,5 +1,5 @@
 node 'hosting3.edv-bus.at' {
-  $customers = loadyaml("/srv/puppet/secrets/hosting/customers.yaml")
+  $customers = loadyaml('/srv/puppet/secrets/hosting/customers.yaml')
 
   class {
     'dasz::defaults':
@@ -27,15 +27,38 @@ node 'hosting3.edv-bus.at' {
       recipient => 'root@dasz.at';
   }
 
-  create_resources("hosting::customer", $customers['customers'], {
+  create_resources('hosting::customer', $customers['customers'], {
     dkim_public_key_data => file("/srv/puppet/secrets/${::fqdn}/dkim/dkim.public.key"),
   })
 
   # extra packages needed for customers
   # the first is even contrib
   package { [
-    "postgresql-contrib",
-    "nano"]:
+    'postgresql-contrib',
+    'nano']:
     ensure => installed;
   }
+
+  # deploy a few custom web configurations for htpasswd
+  file {
+    '/etc/nginx/diakon.at/50-internes.conf':
+      ensure => present,
+      source => 'puppet:///modules/site/hosting/diakon.nginx.conf',
+      mode   => '0644',
+      owner  => root,
+      group  => root,
+      notify => Service['nginx'];
+    '/etc/nginx/privat.black.co.at/50-htpasswd.conf':
+      ensure => present,
+      source => 'puppet:///modules/site/hosting/wdg-ba.nginx.conf',
+      mode   => '0644',
+      owner  => root,
+      group  => root,
+      notify => Service['nginx'];
+    ['/etc/nginx/diakon.at.htpasswd', '/etc/nginx/wdg-ba.at.htpasswd']:
+      mode  => '0600',
+      owner => root,
+      group => root;
+  }
+
 }
