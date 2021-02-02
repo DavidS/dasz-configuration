@@ -57,7 +57,7 @@ node 'hosting3.edv-bus.at' {
       notify => Service['nginx'];
     ['/etc/nginx/diakon.at.htpasswd', '/etc/nginx/wdg-ba.at.htpasswd']:
       mode  => '0600',
-      owner => root,
+      owner => 'www-data',
       group => root;
   }
 
