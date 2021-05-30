@@ -2,7 +2,7 @@ server {
 	server_name	www.cheesy.at;
 
 	access_log /var/log/nginx/www.cheesy.at.access.log;
-	error_log	 /var/log/nginx/www.cheesy.at.error.log debug;
+	error_log	 /var/log/nginx/www.cheesy.at.error.log;
 
 	location /.well-known/acme-challenge {
 		alias /var/lib/hosting/acme;
@@ -22,7 +22,7 @@ server {
 	ssl_certificate_key	/etc/nginx/certs/www.cheesy.at.key;
 
 	access_log /var/log/nginx/www.cheesy.at.access.log;
-	error_log  /var/log/nginx/www.cheesy.at.error.log debug;
+	error_log  /var/log/nginx/www.cheesy.at.error.log;
 
 	root   /srv/cheesy.at/site;
 	index  index.html;

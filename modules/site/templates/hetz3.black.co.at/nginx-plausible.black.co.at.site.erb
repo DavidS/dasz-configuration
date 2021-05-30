@@ -2,7 +2,7 @@ server {
 	server_name	plausible.black.co.at;
 
 	access_log /var/log/nginx/plausible.black.co.at.access.log;
-	error_log	 /var/log/nginx/plausible.black.co.at.error.log debug;
+	error_log	 /var/log/nginx/plausible.black.co.at.error.log;
 
 	location /.well-known/acme-challenge {
 		alias /var/lib/hosting/acme;
@@ -22,7 +22,7 @@ server {
 	ssl_certificate_key	/etc/nginx/certs/plausible.black.co.at.key;
 
 	access_log /var/log/nginx/plausible.black.co.at.access.log;
-	error_log  /var/log/nginx/plausible.black.co.at.error.log debug;
+	error_log  /var/log/nginx/plausible.black.co.at.error.log;
 
 	location / {
 		proxy_pass http://localhost:8000;

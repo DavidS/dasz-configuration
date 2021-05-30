@@ -2,7 +2,7 @@ server {
 	server_name	oc.black.co.at;
 
 	access_log  /var/log/nginx/oc.black.co.at.access.log;
-	# error_log	/var/log/nginx/oc.black.co.at.error.log debug;
+	# error_log	/var/log/nginx/oc.black.co.at.error.log;
 
 	location /.well-known/acme-challenge {
 		alias /var/lib/hosting/acme;
@@ -23,7 +23,7 @@ server {
 	ssl_certificate_key	/etc/nginx/certs/oc.black.co.at.key;
 
 	access_log  /var/log/nginx/oc.black.co.at.access.log;
-	#error_log	/var/log/nginx/oc.black.co.at.error.log debug;
+	#error_log	/var/log/nginx/oc.black.co.at.error.log;
 
 	rewrite /.well-known/caldav https://oc.black.co.at/remote.php/dav;
 	rewrite /.well-known/carddav https://oc.black.co.at/remote.php/dav;

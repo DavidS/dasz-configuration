@@ -2,7 +2,7 @@ server {
 	server_name	office.dasz.at;
 
 	access_log  /var/log/nginx/office.dasz.at.access.log;
-	# error_log	/var/log/nginx/office.dasz.at.error.log debug;
+	# error_log	/var/log/nginx/office.dasz.at.error.log;
 
 	root /srv/dasz;
 	index default.htm;
@@ -40,7 +40,7 @@ server {
 	ssl_certificate_key	/etc/nginx/certs/office.dasz.at.key;
 
 	access_log  /var/log/nginx/office.dasz.at.access.log;
-	#error_log	/var/log/nginx/office.dasz.at.error.log debug;
+	#error_log	/var/log/nginx/office.dasz.at.error.log;
 
 ##########################################################################
 ########  FogBugz  #######################################################
@@ -198,4 +198,3 @@ server {
 		# proxy_set_header Connection "";
 	}
 }
-

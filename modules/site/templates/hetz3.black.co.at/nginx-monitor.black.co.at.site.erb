@@ -2,7 +2,7 @@ server {
 	server_name	monitor.black.co.at;
 
 	access_log  /var/log/nginx/monitor.black.co.at.access.log;
-	# error_log	/var/log/nginx/monitor.black.co.at.error.log debug;
+	# error_log	/var/log/nginx/monitor.black.co.at.error.log;
 
 	root /dev/null;
 }
@@ -17,7 +17,7 @@ server {
 	ssl_certificate_key	/etc/nginx/certs/monitor.black.co.at.key;
 
 	access_log  /var/log/nginx/monitor.black.co.at.access.log;
-	#error_log	/var/log/nginx/monitor.black.co.at.error.log debug;
+	#error_log	/var/log/nginx/monitor.black.co.at.error.log;
 
 	##########################################################################
 	########  munin  #########################################################
