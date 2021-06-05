@@ -12,10 +12,10 @@ node 'hetz3.black.co.at' {
       create_docroot => false,
       template       => "site/${::fqdn}/nginx-default.site.erb";
 
-    'office.dasz.at':
+    'www.edv-bus.at':
       docroot        => 'none',
       create_docroot => false,
-      template       => "site/${::fqdn}/nginx-office.dasz.at.site.erb";
+      template       => "site/${::fqdn}/nginx-www.edv-bus.site.erb";
 
     'monitor.black.co.at':
       docroot        => 'none',
@@ -78,17 +78,17 @@ node 'hetz3.black.co.at' {
       group  => 'www-data',
       notify => Service['nginx'];
 
-    '/etc/nginx/certs/office.dasz.at.key':
+    '/etc/nginx/certs/www.edv-bus.at.key':
       ensure => present,
-      source => 'puppet:///secrets/ssl/office.dasz.at.key',
+      source => 'puppet:///secrets/ssl/www.edv-bus.at.key',
       mode   => 0440,
       owner  => root,
       group  => 'www-data',
       notify => Service['nginx'];
 
-    '/etc/nginx/certs/office.dasz.at.bundle.crt':
+    '/etc/nginx/certs/www.edv-bus.at.bundle.crt':
       ensure => present,
-      source => 'puppet:///secrets/ssl/office.dasz.at.bundle.crt',
+      source => 'puppet:///secrets/ssl/www.edv-bus.at.bundle.crt',
       mode   => 0440,
       owner  => root,
       group  => 'www-data',
