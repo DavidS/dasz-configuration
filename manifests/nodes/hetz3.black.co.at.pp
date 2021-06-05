@@ -15,7 +15,7 @@ node 'hetz3.black.co.at' {
     'www.edv-bus.at':
       docroot        => 'none',
       create_docroot => false,
-      template       => "site/${::fqdn}/nginx-www.edv-bus.site.erb";
+      template       => "site/${::fqdn}/nginx-www.edv-bus.at.site.erb";
 
     'monitor.black.co.at':
       docroot        => 'none',
