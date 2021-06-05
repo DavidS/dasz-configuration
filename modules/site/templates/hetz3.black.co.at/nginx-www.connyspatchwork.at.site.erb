@@ -1,0 +1,30 @@
+server {
+	server_name	www.connyspatchwork.at;
+
+	access_log /var/log/nginx/www.connyspatchwork.at.access.log;
+	error_log	 /var/log/nginx/www.connyspatchwork.at.error.log;
+
+	location /.well-known/acme-challenge {
+		alias /var/lib/hosting/acme;
+	}
+
+	location / {
+		rewrite     ^   https://$server_name$request_uri? permanent;
+	}
+}
+server {
+	listen 443;
+
+	server_name	www.connyspatchwork.at;
+
+	ssl on;
+	ssl_certificate	/etc/nginx/certs/www.connyspatchwork.at.bundle.crt;
+	ssl_certificate_key	/etc/nginx/certs/www.connyspatchwork.at.key;
+
+	access_log /var/log/nginx/www.connyspatchwork.at.access.log;
+	error_log  /var/log/nginx/www.connyspatchwork.at.error.log;
+
+	root   /srv/connyspatchwork.at/site;
+	index  index.html;
+	error_page 404 /404.html;
+}

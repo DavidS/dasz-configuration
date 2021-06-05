@@ -17,6 +17,11 @@ node 'hetz3.black.co.at' {
       create_docroot => false,
       template       => "site/${::fqdn}/nginx-www.edv-bus.at.site.erb";
 
+    'www.connyspatchwork.at':
+      docroot        => 'none',
+      create_docroot => false,
+      template       => "site/${::fqdn}/nginx-www.connyspatchwork.at.site.erb";
+
     'monitor.black.co.at':
       docroot        => 'none',
       create_docroot => false,
@@ -89,6 +94,22 @@ node 'hetz3.black.co.at' {
     '/etc/nginx/certs/www.edv-bus.at.bundle.crt':
       ensure => present,
       source => 'puppet:///secrets/ssl/www.edv-bus.at/fullchain.pem',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
+    '/etc/nginx/certs/www.connyspatchwork.at.key':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/www.connyspatchwork.at/privkey.pem',
+      mode   => 0440,
+      owner  => root,
+      group  => 'www-data',
+      notify => Service['nginx'];
+
+    '/etc/nginx/certs/www.connyspatchwork.at.bundle.crt':
+      ensure => present,
+      source => 'puppet:///secrets/ssl/www.connyspatchwork.at/fullchain.pem',
       mode   => 0440,
       owner  => root,
       group  => 'www-data',
