@@ -72,48 +72,48 @@ node 'puppetmaster.dasz.at' {
     ;
   }
 
-  # of course, the following is not bootstrappable, but after a manual intervention, it should lead to a stable, and migratable
-  # situation.
-  # for a key roll-over, the git server has to accept both the old and the new key until the puppetmaster has updated itself.
-  vcsrepo { "/srv/puppet/secrets":
-    ensure   => latest,
-    provider => git,
-    source   => "ssh://ccnet@hosting3.edv-bus.at/srv/dasz/git/puppet-secrets.git",
-    owner    => puppet,
-    group    => puppet;
-  } -> file {
-    # vcsrepo does not manage the rights on the directory, so we have to.
-    # this leaves a little window of opportunity where the secrets are accessible, after
-    # cloning the repository. Since this should only happen when the puppetmaster is
-    # re-imaged, I do not believe this to be a problem.
-    "/srv/puppet/secrets":
-      ensure => directory,
-      mode   => 0700,
-      owner  => puppet,
-      group  => puppet;
+  # # of course, the following is not bootstrappable, but after a manual intervention, it should lead to a stable, and migratable
+  # # situation.
+  # # for a key roll-over, the git server has to accept both the old and the new key until the puppetmaster has updated itself.
+  # vcsrepo { "/srv/puppet/secrets":
+  #   ensure   => latest,
+  #   provider => git,
+  #   source   => "ssh://ccnet@hosting3.edv-bus.at/srv/dasz/git/puppet-secrets.git",
+  #   owner    => puppet,
+  #   group    => puppet;
+  # } -> file {
+  #   # vcsrepo does not manage the rights on the directory, so we have to.
+  #   # this leaves a little window of opportunity where the secrets are accessible, after
+  #   # cloning the repository. Since this should only happen when the puppetmaster is
+  #   # re-imaged, I do not believe this to be a problem.
+  #   "/srv/puppet/secrets":
+  #     ensure => directory,
+  #     mode   => 0700,
+  #     owner  => puppet,
+  #     group  => puppet;
 
-    "/root/.ssh":
-      ensure => directory,
-      mode   => 0700,
-      owner  => root,
-      group  => root;
+  #   "/root/.ssh":
+  #     ensure => directory,
+  #     mode   => 0700,
+  #     owner  => root,
+  #     group  => root;
 
-    "/root/.ssh/id_rsa":
-      source => "puppet:///secrets/id_rsa",
-      mode   => 0600,
-      owner  => root,
-      group  => root;
+  #   "/root/.ssh/id_rsa":
+  #     source => "puppet:///secrets/id_rsa",
+  #     mode   => 0600,
+  #     owner  => root,
+  #     group  => root;
 
-    "/usr/share/foreman/.ssh":
-      ensure => directory,
-      mode   => 0700,
-      owner  => foreman,
-      group  => foreman;
+  #   "/usr/share/foreman/.ssh":
+  #     ensure => directory,
+  #     mode   => 0700,
+  #     owner  => foreman,
+  #     group  => foreman;
 
-    "/usr/share/foreman/.ssh/id_rsa":
-      source => "puppet:///secrets/foreman/id_rsa",
-      mode   => 0600,
-      owner  => foreman,
-      group  => foreman;
-  }
+  #   "/usr/share/foreman/.ssh/id_rsa":
+  #     source => "puppet:///secrets/foreman/id_rsa",
+  #     mode   => 0600,
+  #     owner  => foreman,
+  #     group  => foreman;
+  # }
 }
