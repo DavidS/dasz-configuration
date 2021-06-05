@@ -80,7 +80,7 @@ node 'hetz3.black.co.at' {
 
     '/etc/nginx/certs/www.edv-bus.at.key':
       ensure => present,
-      source => 'puppet:///secrets/ssl/www.edv-bus.at.key',
+      source => 'puppet:///secrets/ssl/www.edv-bus.at/privkey.pem',
       mode   => 0440,
       owner  => root,
       group  => 'www-data',
@@ -88,7 +88,7 @@ node 'hetz3.black.co.at' {
 
     '/etc/nginx/certs/www.edv-bus.at.bundle.crt':
       ensure => present,
-      source => 'puppet:///secrets/ssl/www.edv-bus.at.bundle.crt',
+      source => 'puppet:///secrets/ssl/www.edv-bus.at/fullchain.pem',
       mode   => 0440,
       owner  => root,
       group  => 'www-data',
