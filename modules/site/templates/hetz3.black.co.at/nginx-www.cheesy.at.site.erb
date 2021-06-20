@@ -12,6 +12,23 @@ server {
 		rewrite     ^   https://$server_name$request_uri? permanent;
 	}
 }
+
+server {
+	# redirect obsolete site to main site
+	server_name	fotografie.cheesy.at;
+
+	access_log /var/log/nginx/www.cheesy.at.access.log;
+	error_log	 /var/log/nginx/www.cheesy.at.error.log;
+
+	location /.well-known/acme-challenge {
+		alias /var/lib/hosting/acme;
+	}
+
+	location / {
+		rewrite     ^   https://www.cheesy.at/ permanent;
+	}
+}
+
 server {
 	listen 443;
 
