@@ -34,5 +34,7 @@ server {
 		index  index.html;
 	}
 
+	rewrite ^/$ http://club.black.co.at/log redirect;
+
 	error_page 404 /404.html;
 }
