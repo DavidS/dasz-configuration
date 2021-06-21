@@ -8,10 +8,15 @@ server {
 		alias /var/lib/hosting/acme;
 	}
 
+	location /gerhard {
+		rewrite     ^   https://www.edv-bus.at$request_uri? permanent;
+	}
+
 	location / {
 		rewrite     ^   https://$server_name$request_uri? permanent;
 	}
 }
+
 server {
 	listen 443;
 
