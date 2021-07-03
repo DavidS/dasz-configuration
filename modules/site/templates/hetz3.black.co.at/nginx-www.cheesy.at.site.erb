@@ -1,5 +1,5 @@
 server {
-	server_name	www.cheesy.at;
+	server_name	www.cheesy.at cheesy.at;
 
 	access_log /var/log/nginx/www.cheesy.at.access.log;
 	error_log	 /var/log/nginx/www.cheesy.at.error.log;
@@ -9,13 +9,13 @@ server {
 	}
 
 	location / {
-		rewrite     ^   https://$server_name$request_uri? permanent;
+		rewrite     ^   https://www.cheesy.at$request_uri? permanent;
 	}
 }
 
 server {
-	# redirect obsolete site to main site
-	server_name	fotografie.cheesy.at;
+	# redirect obsolete sites to main site
+	server_name	fotografie.cheesy.at test.cheesy.at palmanager.cheesy.at;
 
 	access_log /var/log/nginx/www.cheesy.at.access.log;
 	error_log	 /var/log/nginx/www.cheesy.at.error.log;
@@ -32,7 +32,7 @@ server {
 server {
 	listen 443;
 
-	server_name	www.cheesy.at *.cheesy.at;
+	server_name	www.cheesy.at cheesy.at fotografie.cheesy.at test.cheesy.at palmanager.cheesy.at;
 
 	ssl on;
 	ssl_certificate	/etc/nginx/certs/www.cheesy.at.bundle.crt;
@@ -47,6 +47,6 @@ server {
 
 	# redirect old tag pages to category pages
 	location /tag {
-		rewrite     ^/tag(.*)   https://$server_name/category$1? permanent;
+		rewrite     ^/tag(.*)   https://www.cheesy.at/category$1? permanent;
 	}
 }
