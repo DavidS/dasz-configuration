@@ -32,7 +32,7 @@ server {
 server {
 	listen 443;
 
-	server_name	www.cheesy.at cheesy.at;
+	server_name	www.cheesy.at *.cheesy.at;
 
 	ssl on;
 	ssl_certificate	/etc/nginx/certs/www.cheesy.at.bundle.crt;
