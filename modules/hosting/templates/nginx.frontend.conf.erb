@@ -18,7 +18,7 @@ http {
         # while running on kvm seems to provide it as default size
         server_names_hash_bucket_size 64;
 
-        # 10m cache ~~ 40k sessions 
+        # 10m cache ~~ 40k sessions
         ssl_session_cache   shared:SSL:10m;
         ssl_session_timeout 10m;
 
@@ -36,6 +36,7 @@ http {
 
         gzip on;
         gzip_disable "msie6";
+        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
         include /etc/nginx/conf.d/*.conf;
         include /etc/nginx/sites-enabled/*;
