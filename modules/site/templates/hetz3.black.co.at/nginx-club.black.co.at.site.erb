@@ -34,6 +34,24 @@ server {
 		index  index.html;
 	}
 
+	location /termin {
+		alias  /home/david/composes/termin/static;
+		index  index.html;
+	}
+
+	location /cgi-bin/ {
+		alias /home/david/composes/termin/cgi-bin/;
+
+		# Fastcgi socket
+		fastcgi_pass  unix:/home/david/composes/termin/run/fcgi.sock;
+
+		# Fastcgi parameters, include the standard ones
+		include /etc/nginx/fastcgi_params;
+
+		# Adjust non standard parameters (SCRIPT_FILENAME)
+		fastcgi_param SCRIPT_FILENAME  /fcgiwrap$fastcgi_script_name;
+	}
+
 	rewrite ^/$ http://club.black.co.at/log redirect;
 
 	error_page 404 /404.html;
